@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const { toJSON, paginate } = require('./plugins');
-const { roles } = require('../config/roles');
+// const { roles } = require('../config/roles');
 
 const userSchema = mongoose.Schema(
   {
@@ -37,12 +37,18 @@ const userSchema = mongoose.Schema(
     },
     role: {
       type: String,
-      enum: roles,
       default: 'user',
+      enum: ['admin', 'superadmin', 'state', 'district', 'division', 'block', 'sansthan'],
     },
     isEmailVerified: {
       type: Boolean,
       default: false,
+    },
+    roleAssingedTo: {
+      type: String,
+    },
+    mobNumber: {
+      type: Number,
     },
   },
   {

@@ -8,14 +8,14 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(auth('manageUsers'), validate(userValidation.createUser), userController.createUser)
-  .get(auth('getUsers'), validate(userValidation.getUsers), userController.getUsers);
+  .post(auth(['superadmin']), validate(userValidation.createUser), userController.createUser)
+  .get(auth(['superadmin']), validate(userValidation.getUsers), userController.getUsers);
 
 router
   .route('/:userId')
-  .get(auth('getUsers'), validate(userValidation.getUser), userController.getUser)
-  .patch(auth('manageUsers'), validate(userValidation.updateUser), userController.updateUser)
-  .delete(auth('manageUsers'), validate(userValidation.deleteUser), userController.deleteUser);
+  .get(auth(['superadmin']), validate(userValidation.getUser), userController.getUser)
+  .patch(auth(['superadmin']), validate(userValidation.updateUser), userController.updateUser)
+  .delete(auth(['superadmin']), validate(userValidation.deleteUser), userController.deleteUser);
 
 module.exports = router;
 
@@ -46,6 +46,7 @@ module.exports = router;
  *               - email
  *               - password
  *               - role
+ *               - mobNumber
  *             properties:
  *               name:
  *                 type: string
@@ -61,11 +62,14 @@ module.exports = router;
  *               role:
  *                  type: string
  *                  enum: [user, admin]
+ *               mobNumber:
+ *                  type: number
  *             example:
  *               name: fake name
  *               email: fake@example.com
  *               password: password1
  *               role: user
+ *               mobNumber: 9823525745
  *     responses:
  *       "201":
  *         description: Created
