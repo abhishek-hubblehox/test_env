@@ -16,6 +16,10 @@ router
   .patch(validate(newSurveyValidation.updateNewSurvey), NewSurveyController.updateNewSurvey)
   .delete(validate(newSurveyValidation.deleteNewSurvey), NewSurveyController.deleteNewSurvey);
 
+router
+  .route('/filterby/:surveyOwnerEmailId')
+  .get(validate(newSurveyValidation.getSurveysByEmail), NewSurveyController.getSurveysByEmail);
+
 module.exports = router;
 
 /**
@@ -124,7 +128,7 @@ module.exports = router;
  *                 results:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/Board'
+ *                     $ref: '#/components/schemas/NewSurvey'
  *                 page:
  *                   type: integer
  *                   example: 1
@@ -262,6 +266,36 @@ module.exports = router;
  *     responses:
  *       "200":
  *         description: No content
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
+ */
+
+/**
+ * @swagger
+ * /newsurvey/filterby/{surveyOwnerEmailId}:
+ *   get:
+ *     summary: Get a All Surveys Assigned to Survey Admin by Email id
+ *     tags: [NewSurvey]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: surveyOwnerEmailId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: surveyOwnerEmailId
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/NewSurvey'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
