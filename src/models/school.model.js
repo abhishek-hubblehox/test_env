@@ -6,6 +6,7 @@ const schoolSchema = new mongoose.Schema({
   district_cd: Number,
   District: String,
   Budget_district_seq: Number,
+  Division: String,
   block_cd_1: Number,
   Block_Name: String,
   MNC_SR: Number,

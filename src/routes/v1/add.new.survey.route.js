@@ -82,7 +82,7 @@ module.exports = router;
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/Board'
+ *                $ref: '#/components/schemas/NewSurvey'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
@@ -109,7 +109,7 @@ module.exports = router;
  *           type: integer
  *           minimum: 1
  *         default: 10
- *         description: Maximum number of users
+ *         description: Maximum number of new survey
  *       - in: query
  *         name: page
  *         schema:
