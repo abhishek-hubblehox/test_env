@@ -52,10 +52,13 @@ module.exports = router;
  *                 format: password
  *                 minLength: 8
  *                 description: At least one number and one letter
+ *               mobNumber:
+ *                 type: number
  *             example:
  *               name: fake name
  *               email: fake@example.com
  *               password: password1
+ *               mobNumber: 9823525745
  *     responses:
  *       "201":
  *         description: Created
