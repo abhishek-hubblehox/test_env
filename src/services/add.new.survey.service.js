@@ -64,10 +64,21 @@ const deleteNewSurveyById = async (newSurveyId) => {
   return newSurvey;
 };
 
+/**
+ * Get book by filter
+ * @param {ObjectId} surveyOwnerEmailId
+ * @returns {Promise<NewSurvey>}
+ */
+
+const getSurveyByEmail = async (surveyOwnerEmailId) => {
+  return NewSurvey.find({ surveyOwnerEmailId });
+};
+
 module.exports = {
   createNewSurvey,
   queryNewSurvey,
   getNewSurveyById,
   updateNewSurveyById,
   deleteNewSurveyById,
+  getSurveyByEmail,
 };

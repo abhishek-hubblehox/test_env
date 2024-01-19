@@ -72,10 +72,16 @@ const deleteNewSurvey = {
   }),
 };
 
+const getSurveysByEmail = {
+  params: Joi.object().keys({
+    surveyOwnerEmailId: Joi.string(),
+  }),
+};
 module.exports = {
   createNewSurvey,
   getNewSurveys,
   getNewSurvey,
   updateNewSurvey,
   deleteNewSurvey,
+  getSurveysByEmail,
 };
