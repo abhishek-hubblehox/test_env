@@ -41,7 +41,6 @@ module.exports = router;
  *             type: object
  *             required:
  *               - surveyName
- *               - surveyId
  *               - surveyPurpose
  *               - surveyStartDate
  *               - surveyEndDate
@@ -50,8 +49,6 @@ module.exports = router;
  *               - surveyOwnerMoNumber
  *             properties:
  *               surveyName:
- *                 type: string
- *               surveyId:
  *                 type: string
  *               surveyPurpose:
  *                 type: string
@@ -69,7 +66,6 @@ module.exports = router;
  *                 type: number
  *             example:
  *               surveyName: Vending Machine Installation
- *               surveyId: VMI333
  *               surveyPurpose: multiple installation of vending machine in schools
  *               surveyStartDate: 2024-01-01
  *               surveyEndDate: 2024-01-31
@@ -213,15 +209,30 @@ module.exports = router;
  *                 type: string
  *               surveyOwnerMoNumber:
  *                 type: number
+ *               surveyConductBy:
+ *                 type: string
+ *               surveyRequireAudit:
+ *                 type: boolean
+ *               surveyAuditBy:
+ *                 type: string
+ *               surveyRequireApproval:
+ *                 type: boolean
+ *               surveyApprovedBy:
+ *                 type: string
  *             example:
- *               surveyName: Updated CBSC
- *               surveyId: ABC123
- *               surveyPurpose: Academic
+ *               surveyName: Vending Machine Installation
+ *               surveyId: VMI333
+ *               surveyPurpose: multiple installation of vending machine in schools
  *               surveyStartDate: 2024-01-01
  *               surveyEndDate: 2024-01-31
  *               surveyOwnerName: John Doe
  *               surveyOwnerEmailId: john@example.com
  *               surveyOwnerMoNumber: 1234567890
+ *               surveyConductBy: Block co-ordinator, District co-ordinator
+ *               surveyRequireAudit: false,true
+ *               surveyAuditBy: SME
+ *               surveyRequireApproval: false ,true
+ *               surveyApprovedBy: District co-ordinator
  *     responses:
  *       "200":
  *         description: OK
