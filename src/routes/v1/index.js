@@ -3,6 +3,7 @@ const authRoute = require('./auth.route');
 const userRoute = require('./user.route');
 const SchoolRoute = require('./school.route');
 const newSurveyRoute = require('./add.new.survey.route');
+const divisionRoute = require('./division.route');
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 
@@ -24,6 +25,10 @@ const defaultRoutes = [
   {
     path: '/newsurvey',
     route: newSurveyRoute,
+  },
+  {
+    path: '/division',
+    route: divisionRoute,
   },
 ];
 
