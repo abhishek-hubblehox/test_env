@@ -3,13 +3,12 @@ const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
 const districtSchema = new mongoose.Schema({
-    district_cd: {
+  district_cd: {
     type: Number,
     required: true,
   },
   Division: {
     type: String,
-    unique: true,
   },
   District: {
     type: String,
@@ -24,7 +23,6 @@ const districtSchema = new mongoose.Schema({
 // add plugin that converts mongoose to json
 districtSchema.plugin(toJSON);
 districtSchema.plugin(paginate);
-
 
 const District = mongoose.model('District', districtSchema);
 
