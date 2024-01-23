@@ -44,6 +44,15 @@ const getUser = catchAsync(async (req, res) => {
   res.send(user);
 });
 
+const checkUser = catchAsync(async (req, res) => {
+  const user = await userService.getUserByEmail(req.body.email);
+  if (!user) {
+    res.send([]);
+  } else {
+    res.send(user);
+  }
+});
+
 const updateUser = catchAsync(async (req, res) => {
   const user = await userService.updateUserById(req.params.userId, req.body);
   res.send(user);
@@ -58,6 +67,7 @@ module.exports = {
   bulkUploadFile,
   createUser,
   getUsers,
+  checkUser,
   getUser,
   updateUser,
   deleteUser,
