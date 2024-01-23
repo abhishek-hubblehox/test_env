@@ -3,3 +3,4 @@ module.exports.userController = require('./user.controller');
 module.exports.SchoolController = require('./school.controller');
 module.exports.NewSurveyController = require('./add.new.survey.controller');
 module.exports.divisionController = require('./division.controller');
+module.exports.surveyLocationsController = require('./survey.locations.controller');
