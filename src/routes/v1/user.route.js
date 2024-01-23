@@ -1,10 +1,25 @@
 const express = require('express');
+const multer = require('multer');
+const { join } = require('path');
 const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
-const userValidation = require('../../validations/user.validation');
-const userController = require('../../controllers/user.controller');
+const { userValidation } = require('../../validations');
+const { userController } = require('../../controllers');
 
 const router = express.Router();
+
+const uploadPath = join(__dirname, '../../uploads');
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadPath); // Use the correct variable here
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+const uploads = multer({ storage });
+
+router.route('/bulkupload').post(uploads.single('file'), userController.bulkUploadFile);
 
 router
   .route('/')
@@ -24,6 +39,29 @@ module.exports = router;
  * tags:
  *   name: Users
  *   description: User management and retrieval
+ */
+
+/**
+ * @swagger
+ * /users/bulkupload:
+ *   post:
+ *     summary: Upload a CSV file for bulk upload user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       201:
+ *         description: Successfully added CSV file
+ *       404:
+ *         description: Missing file
  */
 
 /**

@@ -2,7 +2,9 @@ const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
 const newSurveySchema = new mongoose.Schema({
-  surveyName: String,
+  surveyName: {
+    type: String,
+  },
   surveyId: String,
   surveyPurpose: String,
   surveyStartDate: Date,
