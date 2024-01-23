@@ -42,6 +42,7 @@ const updateUser = {
   body: Joi.object()
     .keys({
       email: Joi.string().email(),
+      mobNumber: Joi.number(),
       password: Joi.string().custom(password),
       name: Joi.string(),
       role: Joi.string().required().valid('user', 'surveyadmin', 'district', 'division', 'block', 'SME'),
