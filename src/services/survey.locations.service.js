@@ -4,15 +4,7 @@ const bulkUpload = async (locationsArray, surveyDetails) => {
   if (!locationsArray || !locationsArray.length) {
     throw new Error('Missing array');
   }
-
   const surveyLocation = new SurveyLocation(surveyDetails);
-  //   const transformedLocations = locationsArray.map((location) => ({
-  //     udise_sch_code: { udise_sch_code: location.udise_sch_code },
-  //     surveyor_Email_Id: { surveyor_Email_Id: location.surveyor_Email_Id },
-  //     SME_Email_Id: { SME_Email_Id: location.SME_Email_Id },
-  //     approver_Email_Id: { approver_Email_Id: location.approver_Email_Id },
-  //   }));
-
   surveyLocation.surveyLocations = locationsArray;
 
   const result = await surveyLocation.save();
