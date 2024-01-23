@@ -4,6 +4,8 @@ const userRoute = require('./user.route');
 const SchoolRoute = require('./school.route');
 const newSurveyRoute = require('./add.new.survey.route');
 const divisionRoute = require('./division.route');
+const districtRoute = require('./districts.route');
+const blockRoute = require('./blocks.route');
 const surveyLocationRoute = require('./survey.locations.route');
 
 const docsRoute = require('./docs.route');
@@ -31,6 +33,14 @@ const defaultRoutes = [
   {
     path: '/division',
     route: divisionRoute,
+  },
+  {
+    path: '/district',
+    route: districtRoute,
+  },
+  {
+    path: '/block',
+    route: blockRoute,
   },
   {
     path: '/surveylocation',
