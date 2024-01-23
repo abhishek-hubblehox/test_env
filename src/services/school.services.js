@@ -1,44 +1,5 @@
 const { School } = require('../models');
 
-//-----------------------------------------------------------------------------------------------
-
-// const bulkUpload = async (schoolArray, csvFilePath = null) => {
-//   let modifiedSchoolArray = schoolArray;
-//   if (csvFilePath) {
-//     modifiedSchoolArray = csvFilePath;
-//   }
-//   if (!modifiedSchoolArray || !modifiedSchoolArray.length) {
-//     throw new Error('Missing array');
-//   }
-//   const dups = [];
-//   const nonDups = [];
-//   for (const school of modifiedSchoolArray) {
-//     const schoolFound = await School.findOne({
-//       udise_sch_code: school.udise_sch_code,
-//     });
-//     if (schoolFound) {
-//       dups.push(school);
-//     } else {
-//       let data = new School(school);
-//       data = await data.save();
-//       if (data) {
-//         nonDups.push(school);
-//       }
-//     }
-//   }
-//   const duplicates = {
-//     totalDuplicates: dups.length ? dups.length : 0,
-//     data: dups.length ? dups : [],
-//   };
-//   const nonduplicates = {
-//     totalNonDuplicates: nonDups.length ? nonDups.length : 0,
-//     data: nonDups.length ? nonDups : [],
-//   };
-//   return {
-//     duplicates,
-//     nonduplicates,
-//   };
-// };
 const bulkUpload = async (schoolArray, csvFilePath = null) => {
   let modifiedSchoolArray = schoolArray;
   if (csvFilePath) {
