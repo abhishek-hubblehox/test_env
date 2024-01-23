@@ -17,6 +17,10 @@ router
   .patch(auth(['superadmin']), validate(newSurveyValidation.updateNewSurvey), NewSurveyController.updateNewSurvey)
   .delete(auth(['superadmin']), validate(newSurveyValidation.deleteNewSurvey), NewSurveyController.deleteNewSurvey);
 
+router
+  .route('/filterby/:surveyOwnerEmailId')
+  .get(validate(newSurveyValidation.getSurveysByEmail), NewSurveyController.getSurveysByEmail);
+
 module.exports = router;
 
 /**
@@ -42,7 +46,6 @@ module.exports = router;
  *             type: object
  *             required:
  *               - surveyName
- *               - surveyId
  *               - surveyPurpose
  *               - surveyStartDate
  *               - surveyEndDate
@@ -51,8 +54,6 @@ module.exports = router;
  *               - surveyOwnerMoNumber
  *             properties:
  *               surveyName:
- *                 type: string
- *               surveyId:
  *                 type: string
  *               surveyPurpose:
  *                 type: string
@@ -70,7 +71,6 @@ module.exports = router;
  *                 type: number
  *             example:
  *               surveyName: Vending Machine Installation
- *               surveyId: VMI333
  *               surveyPurpose: multiple installation of vending machine in schools
  *               surveyStartDate: 2024-01-01
  *               surveyEndDate: 2024-01-31
@@ -83,7 +83,7 @@ module.exports = router;
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/Board'
+ *                $ref: '#/components/schemas/NewSurvey'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
@@ -110,7 +110,7 @@ module.exports = router;
  *           type: integer
  *           minimum: 1
  *         default: 10
- *         description: Maximum number of users
+ *         description: Maximum number of new survey
  *       - in: query
  *         name: page
  *         schema:
@@ -129,7 +129,7 @@ module.exports = router;
  *                 results:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/Board'
+ *                     $ref: '#/components/schemas/NewSurvey'
  *                 page:
  *                   type: integer
  *                   example: 1
@@ -214,15 +214,30 @@ module.exports = router;
  *                 type: string
  *               surveyOwnerMoNumber:
  *                 type: number
+ *               surveyConductBy:
+ *                 type: string
+ *               surveyRequireAudit:
+ *                 type: boolean
+ *               surveyAuditBy:
+ *                 type: string
+ *               surveyRequireApproval:
+ *                 type: boolean
+ *               surveyApprovedBy:
+ *                 type: string
  *             example:
- *               surveyName: Updated CBSC
- *               surveyId: ABC123
- *               surveyPurpose: Academic
+ *               surveyName: Vending Machine Installation
+ *               surveyId: VMI333
+ *               surveyPurpose: multiple installation of vending machine in schools
  *               surveyStartDate: 2024-01-01
  *               surveyEndDate: 2024-01-31
  *               surveyOwnerName: John Doe
  *               surveyOwnerEmailId: john@example.com
  *               surveyOwnerMoNumber: 1234567890
+ *               surveyConductBy: Block co-ordinator, District co-ordinator
+ *               surveyRequireAudit: false,true
+ *               surveyAuditBy: SME
+ *               surveyRequireApproval: false ,true
+ *               surveyApprovedBy: District co-ordinator
  *     responses:
  *       "200":
  *         description: OK
@@ -252,6 +267,36 @@ module.exports = router;
  *     responses:
  *       "200":
  *         description: No content
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
+ */
+
+/**
+ * @swagger
+ * /newsurvey/filterby/{surveyOwnerEmailId}:
+ *   get:
+ *     summary: Get a All Surveys Assigned to Survey Admin by Email id
+ *     tags: [NewSurvey]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: surveyOwnerEmailId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: surveyOwnerEmailId
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/NewSurvey'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":

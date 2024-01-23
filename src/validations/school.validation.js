@@ -4,6 +4,7 @@ const schoolValidationSchema = Joi.object({
   ac_year: Joi.string().required(),
   district_cd: Joi.number().required(),
   District: Joi.string().required(),
+  Division: Joi.string().required(),
   Budget_district_seq: Joi.number().required(),
   block_cd_1: Joi.number().required(),
   Block_Name: Joi.string().required(),
