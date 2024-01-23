@@ -1,8 +1,28 @@
 const httpStatus = require('http-status');
+const { join } = require('path');
+const csv = require('csvtojson');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { userService } = require('../services');
+
+// const staticFolder = join(__dirname, '../../');
+// const uploadsFolder = join(staticFolder, 'uploads/');
+
+// const uploadsFolder = join(__dirname, '../../uploads');
+
+const bulkUploadFile = catchAsync(async (req, res) => {
+  if (req.file) {
+    // console.log(req.file)
+    const csvFilePath = join(req.file.path);
+    const csvJsonArray = await csv().fromFile(csvFilePath);
+    // console.log(csvJsonArray)
+    const user = await userService.bulkUploadUsers(null, csvJsonArray);
+    res.status(httpStatus.CREATED).send(user);
+  } else {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Missing file');
+  }
+});
 
 const createUser = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
@@ -35,6 +55,7 @@ const deleteUser = catchAsync(async (req, res) => {
 });
 
 module.exports = {
+  bulkUploadFile,
   createUser,
   getUsers,
   getUser,

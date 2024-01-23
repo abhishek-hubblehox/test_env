@@ -1,4 +1,5 @@
 const express = require('express');
+const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const { NewSurveyController } = require('../../controllers');
 const { newSurveyValidation } = require('../../validations');
@@ -7,14 +8,14 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(validate(newSurveyValidation.createNewSurvey), NewSurveyController.createNewSurvey)
-  .get(validate(newSurveyValidation.queryNewSurvey), NewSurveyController.queryNewSurvey);
+  .post(auth(['superadmin']), validate(newSurveyValidation.createNewSurvey), NewSurveyController.createNewSurvey)
+  .get(auth(['superadmin']), validate(newSurveyValidation.queryNewSurvey), NewSurveyController.queryNewSurvey);
 
 router
   .route('/:newSurveyId')
-  .get(validate(newSurveyValidation.getNewSurvey), NewSurveyController.getNewSurvey)
-  .patch(validate(newSurveyValidation.updateNewSurvey), NewSurveyController.updateNewSurvey)
-  .delete(validate(newSurveyValidation.deleteNewSurvey), NewSurveyController.deleteNewSurvey);
+  .get(auth(['superadmin']), validate(newSurveyValidation.getNewSurvey), NewSurveyController.getNewSurvey)
+  .patch(auth(['superadmin']), validate(newSurveyValidation.updateNewSurvey), NewSurveyController.updateNewSurvey)
+  .delete(auth(['superadmin']), validate(newSurveyValidation.deleteNewSurvey), NewSurveyController.deleteNewSurvey);
 
 router
   .route('/filterby/:surveyOwnerEmailId')
