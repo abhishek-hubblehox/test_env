@@ -44,9 +44,7 @@ const updateUser = {
       email: Joi.string().email(),
       password: Joi.string().custom(password),
       name: Joi.string(),
-      role: Joi.string()
-        .required()
-        .valid('user', 'surveyadmin', 'superadmin', 'state', 'district', 'division', 'block', 'SME'),
+      role: Joi.string().required().valid('user', 'surveyadmin', 'district', 'division', 'block', 'SME'),
     })
     .min(1),
 };

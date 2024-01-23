@@ -10,17 +10,43 @@ const ApiError = require('../utils/ApiError');
 const staticFolder = join(__dirname, '../');
 const uploadsFolder = join(staticFolder, 'uploads');
 
+// const bulkUploadFile = catchAsync(async (req, res) => {
+//   if (req.file) {
+//     if (req.file.mimetype !== 'text/csv') {
+//       throw new ApiError(httpStatus.BAD_REQUEST, 'Uploaded file must be in CSV format.');
+//     }
+//     const csvFilePath = join(uploadsFolder, req.file.filename);
+//     const csvJsonArray = await csv().fromFile(csvFilePath);
+//     const result = await schoolService.bulkUpload(csvJsonArray);
+//     res.send(result);
+//   } else {
+//     throw new ApiError(httpStatus.NOT_FOUND, 'Missing file');
+//   }
+// });
+
+// controller
 const bulkUploadFile = catchAsync(async (req, res) => {
-  if (req.file) {
-    if (req.file.mimetype !== 'text/csv') {
-      throw new ApiError(httpStatus.BAD_REQUEST, 'Uploaded file must be in CSV format.');
+  try {
+    if (req.file) {
+      if (req.file.mimetype !== 'text/csv') {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Uploaded file must be in CSV format.');
+      }
+      const csvFilePath = join(uploadsFolder, req.file.filename);
+      const csvJsonArray = await csv().fromFile(csvFilePath);
+      await schoolService.bulkUpload(csvJsonArray);
+      // Send a success message instead of the data
+      res.status(httpStatus.CREATED).send({ message: 'Data uploaded successfully.' });
+      // Add this line to terminate the process after sending the response
+      res.end();
+    } else {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Missing file');
     }
-    const csvFilePath = join(uploadsFolder, req.file.filename);
-    const csvJsonArray = await csv().fromFile(csvFilePath);
-    const result = await schoolService.bulkUpload(csvJsonArray);
-    res.send(result);
-  } else {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Missing file');
+  } catch (error) {
+    // Log the error or handle it appropriately
+    // Send an error response
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ error: error.message });
+    // Add this line to terminate the process after sending the error response
+    res.end();
   }
 });
 
