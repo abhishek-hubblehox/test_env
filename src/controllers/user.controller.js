@@ -45,7 +45,7 @@ const getUser = catchAsync(async (req, res) => {
 });
 
 const checkUser = catchAsync(async (req, res) => {
-  const user = await userService.getUserByEmail(req.body.email);
+  const user = await userService.checkUserByEmailAndRole(req.body.email);
   if (!user) {
     res.send({});
   } else {
