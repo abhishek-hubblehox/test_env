@@ -71,6 +71,15 @@ const getAssignById = async (id) => {
 };
 
 /**
+ * Get CoordinatorAssignment by id
+ * @param {String} surveyId
+ * @returns {Promise<CoordinatorAssignment>}
+ */
+const getAssignBySurveyId = async (surveyId) => {
+  return CoordinatorAssignment.find({surveyId});
+};
+
+/**
  * Update CoordinatorAssignment by id
  * @param {ObjectId} surveyId
  * @param {Object} updateBody
@@ -106,4 +115,5 @@ module.exports = {
   deleteAssignmentById,
   updateAssignmentIdById,
   getAssignById,
+  getAssignBySurveyId,
 };

@@ -15,7 +15,7 @@ const bulkUploadFile = catchAsync(async (req, res) => {
     const csvFilePath = join(uploadsFolder, req.file.filename);
     const { surveyId, surveyAdmin, emailType } = req.body;
     const result = await coordinatorAssignmentServices.bulkUpload(req.file, surveyId, surveyAdmin, emailType);
-    
+
     return res.status(httpStatus.CREATED).json(result);
   }
 
@@ -42,7 +42,15 @@ const getAssigment = catchAsync(async (req, res) => {
   res.send(assignment);
 });
 
-const updateAssigment= catchAsync(async (req, res) => {
+const getAssigmentBySurveyId = catchAsync(async (req, res) => {
+  const assignment = await coordinatorAssignmentServices.getAssignBySurveyId(req.params.surveyId);
+  if (!assignment) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Assignment found');
+  }
+  res.send(assignment);
+});
+
+const updateAssigment = catchAsync(async (req, res) => {
   const assignment = await coordinatorAssignmentServices.updateAssignmentIdById(req.params.surveyId, req.body);
   res.send(assignment);
 });
@@ -59,4 +67,5 @@ module.exports = {
   getAssigment,
   updateAssigment,
   deleteAssigment,
+  getAssigmentBySurveyId,
 };

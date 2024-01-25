@@ -31,8 +31,8 @@ router
   .get(validate(coordinatorsValidation.getAssignment), coordinatorAssignmentController.getAssigment)
   .delete(validate(coordinatorsValidation.deleteAssignment), coordinatorAssignmentController.deleteAssigment);
 router
-  .route('/:surveyId')
-  .patch(validate(coordinatorsValidation.updateAssignment), coordinatorAssignmentController.updateAssigment);
+  .route('/filter/:surveyId')
+  .get(validate(coordinatorsValidation.getAssignmentBySurveyId), coordinatorAssignmentController.getAssigmentBySurveyId);
 router
   .route('/assign/bulk-upload')
   .post(
@@ -178,47 +178,15 @@ module.exports = router;
 
 /**
  * @swagger
- * /assign-coordinators/{surveyId}:
- *   patch:
+ * /assign-coordinators/filter/{surveyId}:
+ *   get:
  *     summary: Update coordinator assignment by surveyId
  *     tags: [CoordinatorAssignment]
  *     parameters:
  *       - in: path
  *         name: surveyId
  *         required: true
- *         description: ID of the coordinator assignment
- *       - in: body
- *         name: body
- *         required: true
- *         description: Data to update in the coordinator assignment
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 surveyAdmin:
- *                   type: string
- *                   description: ID of the user serving as the survey administrator
- *                 blockCoordinatorEmails:
- *                   type: array
- *                   items:
- *                     type: string
- *                   description: Array of block coordinator email addresses
- *                 districtCoordinatorEmails:
- *                   type: array
- *                   items:
- *                     type: string
- *                   description: Array of district coordinator email addresses
- *                 divisionCoordinatorEmails:
- *                   type: array
- *                   items:
- *                     type: string
- *                   description: Array of division coordinator email addresses
- *                 smeEmails:
- *                   type: array
- *                   items:
- *                     type: string
- *                   description: Array of SME email addresses
+ *         description: surveyId of the coordinator assignment
  *     responses:
  *       200:
  *         description: Successfully updated coordinator assignment
