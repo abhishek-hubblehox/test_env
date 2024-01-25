@@ -25,7 +25,14 @@ const getAllSurveyLocatins = {
     page: Joi.number().integer(),
   }),
 };
+const getSchoolDataBySurveyId = {
+  params: Joi.object().keys({
+    surveyId: Joi.string(),
+  }),
+};
+
 module.exports = {
   bulkUploadValidationSchema,
   getAllSurveyLocatins,
+  getSchoolDataBySurveyId,
 };
