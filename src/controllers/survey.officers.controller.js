@@ -1,7 +1,5 @@
 const httpStatus = require('http-status');
 const { join } = require('path');
-// eslint-disable-next-line import/no-extraneous-dependencies
-const csv = require('csvtojson');
 const pick = require('../utils/pick');
 const catchAsync = require('../utils/catchAsync');
 const { coordinatorAssignmentServices } = require('../services');
