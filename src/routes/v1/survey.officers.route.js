@@ -18,6 +18,7 @@ const storage = multer.diskStorage({
 });
 
 const uploads = multer({ storage });
+router.route('/:surveyId/users').get(validate(coordinatorsValidation.getUsersBySurveyIdValidation),coordinatorAssignmentController.getUsersBySurveyId);
 
 router
   .route('/')
@@ -268,4 +269,28 @@ module.exports = router;
  *           application/json:
  *             example:
  *               message: Missing file
+ */
+
+/**
+ * @swagger
+ * /assign-coordinators/{surveyId}/users:
+ *   get:
+ *     summary: Get users based on email IDs in CoordinatorAssignment arrays
+ *     tags: [CoordinatorAssignment]
+ *     parameters:
+ *       - in: path
+ *         name: surveyId
+ *         required: true
+ *         description: Survey ID
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successful response with user data
+ *         content:
+ *           application/json:
+ *             example:
+ *               users: [{ blockCoordinatorEmails: [...], districtCoordinatorEmails: [...], divisionCoordinatorEmails: [...], smeEmails: [...] }]
+ *       404:
+ *         description: CoordinatorAssignment not found for the given surveyId
  */
