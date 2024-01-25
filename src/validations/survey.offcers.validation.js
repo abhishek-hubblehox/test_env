@@ -27,6 +27,12 @@ const getAssignment = {
   }),
 };
 
+const getAssignmentBySurveyId = {
+  params: Joi.object().keys({
+    surveyId: Joi.string(),
+  }),
+};
+
 const updateAssignment = {
   params: Joi.object().keys({
     surveyId: Joi.required().custom(objectId),
@@ -62,4 +68,5 @@ module.exports = {
   updateAssignment,
   getAssignment,
   bulkUploadValidationSchema,
+  getAssignmentBySurveyId,
 };
