@@ -48,10 +48,18 @@ const deleteAssignment = {
     assignmentId: Joi.string().custom(objectId),
   }),
 };
+
+const bulkUploadValidationSchema = {
+  surveyId: Joi.string().required(),
+  surveyAdmin: Joi.string(),
+  emailType: Joi.string().valid('blockCoordinatorEmails', 'districtCoordinatorEmails', 'divisionCoordinatorEmails', 'smeEmails').required(),
+};
+
 module.exports = {
   assignCoordinatorsValidation,
   getAllCoordinators,
   deleteAssignment,
   updateAssignment,
-  getAssignment
+  getAssignment,
+  bulkUploadValidationSchema,
 };

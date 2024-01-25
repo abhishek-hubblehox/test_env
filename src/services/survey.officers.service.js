@@ -1,14 +1,48 @@
+const csv = require('csv-parser');
+const fs = require('fs');
 const { CoordinatorAssignment } = require('../models');
 
-/**
- * Create a CoordinatorAssignment in bulk
- * @param {Object} assignmentData
- * @returns {Promise<CoordinatorAssignment>}
- */
-const assignCoordinators = async (assignmentData) => {
-  const coordinatorAssignment = new CoordinatorAssignment(assignmentData);
-  const result = await coordinatorAssignment.save();
-  return result;
+// /**
+//  * Create a CoordinatorAssignment in bulk
+//  * @param {Object} assignmentData
+//  * @returns {Promise<CoordinatorAssignment>}
+//  */
+// const assignCoordinators = async (assignmentData) => {
+//   const coordinatorAssignment = new CoordinatorAssignment(assignmentData);
+//   const result = await coordinatorAssignment.save();
+//   return result;
+// };
+
+const bulkUpload = async (file, surveyId, surveyAdmin, emailType) => {
+  const validEmailTypes = ['blockCoordinatorEmails', 'districtCoordinatorEmails', 'divisionCoordinatorEmails', 'smeEmails'];
+  if (!validEmailTypes.includes(emailType)) {
+    throw new Error('Invalid emailType');
+  }
+  const emails = [];
+  fs.createReadStream(file.path)
+    .pipe(csv())
+    .on('data', (row) => {
+      const email = row.email;
+      if (email) {
+        emails.push(email);
+      }
+    })
+    .on('end', async () => {
+      const existingAssignment = await CoordinatorAssignment.findOne({ surveyId });
+
+      if (existingAssignment) {
+        existingAssignment[emailType] = existingAssignment[emailType].concat(emails);
+        const result = await existingAssignment.save();
+        return { result, message: 'Successfully updated Coordinator Assignment' };
+      }
+      const newAssignment = new CoordinatorAssignment({
+        surveyId,
+        surveyAdmin,
+        [emailType]: emails,
+      });
+      const result = await newAssignment.save();
+      return { result, message: 'Successfully added Coordinator Assignment' };
+    });
 };
 
 /**
@@ -67,7 +101,7 @@ const deleteAssignmentById = async (assignmentId) => {
 };
 
 module.exports = {
-  assignCoordinators,
+  bulkUpload,
   getAllCoordinatorAssignments,
   deleteAssignmentById,
   updateAssignmentIdById,
