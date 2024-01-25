@@ -29,6 +29,9 @@ router
 router
   .route('/')
   .get(validate(surveyLocationValidation.getAllSurveyLocatins), surveyLocationsController.getAllSurveyLocatins);
+router
+  .route('/:surveyId')
+  .get(validate(surveyLocationValidation.getSchoolDataBySurveyId), surveyLocationsController.getSchoolDataBySurveyId);
 
 module.exports = router;
 /**
@@ -38,6 +41,128 @@ module.exports = router;
  *   description: SurveyLocation management
  */
 
+// /**
+//  * @swagger
+//  * /surveylocation/bulk-upload:
+//  *   post:
+//  *     summary: Upload a CSV file for bulk survey location upload
+//  *     tags: [SurveyLocation]
+//  *     requestBody:
+//  *       required: true
+//  *       content:
+//  *         multipart/form-data:
+//  *           schema:
+//  *             type: object
+//  *             properties:
+//  *               file:
+//  *                 type: string
+//  *                 format: binary
+//  *               surveyName:
+//  *                 type: string
+//  *               surveyId:
+//  *                 type: string
+//  *               surveyPurpose:
+//  *                 type: string
+//  *               surveyStartDate:
+//  *                 type: string
+//  *                 format: date
+//  *               surveyEndDate:
+//  *                 type: string
+//  *                 format: date
+//  *               surveyOwnerName:
+//  *                 type: string
+//  *               surveyOwnerEmailId:
+//  *                 type: string
+//  *               surveyOwnerMoNumber:
+//  *                 type: number
+//  *               surveyConductBy:
+//  *                 type: string
+//  *               surveyRequireAudit:
+//  *                 type: boolean
+//  *               surveyAuditBy:
+//  *                 type: string
+//  *               surveyRequireApproval:
+//  *                 type: boolean
+//  *               surveyApprovedBy:
+//  *                 type: string
+//  *             required:
+//  *               - file
+//  *               - surveyName
+//  *               - surveyId
+//  *               - surveyPurpose
+//  *               - surveyStartDate
+//  *               - surveyEndDate
+//  *               - surveyOwnerName
+//  *               - surveyOwnerEmailId
+//  *               - surveyOwnerMoNumber
+//  *               - surveyConductBy
+//  *               - surveyRequireAudit
+//  *               - surveyAuditBy
+//  *               - surveyRequireApproval
+//  *               - surveyApprovedBy
+//  *             example:
+//  *               file: (binary data)
+//  *               surveyName: Vending Machine Installation
+//  *               surveyId: VEN879
+//  *               surveyPurpose: Multiple installation of vending machines in schools
+//  *               surveyStartDate: 2024-01-01
+//  *               surveyEndDate: 2024-01-31
+//  *               surveyOwnerName: John Doe
+//  *               surveyOwnerEmailId: john@example.com
+//  *               surveyOwnerMoNumber: 1234567890
+//  *               surveyConductBy: Block co-ordinator
+//  *               surveyRequireAudit: true, false
+//  *               surveyAuditBy: SME
+//  *               surveyRequireApproval: true, false
+//  *               surveyApprovedBy: District co-ordinator
+//  *     responses:
+//  *       201:
+//  *         description: Successfully added CSV file
+//  *         content:
+//  *           application/json:
+//  *             example:
+//  *               message: Successfully added CSV file
+//  *               data:
+//  *                 surveyName: Vending Machine Installation
+//  *                 surveyId: VEN879
+//  *                 surveyPurpose: Multiple installation of vending machines in schools
+//  *                 surveyStartDate: 2024-01-01
+//  *                 surveyEndDate: 2024-01-31
+//  *                 surveyOwnerName: John Doe
+//  *                 surveyOwnerEmailId: john@example.com
+//  *                 surveyOwnerMoNumber: 1234567890
+//  *                 surveyConductBy: Block co-ordinator, District co-ordinator
+//  *                 surveyRequireAudit: true
+//  *                 surveyAuditBy: SME
+//  *                 surveyRequireApproval: true
+//  *                 surveyApprovedBy: District co-ordinator
+//  *                 surveyLocations: [
+//  *                   {
+//  *                     udise_sch_code: 2133312,
+//  *                     surveyor_Email_Id: "surveyor@example.com",
+//  *                     SME_Email_Id: "sme@example.com",
+//  *                     approver_Email_Id: "approver@example.com"
+//  *                   },
+//  *                   {
+//  *                     udise_sch_code: 2133312,
+//  *                     surveyor_Email_Id: "surveyor2@example.com",
+//  *                     SME_Email_Id: "sme2@example.com",
+//  *                     approver_Email_Id: "approver2@example.com"
+//  *                   }
+//  *                 ]
+//  *       400:
+//  *         description: Uploaded file must be in CSV format.
+//  *         content:
+//  *           application/json:
+//  *             example:
+//  *               message: Uploaded file must be in CSV format.
+//  *       404:
+//  *         description: Missing file
+//  *         content:
+//  *           application/json:
+//  *             example:
+//  *               message: Missing file
+//  */
 /**
  * @swagger
  * /surveylocation/bulk-upload:
@@ -138,13 +263,15 @@ module.exports = router;
  *                     udise_sch_code: 2133312,
  *                     surveyor_Email_Id: "surveyor@example.com",
  *                     SME_Email_Id: "sme@example.com",
- *                     approver_Email_Id: "approver@example.com"
+ *                     approver_Email_Id: "approver@example.com",
+ *                     school: {School Data Object}
  *                   },
  *                   {
  *                     udise_sch_code: 2133312,
  *                     surveyor_Email_Id: "surveyor2@example.com",
  *                     SME_Email_Id: "sme2@example.com",
- *                     approver_Email_Id: "approver2@example.com"
+ *                     approver_Email_Id: "approver2@example.com",
+ *                     school: {School Data Object}
  *                   }
  *                 ]
  *       400:
@@ -223,4 +350,44 @@ module.exports = router;
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
  *         $ref: '#/components/responses/Forbidden'
+ */
+
+/**
+ * @swagger
+ * /surveylocation/{surveyId}:
+ *   get:
+ *     summary: Get survey location data  by surveyId
+ *     tags: [SurveyLocation]
+ *     parameters:
+ *       - in: path
+ *         name: surveyId
+ *         required: true
+ *         description: ID of the survey location
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved survey location
+ *         content:
+ *           application/json:
+ *             example:
+ *               surveyName: Sample Survey
+ *               surveyId: SAMPLE123
+ *               surveyLocations:
+ *                 - udise_sch_code: 123456
+ *                   school: { /* School Data Object * / }
+ *                 - udise_sch_code: 789012
+ *                   school: { /* School Data Object * / }
+ *       404:
+ *         description: Survey location not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Survey location not found
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal Server Error
  */

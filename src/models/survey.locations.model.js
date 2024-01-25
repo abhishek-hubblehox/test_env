@@ -59,15 +59,6 @@ const surveyLocationSchema = new mongoose.Schema({
       udise_sch_code: {
         type: Number,
       },
-      surveyor_Email_Id: {
-        type: String,
-      },
-      SME_Email_Id: {
-        type: String,
-      },
-      approver_Email_Id: {
-        type: String,
-      },
     },
   ],
 });

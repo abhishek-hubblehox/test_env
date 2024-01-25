@@ -31,7 +31,18 @@ const getAllSurveyLocatins = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const getSchoolDataBySurveyId = catchAsync(async (req, res) => {
+  const { surveyId } = req.params;
+  const result = await surveyLocationService.getSchoolDataBySurveyId(surveyId);
+  res.status(httpStatus.OK).json(result);
+  if (!result) {
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ message: 'Internal Server Error' });
+  }
+});
+
 module.exports = {
   bulkUploadFile,
   getAllSurveyLocatins,
+  getSchoolDataBySurveyId,
+  getSchoolDataBySurveyId,
 };
