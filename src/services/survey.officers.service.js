@@ -1,6 +1,7 @@
 const csv = require('csv-parser');
 const fs = require('fs');
-const { CoordinatorAssignment } = require('../models');
+const { CoordinatorAssignment, User } = require('../models');
+// const { userService } = require('../services');
 
 // /**
 //  * Create a CoordinatorAssignment in bulk
@@ -33,7 +34,7 @@ const bulkUpload = async (file, surveyId, surveyAdmin, emailType) => {
       if (existingAssignment) {
         existingAssignment[emailType] = existingAssignment[emailType].concat(emails);
         const result = await existingAssignment.save();
-        return { result, message: 'Successfully updated Coordinator Assignment' };
+        return { result };
       }
       const newAssignment = new CoordinatorAssignment({
         surveyId,
@@ -41,9 +42,80 @@ const bulkUpload = async (file, surveyId, surveyAdmin, emailType) => {
         [emailType]: emails,
       });
       const result = await newAssignment.save();
-      return { result, message: 'Successfully added Coordinator Assignment' };
+      return { result };
     });
 };
+
+// const bulkUpload = async (file, surveyId, surveyAdmin, emailType) => {
+//   console.log(file);
+//   const validEmailTypes = ['blockCoordinatorEmails', 'districtCoordinatorEmails', 'divisionCoordinatorEmails', 'smeEmails'];
+//   let role;
+//   if (validEmailTypes.includes(emailType)) {
+//     if(emailType = 'blockCoordinatorEmails'){
+//       return role = 'block'
+//     }
+//     else if(emailType = 'districtCoordinatorEmails'){
+//       return role = 'district'
+//     }
+//     else if(emailType = 'divisionCoordinatorEmails'){
+//       return role = 'division'
+//     }
+//     else if(emailType = 'smeEmails'){
+//       return role = 'SME'
+//     }
+//     throw new Error('Invalid emailType');
+//   }
+// console.log(role);
+//   const emails = [];
+//   const invalidEmails = [];
+
+//   // Read and parse the CSV file
+//   await new Promise((resolve, reject) => {
+//     fs.createReadStream(file.path)
+//       .pipe(csv())
+//       .on('data', async (row) => {
+//         console.log(row);
+//         const email = row.email;
+//         if (email) {
+//           console.log(email);
+//           const { isEmailTaken, isValidRole, userRole } = await userService.checkEmailAndRole(email, role);
+//           if (isEmailTaken && isValidRole) {
+//             emails.push(email);
+//           } else {
+//             invalidEmails.push({ email, isValidRole, userRole });
+//           }
+//         }
+//       })
+//       .on('end', () => {
+//         resolve();
+//       })
+//       .on('error', (error) => {
+//         reject(error);
+//       });
+//   });
+
+//   if (invalidEmails.length > 0) {
+//     // Handle invalid emails
+//     return { invalidEmails, validEmails: [], message: 'Invalid emails or incorrect roles' };
+//   }
+
+//   const existingAssignment = await CoordinatorAssignment.findOne({ surveyId });
+
+//   if (existingAssignment) {
+//     existingAssignment[emailType] = existingAssignment[emailType].concat(emails);
+//     const result = await existingAssignment.save();
+//     return { validEmails: emails, invalidEmails: [], result, message: 'Successfully updated Coordinator Assignment' };
+//   }
+
+//   const newAssignment = new CoordinatorAssignment({
+//     surveyId,
+//     surveyAdmin,
+//     [emailType]: emails,
+//   });
+
+//   const result = await newAssignment.save();
+//   return { validEmails: emails, invalidEmails: [], result, message: 'Successfully added Coordinator Assignment' };
+// };
 
 /**
  * Query for CoordinatorAssignment
@@ -109,6 +181,35 @@ const deleteAssignmentById = async (assignmentId) => {
   return assignment;
 };
 
+/**
+ * Get users based on email IDs in CoordinatorAssignment arrays
+ * @param {string} surveyId - Survey ID
+ * @returns {Promise<Array>} - Array of user data matching the email IDs
+ */
+const getUsersBySurveyId = async (surveyId) => {
+  const coordinatorAssignment = await CoordinatorAssignment.findOne({ surveyId });
+  if (!coordinatorAssignment) {
+    throw new Error('CoordinatorAssignment not found for the given surveyId');
+  }
+
+  const emailArrays = [
+    'blockCoordinatorEmails',
+    'districtCoordinatorEmails',
+    'divisionCoordinatorEmails',
+    'smeEmails',
+  ];
+
+  const users = [];
+
+  for (const emailArray of emailArrays) {
+    const emailIds = coordinatorAssignment[emailArray];
+    const usersWithEmails = await User.find({ email: { $in: emailIds } });
+    users.push({ [emailArray]: usersWithEmails });
+  }
+
+  return users;
+};
+
 module.exports = {
   bulkUpload,
   getAllCoordinatorAssignments,
@@ -116,4 +217,5 @@ module.exports = {
   updateAssignmentIdById,
   getAssignById,
   getAssignBySurveyId,
+  getUsersBySurveyId,
 };

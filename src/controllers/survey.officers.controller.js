@@ -60,6 +60,11 @@ const deleteAssigment = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const getUsersBySurveyId = catchAsync(async (req, res) => {
+  const { surveyId } = req.params;
+  const users = await coordinatorAssignmentServices.getUsersBySurveyId(surveyId);
+  res.status(httpStatus.OK).json({ users });
+});
 module.exports = {
   bulkUploadFile,
   assignCoordinators,
@@ -68,4 +73,5 @@ module.exports = {
   updateAssigment,
   deleteAssigment,
   getAssigmentBySurveyId,
+  getUsersBySurveyId,
 };
