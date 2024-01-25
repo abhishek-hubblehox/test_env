@@ -1,8 +1,23 @@
 const express = require('express');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const multer = require('multer');
+const path = require('path');
 const validate = require('../../middlewares/validate');
 const { coordinatorAssignmentController } = require('../../controllers');
 const { coordinatorsValidation } = require('../../validations');
 const router = express.Router();
+const uploadDir = path.join(__dirname, '../../uploads');
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+const uploads = multer({ storage });
 
 router
   .route('/')
@@ -18,68 +33,74 @@ router
 router
   .route('/:surveyId')
   .patch(validate(coordinatorsValidation.updateAssignment), coordinatorAssignmentController.updateAssigment);
-
+router
+  .route('/assign/bulk-upload')
+  .post(
+    uploads.single('file'),
+    validate(coordinatorsValidation.bulkUploadValidationSchema),
+    coordinatorAssignmentController.bulkUploadFile
+  );
 module.exports = router;
 
-/**
- * @swagger
- * /assign-coordinators:
- *   post:
- *     summary: Assign coordinators for a survey
- *     tags: [CoordinatorAssignment]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               surveyId:
- *                 type: string
- *               surveyAdmin:
- *                 type: string
- *               blockCoordinatorEmails:
- *                 type: array
- *                 items:
- *                   type: string
- *                   format: email
- *               districtCoordinatorEmails:
- *                 type: array
- *                 items:
- *                   type: string
- *                   format: email
- *               divisionCoordinatorEmails:
- *                 type: array
- *                 items:
- *                   type: string
- *                   format: email
- *               smeEmails:
- *                 type: array
- *                 items:
- *                   type: string
- *                   format: email
- *     responses:
- *       201:
- *         description: Coordinators assigned successfully
- *         content:
- *           application/json:
- *             example:
- *               message: Coordinators assigned successfully
- *               data: {}
- *       400:
- *         description: Validation error
- *         content:
- *           application/json:
- *             example:
- *               message: Validation error
- *               errors: [{ field1: 'Error 1' }, { field2: 'Error 2' }]
- *       500:
- *         description: Internal Server Error
- *         content:
- *           application/json:
- *             example:
- *               message: Internal Server Error
- */
+// /**
+//  * @swagger
+//  * /assign-coordinators:
+//  *   post:
+//  *     summary: Assign coordinators for a survey
+//  *     tags: [CoordinatorAssignment]
+//  *     requestBody:
+//  *       required: true
+//  *       content:
+//  *         application/json:
+//  *           schema:
+//  *             type: object
+//  *             properties:
+//  *               surveyId:
+//  *                 type: string
+//  *               surveyAdmin:
+//  *                 type: string
+//  *               blockCoordinatorEmails:
+//  *                 type: array
+//  *                 items:
+//  *                   type: string
+//  *                   format: email
+//  *               districtCoordinatorEmails:
+//  *                 type: array
+//  *                 items:
+//  *                   type: string
+//  *                   format: email
+//  *               divisionCoordinatorEmails:
+//  *                 type: array
+//  *                 items:
+//  *                   type: string
+//  *                   format: email
+//  *               smeEmails:
+//  *                 type: array
+//  *                 items:
+//  *                   type: string
+//  *                   format: email
+//  *     responses:
+//  *       201:
+//  *         description: Coordinators assigned successfully
+//  *         content:
+//  *           application/json:
+//  *             example:
+//  *               message: Coordinators assigned successfully
+//  *               data: {}
+//  *       400:
+//  *         description: Validation error
+//  *         content:
+//  *           application/json:
+//  *             example:
+//  *               message: Validation error
+//  *               errors: [{ field1: 'Error 1' }, { field2: 'Error 2' }]
+//  *       500:
+//  *         description: Internal Server Error
+//  *         content:
+//  *           application/json:
+//  *             example:
+//  *               message: Internal Server Error
+//  */
 
 /**
  * @swagger
@@ -157,7 +178,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /coordinator-assignments/{surveyId}:
+ * /assign-coordinators/{surveyId}:
  *   patch:
  *     summary: Update coordinator assignment by surveyId
  *     tags: [CoordinatorAssignment]
@@ -224,4 +245,59 @@ module.exports = router;
  *           application/json:
  *             example:
  *               message: Internal Server Error
+ */
+
+/**
+ * @swagger
+ * /assign-coordinators/assign/bulk-upload:
+ *   post:
+ *     summary: Upload a CSV file for bulk coordinator assignment
+ *     tags: [CoordinatorAssignment]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *               surveyId:
+ *                 type: string
+ *               surveyAdmin:
+ *                 type: string
+ *               emailType:
+ *                 type: string
+ *                 enum: ['blockCoordinatorEmails', 'districtCoordinatorEmails', 'divisionCoordinatorEmails', 'smeEmails']
+ *             required:
+ *               - file
+ *               - surveyId
+ *               - surveyAdmin
+ *               - emailType
+ *             example:
+ *               file: (binary data)
+ *               surveyId: VEN879
+ *               surveyAdmin: 65aa570cfe881bb4c26edbb7
+ *               emailType: blockCoordinatorEmails
+ *     responses:
+ *       201:
+ *         description: Successfully added CSV file
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Successfully added Coordinator Assignment
+ *               result: { updated/created assignment object }
+ *       400:
+ *         description: Uploaded file must be in CSV format.
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Uploaded file must be in CSV format.
+ *       404:
+ *         description: Missing file
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Missing file
  */
