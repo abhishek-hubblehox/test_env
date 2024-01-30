@@ -294,19 +294,11 @@ const getUserFilterEmailAndRole = async (filter) => {
  * @returns {Promise<QueryResult>}
  */
 
-<<<<<<< HEAD
-const getAllCoordinatorAssignments = async (filter, options) => {
-=======
 const getAllCoordinatorAssignments = async (filter,options) => {
->>>>>>> 05fe61e744729c2157132395d20bcf5288da5257
   const assignments = await CoordinatorAssignment.paginate(filter, options);
   return assignments;
 };
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 05fe61e744729c2157132395d20bcf5288da5257
 /**
  * Get CoordinatorAssignment by id
  * @param {ObjectId} id
@@ -322,11 +314,7 @@ const getAssignById = async (id) => {
  * @returns {Promise<CoordinatorAssignment>}
  */
 const getAssignBySurveyId = async (surveyId) => {
-<<<<<<< HEAD
-  return CoordinatorAssignment.find({ surveyId });
-=======
   return CoordinatorAssignment.find({surveyId});
->>>>>>> 05fe61e744729c2157132395d20bcf5288da5257
 };
 
 /**
@@ -370,16 +358,12 @@ const getUsersBySurveyId = async (surveyId) => {
     throw new Error('CoordinatorAssignment not found for the given surveyId');
   }
 
-<<<<<<< HEAD
-  const emailArrays = ['blockCoordinatorEmails', 'districtCoordinatorEmails', 'divisionCoordinatorEmails', 'smeEmails'];
-=======
   const emailArrays = [
     'blockCoordinatorEmails',
     'districtCoordinatorEmails',
     'divisionCoordinatorEmails',
     'smeEmails',
   ];
->>>>>>> 05fe61e744729c2157132395d20bcf5288da5257
 
   const users = [];
 
