@@ -22,6 +22,11 @@ const { SurveyLocation, School } = require('../models');
 //   let data = { result, schools };
 //   return data;
 // };
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 05fe61e744729c2157132395d20bcf5288da5257
 
 const bulkUpload = async (locationsArray, surveyDetails) => {
   if (!locationsArray || !locationsArray.length) {
@@ -43,7 +48,11 @@ const bulkUpload = async (locationsArray, surveyDetails) => {
     ];
 
     const result = await existingSurvey.save();
+<<<<<<< HEAD
     const data = { result, schools: [] }; // Since we are not creating a new SurveyLocation, schools array is empty
+=======
+    let data = { result, schools: [] }; // Since we are not creating a new SurveyLocation, schools array is empty
+>>>>>>> 05fe61e744729c2157132395d20bcf5288da5257
     return data;
   }
 
@@ -64,7 +73,11 @@ const bulkUpload = async (locationsArray, surveyDetails) => {
   };
 
   const newSurveyLocation = await SurveyLocation.create(surveyLocation);
+<<<<<<< HEAD
   const data = { result: newSurveyLocation, schools };
+=======
+  let data = { result: newSurveyLocation, schools };
+>>>>>>> 05fe61e744729c2157132395d20bcf5288da5257
   return data;
 };
 // const bulkUpload = async (locationsArray, surveyDetails) => {
@@ -125,6 +138,11 @@ const bulkUpload = async (locationsArray, surveyDetails) => {
 //   let data = { result: newSurveyLocation, schools };
 //   return data;
 // };
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 05fe61e744729c2157132395d20bcf5288da5257
 
 /**
  * Query for NewSurvey

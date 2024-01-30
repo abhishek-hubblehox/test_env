@@ -8,35 +8,26 @@ const coordinatorAssignmentSchema = new mongoose.Schema({
     trim: true,
   },
   surveyAdmin: {
-    type: String,
     type: mongoose.SchemaTypes.ObjectId,
     ref: 'User',
     required: true,
   },
-  blockCoordinatorEmails: [
-    {
-      type: String,
-      trim: true,
-    },
-  ],
-  districtCoordinatorEmails: [
-    {
-      type: String,
-      trim: true,
-    },
-  ],
-  divisionCoordinatorEmails: [
-    {
-      type: String,
-      trim: true,
-    },
-  ],
-  smeEmails: [
-    {
-      type: String,
-      trim: true,
-    },
-  ],
+  blockCoordinatorEmails: [{
+    type: String,
+    trim: true,
+  }],
+  districtCoordinatorEmails: [{
+    type: String,
+    trim: true,
+  }],
+  divisionCoordinatorEmails: [{
+    type: String,
+    trim: true,
+  }],
+  smeEmails: [{
+    type: String,
+    trim: true,
+  }],
 });
 
 // add plugin that converts mongoose to json

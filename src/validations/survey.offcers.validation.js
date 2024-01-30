@@ -62,9 +62,7 @@ const deleteAssignment = {
 const bulkUploadValidationSchema = {
   surveyId: Joi.string().required(),
   surveyAdmin: Joi.string(),
-  emailType: Joi.string()
-    .valid('blockCoordinatorEmails', 'districtCoordinatorEmails', 'divisionCoordinatorEmails', 'smeEmails')
-    .required(),
+  emailType: Joi.string().valid('blockCoordinatorEmails', 'districtCoordinatorEmails', 'divisionCoordinatorEmails', 'smeEmails').required(),
 };
 
 module.exports = {

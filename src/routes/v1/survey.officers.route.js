@@ -5,7 +5,6 @@ const path = require('path');
 const validate = require('../../middlewares/validate');
 const { coordinatorAssignmentController } = require('../../controllers');
 const { coordinatorsValidation } = require('../../validations');
-
 const router = express.Router();
 const uploadDir = path.join(__dirname, '../../uploads');
 
@@ -19,9 +18,7 @@ const storage = multer.diskStorage({
 });
 
 const uploads = multer({ storage });
-router
-  .route('/:surveyId/users')
-  .get(validate(coordinatorsValidation.getUsersBySurveyIdValidation), coordinatorAssignmentController.getUsersBySurveyId);
+router.route('/:surveyId/users').get(validate(coordinatorsValidation.getUsersBySurveyIdValidation),coordinatorAssignmentController.getUsersBySurveyId);
 
 router
   .route('/')

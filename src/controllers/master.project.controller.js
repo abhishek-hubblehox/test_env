@@ -18,22 +18,22 @@ const queryMasterProject = catchAsync(async (req, res) => {
 });
 
 const getMasterProject = catchAsync(async (req, res) => {
-  const MasterProject = await masterProjectService.getMasterProjectById(req.params.masterProjectId);
-  if (!MasterProject) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'MasterProjectnot found');
-  }
-  res.send(MasterProject);
-});
-
-const updateMasterProject = catchAsync(async (req, res) => {
-  const MasterProject = await masterProjectService.updateMasterProjectById(req.params.masterProjectId, req.body);
-  res.send(MasterProject);
-});
-
-const deleteMasterProject = catchAsync(async (req, res) => {
-  await masterProjectService.deleteMasterProjectById(req.params.masterProjectId);
-  res.status(httpStatus.NO_CONTENT).send();
-});
+    const MasterProject = await masterProjectService.getMasterProjectById(req.params.masterProjectId);
+    if (!MasterProject) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'MasterProjectnot found');
+    }
+    res.send(MasterProject);
+  });
+  
+  const updateMasterProject = catchAsync(async (req, res) => {
+    const MasterProject = await masterProjectService.updateMasterProjectById(req.params.masterProjectId, req.body);
+    res.send(MasterProject);
+  });
+  
+  const deleteMasterProject = catchAsync(async (req, res) => {
+    await masterProjectService.deleteMasterProjectById(req.params.masterProjectId);
+    res.status(httpStatus.NO_CONTENT).send();
+  });
 
 module.exports = {
   createMasterSurveyProject,
