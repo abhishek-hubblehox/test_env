@@ -18,7 +18,7 @@ router
   .delete(validate(newSurveyValidation.deleteNewSurvey), NewSurveyController.deleteNewSurvey);
 
 router
-  .route('/filterby/:surveyOwnerEmailId')
+  .route('/filterby/:masterProjectOwnerEmailId/:masterProjectId')
   .get(validate(newSurveyValidation.getSurveysByEmail), NewSurveyController.getSurveysByEmail);
 
 module.exports = router;
@@ -277,19 +277,25 @@ module.exports = router;
 
 /**
  * @swagger
- * /newsurvey/filterby/{surveyOwnerEmailId}:
+ * /newsurvey/filterby/{masterProjectOwnerEmailId}/{masterProjectId}:
  *   get:
- *     summary: Get a All Surveys Assigned to Survey Admin by Email id
+ *     summary: Get a All Surveys Assigned to Survey Admin by Email id and master project Id
  *     tags: [NewSurvey]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: surveyOwnerEmailId
+ *         name: masterProjectOwnerEmailId
  *         required: true
  *         schema:
  *           type: string
- *         description: surveyOwnerEmailId
+ *         description: masterProjectOwnerEmailId
+ *       - in: path
+ *         name: masterProjectId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: masterProjectId
  *     responses:
  *       "200":
  *         description: OK
