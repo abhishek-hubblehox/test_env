@@ -31,6 +31,7 @@ module.exports = router;
  *   name: School
  *   description: School management
  */
+
 /**
  * @swagger
  * /school/bulkupload-school:

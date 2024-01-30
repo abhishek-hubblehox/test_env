@@ -4,6 +4,7 @@ module.exports.tokenService = require('./token.service');
 module.exports.userService = require('./user.service');
 module.exports.schoolService = require('./school.services');
 module.exports.newSurveyService = require('./add.new.survey.service');
+module.exports.masterProjectService = require('./master.projects.service');
 module.exports.divisionService = require('./division.service');
 module.exports.districtService = require('./districts.service');
 module.exports.blockService = require('./blocks.service');
