@@ -24,9 +24,9 @@ const bulkUploadFile = catchAsync(async (req, res) => {
   }
 });
 const createBlock = catchAsync(async (req, res) => {
-    const Block = await blockService.createBlock(req.body);
-    res.status(httpStatus.CREATED).send(Block);
-  });
+  const Block = await blockService.createBlock(req.body);
+  res.status(httpStatus.CREATED).send(Block);
+});
 
 const getAllBlocks = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['Block_Name', 'role']);

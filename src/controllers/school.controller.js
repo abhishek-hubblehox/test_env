@@ -34,18 +34,13 @@ const bulkUploadFile = catchAsync(async (req, res) => {
       const csvFilePath = join(uploadsFolder, req.file.filename);
       const csvJsonArray = await csv().fromFile(csvFilePath);
       await schoolService.bulkUpload(csvJsonArray);
-      // Send a success message instead of the data
       res.status(httpStatus.CREATED).send({ message: 'Data uploaded successfully.' });
-      // Add this line to terminate the process after sending the response
       res.end();
     } else {
       throw new ApiError(httpStatus.NOT_FOUND, 'Missing file');
     }
   } catch (error) {
-    // Log the error or handle it appropriately
-    // Send an error response
     res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ error: error.message });
-    // Add this line to terminate the process after sending the error response
     res.end();
   }
 });

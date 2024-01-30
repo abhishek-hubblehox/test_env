@@ -13,10 +13,8 @@ const { userService } = require('../services');
 
 const bulkUploadFile = catchAsync(async (req, res) => {
   if (req.file) {
-    // console.log(req.file)
     const csvFilePath = join(req.file.path);
     const csvJsonArray = await csv().fromFile(csvFilePath);
-    // console.log(csvJsonArray)
     const user = await userService.bulkUploadUsers(null, csvJsonArray);
     res.status(httpStatus.CREATED).send(user);
   } else {
@@ -45,7 +43,7 @@ const getUser = catchAsync(async (req, res) => {
 });
 
 const checkUser = catchAsync(async (req, res) => {
-  const user = await userService.getUserByEmail(req.body.email);
+  const user = await userService.checkUserByEmailAndRole(req.body.email);
   if (!user) {
     res.send({});
   } else {

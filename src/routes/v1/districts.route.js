@@ -20,8 +20,8 @@ const storage = multer.diskStorage({
 
 const uploads = multer({ storage });
 router
-.route('/bulkupload-district')
-.post(uploads.single('file'), validate(districtValidation.districtShema), districtController.bulkUploadFile);
+  .route('/bulkupload-district')
+  .post(uploads.single('file'), validate(districtValidation.districtShema), districtController.bulkUploadFile);
 router
   .route('/')
   .post(validate(districtValidation.districtShema), districtController.createDistrict)

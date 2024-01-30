@@ -2,6 +2,14 @@ const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
 const newSurveySchema = new mongoose.Schema({
+  masterProjectOwnerEmailId: {
+    type: String,
+    required: true,
+  },
+  masterProjectId: {
+    type: String,
+    required: true,
+  },
   surveyName: {
     type: String,
     required: true,
@@ -21,38 +29,6 @@ const newSurveySchema = new mongoose.Schema({
   surveyEndDate: {
     type: Date,
     required: true,
-  },
-  surveyOwnerName: {
-    type: String,
-    required: true,
-  },
-  surveyOwnerEmailId: {
-    type: String,
-    required: true,
-  },
-  surveyOwnerMoNumber: {
-    type: Number,
-    required: true,
-  },
-  surveyConductBy: {
-    type: String,
-    default: '',
-  },
-  surveyRequireAudit: {
-    type: Boolean,
-    default: false,
-  },
-  surveyAuditBy: {
-    type: String,
-    default: '',
-  },
-  surveyRequireApproval: {
-    type: Boolean,
-    default: false,
-  },
-  surveyApprovedBy: {
-    type: String,
-    default: '',
   },
 });
 

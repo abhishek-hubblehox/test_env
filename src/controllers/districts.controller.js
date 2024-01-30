@@ -24,9 +24,9 @@ const bulkUploadFile = catchAsync(async (req, res) => {
   }
 });
 const createDistrict = catchAsync(async (req, res) => {
-    const district = await districtService.createDistrict(req.body);
-    res.status(httpStatus.CREATED).send(district);
-  });
+  const district = await districtService.createDistrict(req.body);
+  res.status(httpStatus.CREATED).send(district);
+});
 
 const getAllDistricts = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['District', 'role']);

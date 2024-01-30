@@ -6,3 +6,4 @@ module.exports.divisionValidation = require('./division.validation');
 module.exports.districtValidation = require('./districts.validation');
 module.exports.blockValidation = require('./blocks.validation');
 module.exports.surveyLocationValidation = require('./survey.locations.validation');
+module.exports.coordinatorsValidation = require('./survey.offcers.validation');

@@ -19,13 +19,19 @@ const bulkUploadValidationSchema = {
 const getAllSurveyLocatins = {
   query: Joi.object().keys({
     surveyId: Joi.string(),
-    role: Joi.string(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
   }),
 };
+const getSchoolDataBySurveyId = {
+  params: Joi.object().keys({
+    surveyId: Joi.string(),
+  }),
+};
+
 module.exports = {
   bulkUploadValidationSchema,
   getAllSurveyLocatins,
+  getSchoolDataBySurveyId,
 };
