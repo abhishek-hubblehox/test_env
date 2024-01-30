@@ -84,7 +84,7 @@ const deleteMasterProjectById = async (masterProjectId) => {
  */
 
 const getMasterProjectByEmail = async (masterProjectOwnerEmailId) => {
-    return MasterProject.find({ masterProjectOwnerEmailId });
+    return MasterProject.find({ masterProjectOwnerEmailId,finalSubmit:true});
   };
   
 module.exports = {
