@@ -108,7 +108,38 @@ const getUserById = async (id) => {
  * @returns {Promise<User>}
  */
 const getUserByEmail = async (email) => {
-  return User.findOne({ email, role: 'surveyadmin' });
+  return User.findOne({ email });
+};
+
+/**
+ * Get user by email and check if the user role is surveyadmin
+ * @param {string} email
+ * @returns {Promise<User|null>} - Returns the user if found and role is surveyadmin, otherwise null
+ */
+const checkUserByEmailAndRole = async (email) => {
+  const user = await User.findOne({ email });
+
+  if (user && user.role === 'surveyadmin') {
+    return user;
+  }
+
+  return null;
+};
+
+/**
+ * Check if email is taken and get user role
+ * @param {string} email - The user's email
+ * @param {string} role - The user's role
+ * @returns {Promise<{ isEmailTaken: boolean, isValidRole: boolean, userRole: string|null }>}
+ */
+const checkEmailAndRole = async (email, role) => {
+  const user = await User.findOne({ email });
+
+  if (user) {
+    return { isEmailTaken: true, isValidRole: user.role === role, userRole: user.role };
+  }
+
+  return { isEmailTaken: false, isValidRole: false, userRole: null };
 };
 
 /**
@@ -152,4 +183,6 @@ module.exports = {
   updateUserById,
   deleteUserById,
   bulkUploadUsers,
+  checkEmailAndRole,
+  checkUserByEmailAndRole,
 };
