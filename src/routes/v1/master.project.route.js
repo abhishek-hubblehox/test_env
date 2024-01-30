@@ -4,44 +4,19 @@ const validate = require('../../middlewares/validate');
 const { masterProjectController } = require('../../controllers');
 const router = express.Router();
 
-router.route('/').post(masterProjectController.createMasterSurveyProject);
+router.route('/').post(masterProjectController.createMasterSurveyProject).get(masterProjectController.queryMasterProject);
+
+router
+  .route('/:masterProjectId')
+  .get(masterProjectController.getMasterProject)
+  .patch(masterProjectController.updateMasterProject)
+  .delete(masterProjectController.deleteMasterProject);
+
+router
+  .route('/filterby/:masterProjectOwnerEmailId')
+  .get(masterProjectController.getProjectsByEmail);
 
 module.exports = router;
-
-/**
- * @swagger
- * tags:
- *   name: Master Survey Project
- *   description: Operations related to Master Survey Projects
- */
-
-// /**
-//  * @swagger
-//  *  /master-project:
-//  *    post:
-//  *      summary: Create a Master Survey Project with Sub Surveys
-//  *      tags: [Master Survey Project]
-//  *      requestBody:
-//  *        required: true
-//  *        content:
-//  *          application/json:
-//  *            schema:
-//  *              type: object
-//  *              properties:
-//  *                masterProjectData:
-//  *                  type: object
-//  *                  description: Data for Master Project
-//  *                subSurveyData:
-//  *                  type: array
-//  *                  items:
-//  *                    type: object
-//  *                    description: Data for Sub Survey Projects
-//  *      responses:
-//  *        '201':
-//  *          description: Successfully created
-//  *        '500':
-//  *          description: Internal Server Error
-//  */
 
 /**
  * @swagger
@@ -81,25 +56,6 @@ module.exports = router;
  *         masterProjectOwnerMoNumber:
  *           type: number
  *           description: Mobile number of the owner of the Master Project
- *         auditStartDate:
- *           type: string
- *           format: date
- *           description: Start date of the audit
- *         auditEndDate:
- *           type: string
- *           format: date
- *           description: End date of the audit
- *         approvelStartDate:
- *           type: string
- *           format: date
- *           description: Start date of the approval
- *         approvelEndDate:
- *           type: string
- *           format: date
- *           description: End date of the approval
- *         finalSubmit:
- *           type: boolean
- *           description: Indicates whether the Master Project has been finally submitted
  *         projectStatus:
  *           type: string
  *           enum: ['Not-Started', 'Started', 'In-progress', 'Completed']
@@ -112,10 +68,6 @@ module.exports = router;
  *         - masterProjectOwnerName
  *         - masterProjectOwnerEmailId
  *         - masterProjectOwnerMoNumber
- *         - auditStartDate
- *         - auditEndDate
- *         - approvelStartDate
- *         - approvelEndDate
  *         - projectStatus
  *
  *     NewSurvey:
@@ -131,9 +83,6 @@ module.exports = router;
  *         surveyName:
  *           type: string
  *           description: Name of the Survey
- *         surveyId:
- *           type: string
- *           description: ID of the Survey
  *         surveyPurpose:
  *           type: string
  *           description: Purpose of the Survey
@@ -149,7 +98,6 @@ module.exports = router;
  *         - masterProjectOwnerEmailId
  *         - masterProjectId
  *         - surveyName
- *         - surveyId
  *         - surveyPurpose
  *         - surveyStartDate
  *         - surveyEndDate
@@ -190,4 +138,189 @@ module.exports = router;
  *                 subSurveys: []
  *         '500':
  *           description: Internal Server Error
+ *
+ */
+
+/**
+ * @swagger
+ * /master-project/{masterProjectId}:
+ *   get:
+ *     summary: Get a MasterProject
+ *     tags: [Master Survey Project]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: masterProjectId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: masterProjectId
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/NewSurvey'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
+ *
+ *   patch:
+ *     summary: Update a MasterProject
+ *     tags: [Master Survey Project]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: masterProjectId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: masterProjectId
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               approvelStartDate:
+ *                 type: string
+ *                 format: date
+ *             example:
+ *               approvelStartDate: 2024-01-30
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/NewSurvey'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
+ *
+ *   delete:
+ *     summary: Delete a MasterProject
+ *     tags: [Master Survey Project]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: masterProjectId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: masterProjectId
+ *     responses:
+ *       "200":
+ *         description: No content
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
+ */
+
+/**
+ * @swagger
+ * paths:
+ *   /master-project:
+ *     get:
+ *       summary: Get all Master Projects
+ *       tags: [Master Survey Project]
+ *       security:
+ *         - bearerAuth: []
+ *       parameters:
+ *         - in: query
+ *           name: masterProjectName
+ *           schema:
+ *             type: string
+ *           description: Master project name
+ *         - in: query
+ *           name: sortBy
+ *           schema:
+ *             type: string
+ *           description: Sorting parameter
+ *         - in: query
+ *           name: limit
+ *           schema:
+ *             type: integer
+ *             minimum: 1
+ *           default: 10
+ *           description: Maximum number of master projects
+ *         - in: query
+ *           name: page
+ *           schema:
+ *             type: integer
+ *             minimum: 1
+ *             default: 1
+ *           description: Page number
+ *       responses:
+ *         "200":
+ *           description: OK
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   masterProjects:
+ *                     type: array
+ *                     items:
+ *                       $ref: '#/components/schemas/MasterProject'
+ *                   page:
+ *                     type: integer
+ *                     example: 1
+ *                   limit:
+ *                     type: integer
+ *                     example: 10
+ *                   totalPages:
+ *                     type: integer
+ *                     example: 1
+ *                   totalResults:
+ *                     type: integer
+ *                     example: 1
+ *         "401":
+ *           $ref: '#/components/responses/Unauthorized'
+ *         "403":
+ *           $ref: '#/components/responses/Forbidden'
+ */
+
+/**
+ * @swagger
+ * /master-project/filterby/{masterProjectOwnerEmailId}:
+ *   get:
+ *     summary: Get a All Master Projects Assigned to Survey Admin by Email id
+ *     tags: [Master Survey Project]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: masterProjectOwnerEmailId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: masterProjectOwnerEmailId
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/MasterProject'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
  */
