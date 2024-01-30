@@ -8,7 +8,6 @@ const coordinatorAssignmentSchema = new mongoose.Schema({
     trim: true,
   },
   surveyAdmin: {
-    type: String,
     type: mongoose.SchemaTypes.ObjectId,
     ref: 'User',
     required: true,

@@ -3,46 +3,46 @@ const { Districts } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 const bulkUpload = async (schoolArray, csvFilePath = null) => {
-    let modifiedSchoolArray = schoolArray;
-    if (csvFilePath) {
-      modifiedSchoolArray = csvFilePath;
-    }
-  
-    if (!modifiedSchoolArray || !modifiedSchoolArray.length) {
-      throw new Error('Missing array');
-    }
-  
-    const promises = modifiedSchoolArray.map(async (district) => {
-      const schoolFound = await Districts.findOne({
-        district_cd: district.district_cd,
-      });
-      if (schoolFound) {
-        return { duplicate: true, data: district };
-      }
-  
-      let data = new Districts(district);
-      // eslint-disable-next-line no-unused-vars
-      data = await data.save();
-  
-      return { duplicate: false, data: district };
+  let modifiedSchoolArray = schoolArray;
+  if (csvFilePath) {
+    modifiedSchoolArray = csvFilePath;
+  }
+
+  if (!modifiedSchoolArray || !modifiedSchoolArray.length) {
+    throw new Error('Missing array');
+  }
+
+  const promises = modifiedSchoolArray.map(async (district) => {
+    const schoolFound = await Districts.findOne({
+      district_cd: district.district_cd,
     });
-    const results = await Promise.all(promises);
-  
-    const duplicates = {
-      totalDuplicates: results.filter((result) => result.duplicate).length,
-      data: results.filter((result) => result.duplicate),
-    };
-  
-    const nonDuplicates = {
-      totalNonDuplicates: results.filter((result) => !result.duplicate).length,
-      data: results.filter((result) => !result.duplicate),
-    };
-  
-    return {
-      duplicates,
-      nonDuplicates,
-    };
+    if (schoolFound) {
+      return { duplicate: true, data: district };
+    }
+
+    let data = new Districts(district);
+    // eslint-disable-next-line no-unused-vars
+    data = await data.save();
+
+    return { duplicate: false, data: district };
+  });
+  const results = await Promise.all(promises);
+
+  const duplicates = {
+    totalDuplicates: results.filter((result) => result.duplicate).length,
+    data: results.filter((result) => result.duplicate),
   };
+
+  const nonDuplicates = {
+    totalNonDuplicates: results.filter((result) => !result.duplicate).length,
+    data: results.filter((result) => !result.duplicate),
+  };
+
+  return {
+    duplicates,
+    nonDuplicates,
+  };
+};
 
 /**
  * Create a District

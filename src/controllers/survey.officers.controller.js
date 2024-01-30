@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const { join } = require('path');
 const pick = require('../utils/pick');
+const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { coordinatorAssignmentServices } = require('../services');
 
@@ -12,7 +13,7 @@ const bulkUploadFile = catchAsync(async (req, res) => {
     if (req.file.mimetype !== 'text/csv') {
       return res.status(httpStatus.BAD_REQUEST).json({ message: 'Uploaded file must be in CSV format.' });
     }
-    const csvFilePath = join(uploadsFolder, req.file.filename);
+    // const csvFilePath = join(uploadsFolder, req.file.filename);
     const { surveyId, surveyAdmin, emailType } = req.body;
     const result = await coordinatorAssignmentServices.bulkUpload(req.file, surveyId, surveyAdmin, emailType);
 

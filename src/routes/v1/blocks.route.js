@@ -20,8 +20,8 @@ const storage = multer.diskStorage({
 
 const uploads = multer({ storage });
 router
-.route('/bulkupload-block')
-.post(uploads.single('file'), validate(blockValidation.blockShema), blockController.bulkUploadFile);
+  .route('/bulkupload-block')
+  .post(uploads.single('file'), validate(blockValidation.blockShema), blockController.bulkUploadFile);
 router
   .route('/')
   .post(validate(blockValidation.blockShema), blockController.createBlock)
@@ -33,9 +33,7 @@ router
   .patch(validate(blockValidation.updateblock), blockController.updateBlock)
   .delete(validate(blockValidation.deleteblock), blockController.deleteBlock);
 
-router
-  .route('/filterby/:District')
-  .get(validate(blockValidation.getblockByDistricts), blockController.getBlockByDistrict);
+router.route('/filterby/:District').get(validate(blockValidation.getblockByDistricts), blockController.getBlockByDistrict);
 
 module.exports = router;
 

@@ -391,3 +391,43 @@ module.exports = router;
  *             example:
  *               message: Internal Server Error
  */
+
+/**
+ * @swagger
+ * /surveylocation/{surveyId}:
+ *   get:
+ *     summary: Get survey location data  by surveyId
+ *     tags: [SurveyLocation]
+ *     parameters:
+ *       - in: path
+ *         name: surveyId
+ *         required: true
+ *         description: ID of the survey location
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved survey location
+ *         content:
+ *           application/json:
+ *             example:
+ *               surveyName: Sample Survey
+ *               surveyId: SAMPLE123
+ *               surveyLocations:
+ *                 - udise_sch_code: 123456
+ *                   school: { /* School Data Object * / }
+ *                 - udise_sch_code: 789012
+ *                   school: { /* School Data Object * / }
+ *       404:
+ *         description: Survey location not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Survey location not found
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal Server Error
+ */
