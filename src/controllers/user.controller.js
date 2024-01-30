@@ -13,10 +13,8 @@ const { userService } = require('../services');
 
 const bulkUploadFile = catchAsync(async (req, res) => {
   if (req.file) {
-    // console.log(req.file)
     const csvFilePath = join(req.file.path);
     const csvJsonArray = await csv().fromFile(csvFilePath);
-    // console.log(csvJsonArray)
     const user = await userService.bulkUploadUsers(null, csvJsonArray);
     res.status(httpStatus.CREATED).send(user);
   } else {
