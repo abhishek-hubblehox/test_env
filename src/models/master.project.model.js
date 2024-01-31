@@ -56,19 +56,19 @@ const newMasterSurveySchema = new mongoose.Schema({
   },
   auditStartDate: {
     type: Date,
-    required: true,
+    default: null,
   },
   auditEndDate: {
     type: Date,
-    required: true,
+    default: null,
   },
   approvelStartDate: {
     type: Date,
-    required: true,
+    default: null,
   },
   approvelEndDate: {
     type: Date,
-    required: true,
+    default: null,
   },
   finalSubmit: {
     type: Boolean,

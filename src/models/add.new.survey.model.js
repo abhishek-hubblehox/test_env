@@ -5,6 +5,7 @@ const newSurveySchema = new mongoose.Schema({
   masterProjectOwnerEmailId: {
     type: String,
     required: true,
+    format: 'email',
   },
   masterProjectId: {
     type: String,

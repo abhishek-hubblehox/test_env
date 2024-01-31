@@ -9,6 +9,7 @@ const blockRoute = require('./blocks.route');
 const surveyLocationRoute = require('./survey.locations.route');
 const coordinatorAssignmentRoute = require('./survey.officers.route');
 const masterProjectRoute = require('./master.project.route');
+const surveyQuetionsRoute = require('./survey.quetions.route');
 
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
@@ -55,6 +56,10 @@ const defaultRoutes = [
   {
     path: '/master-project',
     route: masterProjectRoute,
+  },
+  {
+    path: '/survey-questions',
+    route: surveyQuetionsRoute,
   },
 ];
 

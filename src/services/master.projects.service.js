@@ -10,15 +10,17 @@ const ApiError = require('../utils/ApiError');
  */
 const createMasterSurveyProject = async (masterProjectData, subSurveyData) => {
   const masterProject = await MasterProject.create(masterProjectData);
+  const subSurveys = subSurveyData.map((subSurvey) => {
+    const newSubSurvey = new NewSurvey({
+      ...subSurvey,
+      masterProjectId: masterProject.masterProjectId,
+      masterProjectOwnerEmailId: masterProject.masterProjectOwnerEmailId,
+    });
+    return newSubSurvey.save();
+  });
 
-  const subSurveys = subSurveyData.map((subSurvey) => ({
-    ...subSurvey,
-    masterProjectId: masterProject._id,
-    masterProjectOwnerEmail: masterProject.masterProjectOwnerEmailId,
-  }));
-
-  const createdSubSurveys = await NewSurvey.insertMany(subSurveys);
-
+  const createdSubSurveys = await Promise.all(subSurveys);
+  console.log(masterProject);
   return { masterProject, subSurveys: createdSubSurveys };
 };
 
@@ -75,6 +77,16 @@ const deleteMasterProjectById = async (masterProjectId) => {
   return masterProject;
 };
 
+/**
+ * Get MasterProject by filter
+ * @param {ObjectId} masterProjectOwnerEmailId
+ * @returns {Promise<MasterProject>}
+ */
+
+const getMasterProjectByEmail = async (masterProjectOwnerEmailId) => {
+  return MasterProject.find({ masterProjectOwnerEmailId, finalSubmit: true });
+};
+
 module.exports = {
   createMasterSurveyProject,
   queryMasterSurvey,
@@ -82,4 +94,5 @@ module.exports = {
   updateMasterProjectById,
   updateMasterProjectById,
   deleteMasterProjectById,
+  getMasterProjectByEmail,
 };

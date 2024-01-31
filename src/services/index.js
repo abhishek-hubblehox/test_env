@@ -10,3 +10,4 @@ module.exports.districtService = require('./districts.service');
 module.exports.blockService = require('./blocks.service');
 module.exports.surveyLocationService = require('./survey.locations.service');
 module.exports.coordinatorAssignmentServices = require('./survey.officers.service');
+module.exports.surveyQuetionsService = require('./survey.quetions.service');
