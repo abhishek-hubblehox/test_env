@@ -20,7 +20,6 @@ const createMasterSurveyProject = async (masterProjectData, subSurveyData) => {
   });
 
   const createdSubSurveys = await Promise.all(subSurveys);
-  console.log(masterProject);
   return { masterProject, subSurveys: createdSubSurveys };
 };
 

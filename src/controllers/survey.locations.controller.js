@@ -44,5 +44,4 @@ module.exports = {
   bulkUploadFile,
   getAllSurveyLocatins,
   getSchoolDataBySurveyId,
-  getSchoolDataBySurveyId,
 };
