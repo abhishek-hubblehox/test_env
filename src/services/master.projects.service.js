@@ -84,9 +84,9 @@ const deleteMasterProjectById = async (masterProjectId) => {
  */
 
 const getMasterProjectByEmail = async (masterProjectOwnerEmailId) => {
-    return MasterProject.find({ masterProjectOwnerEmailId,finalSubmit:true});
-  };
-  
+  return MasterProject.find({ masterProjectOwnerEmailId, finalSubmit: true });
+};
+
 module.exports = {
   createMasterSurveyProject,
   queryMasterSurvey,

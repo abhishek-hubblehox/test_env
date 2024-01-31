@@ -70,8 +70,8 @@ const deleteNewSurveyById = async (newSurveyId) => {
  * @returns {Promise<NewSurvey>}
  */
 
-const getSurveyByEmailAndProjectId = async (masterProjectOwnerEmailId,masterProjectId) => {
-  return NewSurvey.find({ masterProjectOwnerEmailId,masterProjectId });
+const getSurveyByEmailAndProjectId = async (masterProjectOwnerEmailId, masterProjectId) => {
+  return NewSurvey.find({ masterProjectOwnerEmailId, masterProjectId });
 };
 
 module.exports = {

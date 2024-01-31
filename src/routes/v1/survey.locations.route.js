@@ -30,7 +30,7 @@ router
   .route('/')
   .get(validate(surveyLocationValidation.getAllSurveyLocatins), surveyLocationsController.getAllSurveyLocatins);
 router
-  .route('/:surveyId')
+  .route('/:masterProjectId')
   .get(validate(surveyLocationValidation.getSchoolDataBySurveyId), surveyLocationsController.getSchoolDataBySurveyId);
 
 module.exports = router;
@@ -179,64 +179,84 @@ module.exports = router;
  *               file:
  *                 type: string
  *                 format: binary
- *               surveyName:
+ *               masterProjectName:
  *                 type: string
- *               surveyId:
+ *               masterProjectId:
  *                 type: string
- *               surveyPurpose:
+ *               masterProjectPurpose:
  *                 type: string
- *               surveyStartDate:
- *                 type: string
- *                 format: date
- *               surveyEndDate:
+ *               masterProjectStartDate:
  *                 type: string
  *                 format: date
- *               surveyOwnerName:
+ *               masterProjectEndDate:
  *                 type: string
- *               surveyOwnerEmailId:
+ *                 format: date
+ *               masterProjectOwnerName:
  *                 type: string
- *               surveyOwnerMoNumber:
+ *               masterProjectOwnerEmailId:
+ *                 type: string
+ *               masterProjectOwnerMoNumber:
  *                 type: number
- *               surveyConductBy:
+ *               masterProjectConductBy:
  *                 type: string
- *               surveyRequireAudit:
+ *               masterProjectRequireAudit:
  *                 type: boolean
- *               surveyAuditBy:
+ *               masterProjectAuditBy:
  *                 type: string
- *               surveyRequireApproval:
+ *               masterProjectRequireApproval:
  *                 type: boolean
- *               surveyApprovedBy:
+ *               masterProjectApprovedBy:
  *                 type: string
+ *               auditStartDate:
+ *                 type: string
+ *                 format: date
+ *               auditEndDate:
+ *                 type: string
+ *                 format: date
+ *               approvelStartDate:
+ *                 type: string
+ *                 format: date
+ *               approvelEndDate:
+ *                 type: string
+ *                 format: date
  *             required:
  *               - file
- *               - surveyName
- *               - surveyId
- *               - surveyPurpose
- *               - surveyStartDate
- *               - surveyEndDate
- *               - surveyOwnerName
- *               - surveyOwnerEmailId
- *               - surveyOwnerMoNumber
- *               - surveyConductBy
- *               - surveyRequireAudit
- *               - surveyAuditBy
- *               - surveyRequireApproval
- *               - surveyApprovedBy
+ *               - masterProjectName
+ *               - masterProjectId
+ *               - masterProjectPurpose
+ *               - masterProjectStartDate
+ *               - masterProjectEndDate
+ *               - masterProjectOwnerName
+ *               - masterProjectOwnerEmailId
+ *               - masterProjectOwnerMoNumber
+ *               - masterProjectConductBy
+ *               - masterProjectRequireAudit
+ *               - masterProjectAuditBy
+ *               - masterProjectRequireApproval
+ *               - masterProjectApprovedBy
+ *               - auditStartDate
+ *               - auditEndDate
+ *               - approvelStartDate
+ *               - approvelEndDate
  *             example:
  *               file: (binary data)
- *               surveyName: Vending Machine Installation
- *               surveyId: VEN879
- *               surveyPurpose: Multiple installation of vending machines in schools
- *               surveyStartDate: 2024-01-01
- *               surveyEndDate: 2024-01-31
- *               surveyOwnerName: John Doe
- *               surveyOwnerEmailId: john@example.com
- *               surveyOwnerMoNumber: 1234567890
- *               surveyConductBy: Block co-ordinator
- *               surveyRequireAudit: true, false
- *               surveyAuditBy: SME
- *               surveyRequireApproval: true, false
- *               surveyApprovedBy: District co-ordinator
+ *               masterProjectName: Vending Machine Installation
+ *               masterProjectId: VEN879
+ *               masterProjectPurpose: Multiple installation of vending machines in schools
+ *               masterProjectStartDate: 2024-01-01
+ *               masterProjectEndDate: 2024-01-31
+ *               masterProjectOwnerName: John Doe
+ *               masterProjectOwnerEmailId: john@example.com
+ *               masterProjectOwnerMoNumber: 1234567890
+ *               masterProjectConductBy: Block co-ordinator
+ *               masterProjectRequireAudit: true, false
+ *               masterProjectAuditBy: SME
+ *               masterProjectRequireApproval: true, false
+ *               masterProjectApprovedBy: District co-ordinator
+ *               auditStartDate: 2024-01-31
+ *               auditEndDate: 2024-01-31
+ *               approvelStartDate: 2024-01-31
+ *               approvelEndDate: 2024-01-31
  *     responses:
  *       201:
  *         description: Successfully added CSV file
@@ -245,33 +265,29 @@ module.exports = router;
  *             example:
  *               message: Successfully added CSV file
  *               data:
- *                 surveyName: Vending Machine Installation
- *                 surveyId: VEN879
- *                 surveyPurpose: Multiple installation of vending machines in schools
- *                 surveyStartDate: 2024-01-01
- *                 surveyEndDate: 2024-01-31
- *                 surveyOwnerName: John Doe
- *                 surveyOwnerEmailId: john@example.com
- *                 surveyOwnerMoNumber: 1234567890
- *                 surveyConductBy: Block co-ordinator, District co-ordinator
- *                 surveyRequireAudit: true
- *                 surveyAuditBy: SME
- *                 surveyRequireApproval: true
- *                 surveyApprovedBy: District co-ordinator
- *                 surveyLocations: [
+ *               masterProjectName: Vending Machine Installation
+ *               masterProjectId: VEN879
+ *               masterProjectPurpose: Multiple installation of vending machines in schools
+ *               masterProjectStartDate: 2024-01-01
+ *               masterProjectEndDate: 2024-01-31
+ *               masterProjectOwnerName: John Doe
+ *               masterProjectOwnerEmailId: john@example.com
+ *               masterProjectOwnerMoNumber: 1234567890
+ *               masterProjectConductBy: Block co-ordinator
+ *               masterProjectRequireAudit: true, false
+ *               masterProjectAuditBy: SME
+ *               masterProjectRequireApproval: true, false
+ *               masterProjectApprovedBy: District co-ordinator
+ *               auditStartDate: 2024-01-31
+ *               auditEndDate: 2024-01-31
+ *               approvelStartDate: 2024-01-31
+ *               approvelEndDate: 2024-01-31
+ *               surveyLocations: [
  *                   {
  *                     udise_sch_code: 2133312,
- *                     surveyor_Email_Id: "surveyor@example.com",
- *                     SME_Email_Id: "sme@example.com",
- *                     approver_Email_Id: "approver@example.com",
- *                     school: {School Data Object}
  *                   },
  *                   {
  *                     udise_sch_code: 2133312,
- *                     surveyor_Email_Id: "surveyor2@example.com",
- *                     SME_Email_Id: "sme2@example.com",
- *                     approver_Email_Id: "approver2@example.com",
- *                     school: {School Data Object}
  *                   }
  *                 ]
  *       400:
@@ -354,25 +370,25 @@ module.exports = router;
 
 /**
  * @swagger
- * /surveylocation/{surveyId}:
+ * /surveylocation/{masterProjectId}:
  *   get:
- *     summary: Get survey location data  by surveyId
+ *     summary: Get survey location data  by masterProjectId
  *     tags: [SurveyLocation]
  *     parameters:
  *       - in: path
- *         name: surveyId
+ *         name: masterProjectId
  *         required: true
- *         description: ID of the survey location
+ *         description: ID of the master Project Id
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: Successfully retrieved survey location
+ *         description: Successfully retrieved masterProject location
  *         content:
  *           application/json:
  *             example:
- *               surveyName: Sample Survey
- *               surveyId: SAMPLE123
+ *               masterProjectName: Sample Survey
+ *               masterProjectId: SAMPLE123
  *               surveyLocations:
  *                 - udise_sch_code: 123456
  *                   school: { /* School Data Object * / }
@@ -394,15 +410,15 @@ module.exports = router;
 
 /**
  * @swagger
- * /surveylocation/{surveyId}:
+ * /surveylocation/{masterProjectId}:
  *   get:
- *     summary: Get survey location data  by surveyId
+ *     summary: Get survey location data  by masterProjectId
  *     tags: [SurveyLocation]
  *     parameters:
  *       - in: path
- *         name: surveyId
+ *         name: masterProjectId
  *         required: true
- *         description: ID of the survey location
+ *         description: masterProjectId of the survey location
  *         schema:
  *           type: string
  *     responses:
@@ -411,8 +427,8 @@ module.exports = router;
  *         content:
  *           application/json:
  *             example:
- *               surveyName: Sample Survey
- *               surveyId: SAMPLE123
+ *               masterProjectName: Sample Survey
+ *               masterProjectId: SAMPLE123
  *               surveyLocations:
  *                 - udise_sch_code: 123456
  *                   school: { /* School Data Object * / }

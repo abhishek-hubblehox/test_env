@@ -32,8 +32,8 @@ const getAllSurveyLocatins = catchAsync(async (req, res) => {
 });
 
 const getSchoolDataBySurveyId = catchAsync(async (req, res) => {
-  const { surveyId } = req.params;
-  const result = await surveyLocationService.getSchoolDataBySurveyId(surveyId);
+  const { masterProjectId } = req.params;
+  const result = await surveyLocationService.getSchoolDataBySurveyId(masterProjectId);
   res.status(httpStatus.OK).json(result);
   if (!result) {
     res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ message: 'Internal Server Error' });

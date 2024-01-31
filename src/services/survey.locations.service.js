@@ -23,8 +23,6 @@ const { SurveyLocation, School } = require('../models');
 //   return data;
 // };
 
-
-
 const bulkUpload = async (locationsArray, surveyDetails) => {
   if (!locationsArray || !locationsArray.length) {
     throw new Error('Missing array');
@@ -45,7 +43,7 @@ const bulkUpload = async (locationsArray, surveyDetails) => {
     ];
 
     const result = await existingSurvey.save();
-    let data = { result, schools: [] }; // Since we are not creating a new SurveyLocation, schools array is empty
+    const data = { result, schools: [] }; // Since we are not creating a new SurveyLocation, schools array is empty
     return data;
   }
 
@@ -66,7 +64,7 @@ const bulkUpload = async (locationsArray, surveyDetails) => {
   };
 
   const newSurveyLocation = await SurveyLocation.create(surveyLocation);
-  let data = { result: newSurveyLocation, schools };
+  const data = { result: newSurveyLocation, schools };
   return data;
 };
 // const bulkUpload = async (locationsArray, surveyDetails) => {
@@ -128,8 +126,6 @@ const bulkUpload = async (locationsArray, surveyDetails) => {
 //   return data;
 // };
 
-
-
 /**
  * Query for NewSurvey
  * @param {Object} filter - Mongo filter
@@ -146,12 +142,12 @@ const getAllSurveyLocatins = async (filter, options) => {
 
 /**
  * Get school data by surveyId
- * @param {String} surveyId
+ * @param {String} masterProjectId
  * @returns {Promise<School[]>}
  */
-const getSchoolDataBySurveyId = async (surveyId) => {
+const getSchoolDataBySurveyId = async (masterProjectId) => {
   try {
-    const surveyLocation = await SurveyLocation.findOne({ surveyId });
+    const surveyLocation = await SurveyLocation.findOne({ masterProjectId });
     if (!surveyLocation) {
       throw new Error('Survey location not found');
     }
