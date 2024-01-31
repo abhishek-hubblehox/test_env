@@ -142,12 +142,12 @@ const getAllSurveyLocatins = async (filter, options) => {
 
 /**
  * Get school data by surveyId
- * @param {String} surveyId
+ * @param {String} masterProjectId
  * @returns {Promise<School[]>}
  */
-const getSchoolDataBySurveyId = async (surveyId) => {
+const getSchoolDataBySurveyId = async (masterProjectId) => {
   try {
-    const surveyLocation = await SurveyLocation.findOne({ surveyId });
+    const surveyLocation = await SurveyLocation.findOne({ masterProjectId });
     if (!surveyLocation) {
       throw new Error('Survey location not found');
     }

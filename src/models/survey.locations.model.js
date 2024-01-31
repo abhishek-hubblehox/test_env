@@ -2,57 +2,117 @@ const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
 const surveyLocationSchema = new mongoose.Schema({
-  surveyName: {
+  // surveyName: {
+  //   type: String,
+  //   required: true,
+  // },
+  // surveyId: {
+  //   type: String,
+  //   required: true,
+  // },
+  // surveyPurpose: {
+  //   type: String,
+  //   required: true,
+  // },
+  // surveyStartDate: {
+  //   type: Date,
+  //   required: true,
+  // },
+  // surveyEndDate: {
+  //   type: Date,
+  //   required: true,
+  // },
+  // surveyOwnerName: {
+  //   type: String,
+  //   required: true,
+  // },
+  // surveyOwnerEmailId: {
+  //   type: String,
+  //   required: true,
+  // },
+  // surveyOwnerMoNumber: {
+  //   type: Number,
+  //   required: true,
+  // },
+  // surveyConductBy: {
+  //   type: String,
+  //   required: true,
+  // },
+  // surveyRequireAudit: {
+  //   type: Boolean,
+  //   required: true,
+  // },
+  // surveyAuditBy: {
+  //   type: String,
+  //   required: true,
+  // },
+  // surveyRequireApproval: {
+  //   type: Boolean,
+  //   required: true,
+  // },
+  // surveyApprovedBy: {
+  //   type: String,
+  //   required: true,
+  // },
+  masterProjectName: {
     type: String,
     required: true,
   },
-  surveyId: {
+  masterProjectId: {
+    type: String,
+    unique: true,
+  },
+  masterProjectPurpose: {
     type: String,
     required: true,
   },
-  surveyPurpose: {
-    type: String,
-    required: true,
-  },
-  surveyStartDate: {
+  masterProjectStartDate: {
     type: Date,
     required: true,
   },
-  surveyEndDate: {
+  masterProjectEndDate: {
     type: Date,
     required: true,
   },
-  surveyOwnerName: {
+  masterProjectOwnerName: {
     type: String,
     required: true,
   },
-  surveyOwnerEmailId: {
+  masterProjectOwnerEmailId: {
     type: String,
     required: true,
   },
-  surveyOwnerMoNumber: {
+  masterProjectOwnerMoNumber: {
     type: Number,
     required: true,
   },
-  surveyConductBy: {
+  masterProjectConductBy: {
     type: String,
     required: true,
   },
-  surveyRequireAudit: {
+  masterProjectRequireAudit: {
     type: Boolean,
-    required: true,
   },
-  surveyAuditBy: {
+  masterProjectAuditBy: {
     type: String,
-    required: true,
   },
-  surveyRequireApproval: {
+  masterProjectRequireApproval: {
     type: Boolean,
-    required: true,
   },
-  surveyApprovedBy: {
+  masterProjectApprovedBy: {
     type: String,
-    required: true,
+  },
+  auditStartDate: {
+    type: Date,
+  },
+  auditEndDate: {
+    type: Date,
+  },
+  approvelStartDate: {
+    type: Date,
+  },
+  approvelEndDate: {
+    type: Date,
   },
   surveyLocations: [
     {
