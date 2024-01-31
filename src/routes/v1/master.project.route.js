@@ -6,12 +6,12 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(auth(['superadmin']), masterProjectController.createMasterSurveyProject)
+  .post(masterProjectController.createMasterSurveyProject)
   .get(masterProjectController.queryMasterProject);
 
 router
   .route('/:masterProjectId')
-  .get(auth(['superadmin']), masterProjectController.getMasterProject)
+  .get(masterProjectController.getMasterProject)
   .patch(masterProjectController.updateMasterProject)
   .delete(masterProjectController.deleteMasterProject);
 
