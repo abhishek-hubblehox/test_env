@@ -146,17 +146,13 @@ const getAllSurveyLocatins = async (filter, options) => {
  * @returns {Promise<School[]>}
  */
 const getSchoolDataBySurveyId = async (masterProjectId) => {
-  try {
-    const surveyLocation = await SurveyLocation.findOne({ masterProjectId });
-    if (!surveyLocation) {
-      throw new Error('Survey location not found');
-    }
-    const udiseSchCodes = surveyLocation.surveyLocations.map((location) => location.udise_sch_code);
-    const schools = await School.find({ udise_sch_code: { $in: udiseSchCodes } });
-    return schools;
-  } catch (error) {
-    throw error;
+  const surveyLocation = await SurveyLocation.findOne({ masterProjectId });
+  if (!surveyLocation) {
+    throw new Error('Survey location not found');
   }
+  const udiseSchCodes = surveyLocation.surveyLocations.map((location) => location.udise_sch_code);
+  const schools = await School.find({ udise_sch_code: { $in: udiseSchCodes } });
+  return schools;
 };
 
 module.exports = {
