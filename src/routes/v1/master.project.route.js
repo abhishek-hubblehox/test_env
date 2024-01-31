@@ -137,7 +137,6 @@ module.exports = router;
  *                 subSurveys: []
  *         '500':
  *           description: Internal Server Error
- *
  */
 
 /**
