@@ -2,6 +2,7 @@ const express = require('express');
 const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const { masterProjectController } = require('../../controllers');
+
 const router = express.Router();
 
 router.route('/').post(masterProjectController.createMasterSurveyProject).get(masterProjectController.queryMasterProject);
@@ -12,9 +13,7 @@ router
   .patch(masterProjectController.updateMasterProject)
   .delete(masterProjectController.deleteMasterProject);
 
-router
-  .route('/filterby/:masterProjectOwnerEmailId')
-  .get(masterProjectController.getProjectsByEmail);
+router.route('/filterby/:masterProjectOwnerEmailId').get(masterProjectController.getProjectsByEmail);
 
 module.exports = router;
 
@@ -138,7 +137,6 @@ module.exports = router;
  *                 subSurveys: []
  *         '500':
  *           description: Internal Server Error
- *
  */
 
 /**

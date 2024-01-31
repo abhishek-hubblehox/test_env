@@ -16,29 +16,6 @@ const { CoordinatorAssignment, User } = require('../models');
 //   return result;
 // };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // const bulkUpload = async (file, surveyId, surveyAdmin, emailType) => {
 //   const validEmailTypes = ['blockCoordinatorEmails', 'districtCoordinatorEmails', 'divisionCoordinatorEmails', 'smeEmails'];
 //   if (!validEmailTypes.includes(emailType)) {
@@ -73,7 +50,7 @@ const { CoordinatorAssignment, User } = require('../models');
 
 const bulkUpload = async (file, surveyId, surveyAdmin, emailType) => {
   const validEmailTypes = ['blockCoordinatorEmails', 'districtCoordinatorEmails', 'divisionCoordinatorEmails', 'smeEmails'];
-  
+
   if (!validEmailTypes.includes(emailType)) {
     throw new Error('Invalid emailType');
   }
@@ -176,43 +153,6 @@ const getUserFilterEmailAndRole = async (filter) => {
   return null;
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // const bulkUpload = async (file, surveyId, surveyAdmin, emailType) => {
 //   console.log(file);
 //   const validEmailTypes = ['blockCoordinatorEmails', 'districtCoordinatorEmails', 'divisionCoordinatorEmails', 'smeEmails'];
@@ -294,7 +234,7 @@ const getUserFilterEmailAndRole = async (filter) => {
  * @returns {Promise<QueryResult>}
  */
 
-const getAllCoordinatorAssignments = async (filter,options) => {
+const getAllCoordinatorAssignments = async (filter, options) => {
   const assignments = await CoordinatorAssignment.paginate(filter, options);
   return assignments;
 };
@@ -314,7 +254,7 @@ const getAssignById = async (id) => {
  * @returns {Promise<CoordinatorAssignment>}
  */
 const getAssignBySurveyId = async (surveyId) => {
-  return CoordinatorAssignment.find({surveyId});
+  return CoordinatorAssignment.find({ surveyId });
 };
 
 /**
@@ -358,12 +298,7 @@ const getUsersBySurveyId = async (surveyId) => {
     throw new Error('CoordinatorAssignment not found for the given surveyId');
   }
 
-  const emailArrays = [
-    'blockCoordinatorEmails',
-    'districtCoordinatorEmails',
-    'divisionCoordinatorEmails',
-    'smeEmails',
-  ];
+  const emailArrays = ['blockCoordinatorEmails', 'districtCoordinatorEmails', 'divisionCoordinatorEmails', 'smeEmails'];
 
   const users = [];
 

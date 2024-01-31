@@ -8,3 +8,4 @@ module.exports.Districts = require('./districts.model');
 module.exports.Blocks = require('./blocks.model');
 module.exports.SurveyLocation = require('./survey.locations.model');
 module.exports.CoordinatorAssignment = require('./survey.officers.model');
+module.exports.SurveyQuetions = require('./survey.quetions.model');

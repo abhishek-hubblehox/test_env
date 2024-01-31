@@ -36,7 +36,7 @@ const deleteNewSurvey = catchAsync(async (req, res) => {
 
 const getSurveysByEmail = catchAsync(async (req, res) => {
   const { masterProjectOwnerEmailId, masterProjectId } = req.params;
-  const surveys = await newSurveyService.getSurveyByEmailAndProjectId(masterProjectOwnerEmailId, masterProjectId );
+  const surveys = await newSurveyService.getSurveyByEmailAndProjectId(masterProjectOwnerEmailId, masterProjectId);
   if (!surveys) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Surveys not found');
   }
