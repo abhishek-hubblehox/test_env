@@ -9,11 +9,11 @@ const router = express.Router();
 router
   .route('/')
   .post(validate(newSurveyValidation.createNewSurvey), NewSurveyController.createNewSurvey)
-  .get(auth(['superadmin']), validate(newSurveyValidation.queryNewSurvey), NewSurveyController.queryNewSurvey);
+  .get(validate(newSurveyValidation.queryNewSurvey), NewSurveyController.queryNewSurvey);
 
 router
   .route('/:newSurveyId')
-  .get(auth(['superadmin']), validate(newSurveyValidation.getNewSurvey), NewSurveyController.getNewSurvey)
+  .get(validate(newSurveyValidation.getNewSurvey), NewSurveyController.getNewSurvey)
   .patch(validate(newSurveyValidation.updateNewSurvey), NewSurveyController.updateNewSurvey)
   .delete(validate(newSurveyValidation.deleteNewSurvey), NewSurveyController.deleteNewSurvey);
 
