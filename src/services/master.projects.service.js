@@ -46,29 +46,88 @@ const getMasterProjectById = async (id) => {
   return MasterProject.findById(id);
 };
 
+// /**
+//  * Update MasterProject by id
+//  * @param {ObjectId} masterProjectId
+//  * @param {Object} updateBody
+//  * @returns {Promise<MasterProject>}
+//  */
+// const updateMasterProjectById = async (masterProjectId, updateBody) => {
+//   const masterProject = await getMasterProjectById(masterProjectId);
+//   if (!masterProject) {
+//     throw new ApiError(httpStatus.NOT_FOUND, 'MasterProject not found');
+//   }
+//   Object.assign(masterProject, updateBody);
+//   await masterProject.save();
+//   return masterProject;
+// };
+
+// /**
+//  * Update MasterProject by id
+//  * @param {ObjectId} projectId
+//  * @param {Object} updateBody
+//  * @returns {Promise<MasterProject>}
+//  */
+// const updateMasterProjectById = async (projectId, updateBody) => {
+//   const masterProject = await getMasterProjectById(projectId);
+//   if (!masterProject) {
+//     throw new ApiError(httpStatus.NOT_FOUND, 'MasterProject not found');
+//   }
+
+//   // Save the original masterProjectId
+//   const originalMasterProjectId = masterProject.masterProjectId;
+
+//   // Exclude masterProjectId from the updateBody
+//   const { masterProjectId, ...restUpdateBody } = updateBody;
+
+//   // Do not update masterProjectId
+//   delete restUpdateBody.masterProjectId;
+
+//   // Assign the rest of the updateBody properties to masterProject
+//   Object.assign(masterProject, restUpdateBody);
+
+//   // Save the updated masterProject
+//   await masterProject.save();
+
+//   // Set the masterProjectId back to its original value
+//   masterProject.masterProjectId = originalMasterProjectId;
+
+//   return masterProject;
+// };
+
 /**
  * Update MasterProject by id
- * @param {ObjectId} masterProjectId
+ * @param {ObjectId} projectId
  * @param {Object} updateBody
  * @returns {Promise<MasterProject>}
  */
-const updateMasterProjectById = async (masterProjectId, updateBody) => {
-  const masterProject = await getMasterProjectById(masterProjectId);
+const updateMasterProjectById = async (projectId, updateBody) => {
+  const masterProject = await getMasterProjectById(projectId);
   if (!masterProject) {
     throw new ApiError(httpStatus.NOT_FOUND, 'MasterProject not found');
   }
-  Object.assign(masterProject, updateBody);
+
+  // Exclude masterProjectId from the updateBody
+  const { masterProjectId, ...restUpdateBody } = updateBody;
+
+  // Assign the rest of the updateBody properties to masterProject
+  Object.assign(masterProject, restUpdateBody);
+
+  // Save the updated masterProject
   await masterProject.save();
+
   return masterProject;
 };
 
+
+
 /**
  * Delete MasterProject by id
- * @param {ObjectId} masterProjectId
+ * @param {ObjectId} projectId
  * @returns {Promise<MasterProject>}
  */
-const deleteMasterProjectById = async (masterProjectId) => {
-  const masterProject = await getMasterProjectById(masterProjectId);
+const deleteMasterProjectById = async (projectId) => {
+  const masterProject = await getMasterProjectById(projectId);
   if (!masterProject) {
     throw new ApiError(httpStatus.NOT_FOUND, 'MasterProject not found');
   }

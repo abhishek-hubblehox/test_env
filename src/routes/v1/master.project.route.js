@@ -1,7 +1,8 @@
 const express = require('express');
 const auth = require('../../middlewares/auth');
+const validate = require('../../middlewares/validate');
 const { masterProjectController } = require('../../controllers');
-
+const { masterProjectValidation } = require('../../validations');
 const router = express.Router();
 
 router
@@ -10,9 +11,9 @@ router
   .get(masterProjectController.queryMasterProject);
 
 router
-  .route('/:masterProjectId')
+  .route('/:projectId')
   .get(masterProjectController.getMasterProject)
-  .patch(masterProjectController.updateMasterProject)
+  .patch(validate(masterProjectValidation.updateNewSurvey),masterProjectController.updateMasterProject)
   .delete(masterProjectController.deleteMasterProject);
 
 router.route('/filterby/:masterProjectOwnerEmailId').get(masterProjectController.getProjectsByEmail);
@@ -143,7 +144,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /master-project/{masterProjectId}:
+ * /master-project/{projectId}:
  *   get:
  *     summary: Get a MasterProject
  *     tags: [Master Survey Project]
@@ -151,11 +152,11 @@ module.exports = router;
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: masterProjectId
+ *         name: projectId
  *         required: true
  *         schema:
  *           type: string
- *         description: masterProjectId
+ *         description: projectId
  *     responses:
  *       "200":
  *         description: OK
@@ -177,11 +178,11 @@ module.exports = router;
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: masterProjectId
+ *         name: projectId
  *         required: true
  *         schema:
  *           type: string
- *         description: masterProjectId
+ *         description: projectId
  *     requestBody:
  *       required: true
  *       content:
@@ -192,8 +193,48 @@ module.exports = router;
  *               approvelStartDate:
  *                 type: string
  *                 format: date
+ *               approvelEndDate:
+ *                 type: string
+ *                 format: date
+ *               auditStartDate:
+ *                 type: string
+ *                 format: date
+ *               auditEndDate:
+ *                 type: string
+ *                 format: date
+ *               finalSubmit:
+ *                 type: boolean
+ *               projectDetailsSubmit:
+ *                 type: boolean
+ *               masterProjectConductBy:
+ *                 type: string
+ *               projectStatus:
+ *                 type: string
+ *               masterProjectRequireAudit:
+ *                 type: boolean
+ *               masterProjectRequireApproval:
+ *                 type: boolean
+ *               masterProjectApprovedBy:
+ *                 type: string
+ *               masterProjectAuditBy:
+ *                 type: string
+ *               masterProjectId:
+ *                 type: string
  *             example:
  *               approvelStartDate: 2024-01-30
+ *               approvelEndDate: 2024-01-30
+ *               auditStartDate: 2024-01-30
+ *               auditEndDate: 2024-01-30
+ *               finalSubmit: true, false
+ *               projectDetailsSubmit: true, false
+ *               projectStatus: Not-Started, Started, In-progress, Completed
+ *               masterProjectConductBy: Block co-ordinator
+ *               masterProjectRequireAudit: true, false
+ *               masterProjectAuditBy: SME
+ *               masterProjectRequireApproval: true, false
+ *               masterProjectApprovedBy: District co-ordinator
+ *               masterProjectId: DSMF3707
+ * 
  *     responses:
  *       "200":
  *         description: OK
@@ -215,11 +256,11 @@ module.exports = router;
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: masterProjectId
+ *         name: projectId
  *         required: true
  *         schema:
  *           type: string
- *         description: masterProjectId
+ *         description: projectId
  *     responses:
  *       "200":
  *         description: No content
