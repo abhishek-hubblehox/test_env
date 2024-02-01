@@ -2,7 +2,7 @@ const csv = require('csv-parser');
 const httpStatus = require('http-status');
 const fs = require('fs');
 const ApiError = require('../utils/ApiError');
-const { CoordinatorAssignment, User } = require('../models');
+const { CoordinatorAssignment, User, MasterProject } = require('../models');
 // const { userService } = require('../services');
 
 // /**
@@ -48,7 +48,7 @@ const { CoordinatorAssignment, User } = require('../models');
 //     });
 // };
 
-const bulkUpload = async (file, surveyId, surveyAdmin, emailType) => {
+const bulkUpload = async (file, masterProjectId, surveyAdmin, emailType) => {
   const validEmailTypes = ['blockCoordinatorEmails', 'districtCoordinatorEmails', 'divisionCoordinatorEmails', 'smeEmails'];
 
   if (!validEmailTypes.includes(emailType)) {
@@ -117,7 +117,7 @@ const bulkUpload = async (file, surveyId, surveyAdmin, emailType) => {
     return { duplicates: { totalDuplicates: dups.length, data: dups } };
   }
 
-  const existingAssignment = await CoordinatorAssignment.findOne({ surveyId });
+  const existingAssignment = await CoordinatorAssignment.findOne({ masterProjectId });
 
   if (existingAssignment) {
     existingAssignment[emailType] = existingAssignment[emailType].concat(records.map((user) => user.email));
@@ -126,7 +126,7 @@ const bulkUpload = async (file, surveyId, surveyAdmin, emailType) => {
   }
 
   const newAssignment = new CoordinatorAssignment({
-    surveyId,
+    masterProjectId,
     surveyAdmin,
     [emailType]: records.map((user) => user.email),
   });
@@ -250,21 +250,21 @@ const getAssignById = async (id) => {
 
 /**
  * Get CoordinatorAssignment by id
- * @param {String} surveyId
+ * @param {String} masterProjectId
  * @returns {Promise<CoordinatorAssignment>}
  */
-const getAssignBySurveyId = async (surveyId) => {
-  return CoordinatorAssignment.find({ surveyId });
+const getAssignBySurveyId = async (masterProjectId) => {
+  return CoordinatorAssignment.find({ masterProjectId });
 };
 
 /**
  * Update CoordinatorAssignment by id
- * @param {ObjectId} surveyId
+ * @param {ObjectId} assignmentId
  * @param {Object} updateBody
  * @returns {Promise<CoordinatorAssignment>}
  */
-const updateAssignmentIdById = async (surveyId, updateBody) => {
-  const assignment = await getAssignById(surveyId);
+const updateAssignmentIdById = async (assignmentId, updateBody) => {
+  const assignment = await getAssignById(assignmentId);
   if (!assignment) {
     throw new ApiError(httpStatus.NOT_FOUND, 'assignment not found');
   }
@@ -289,11 +289,11 @@ const deleteAssignmentById = async (assignmentId) => {
 
 /**
  * Get users based on email IDs in CoordinatorAssignment arrays
- * @param {string} surveyId - Survey ID
+ * @param {string} masterProjectId - Survey ID
  * @returns {Promise<Array>} - Array of user data matching the email IDs
  */
-const getUsersBySurveyId = async (surveyId) => {
-  const coordinatorAssignment = await CoordinatorAssignment.findOne({ surveyId });
+const getUsersBySurveyId = async (masterProjectId) => {
+  const coordinatorAssignment = await CoordinatorAssignment.findOne({ masterProjectId });
   if (!coordinatorAssignment) {
     throw new Error('CoordinatorAssignment not found for the given surveyId');
   }
@@ -311,6 +311,28 @@ const getUsersBySurveyId = async (surveyId) => {
   return users;
 };
 
+/**
+ * Get list of projects assigned to the coordinator based on email and role
+ * @param {string} email - Email of the coordinator
+ * @param {string} role - Role of the coordinator (block, district, division, SME, etc.)
+ * @returns {Promise<Array>} - Array of assigned projects
+ */
+const getAssignedProjects = async (email, role) => {
+  const coordinatorAssignments = await CoordinatorAssignment.find({
+    [`${role}CoordinatorEmails`]: email,
+  });
+
+  if (!coordinatorAssignments.length) {
+    return []; // No assigned projects
+  }
+
+  const masterProjectIds = coordinatorAssignments.map(({ masterProjectId }) => masterProjectId);
+  const projects = await MasterProject.find({ masterProjectId: { $in: masterProjectIds } });
+
+  return projects;
+};
+
+
 module.exports = {
   bulkUpload,
   getAllCoordinatorAssignments,
@@ -319,4 +341,5 @@ module.exports = {
   getAssignById,
   getAssignBySurveyId,
   getUsersBySurveyId,
+  getAssignedProjects,
 };

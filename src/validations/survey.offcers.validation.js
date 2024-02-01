@@ -3,7 +3,7 @@ const { objectId } = require('./custom.validation');
 
 const assignCoordinatorsValidation = {
   body: Joi.object({
-    surveyId: Joi.string().required(),
+    masterProjectId: Joi.string().required(),
     surveyAdmin: Joi.string().required().custom(objectId),
     blockCoordinatorEmails: Joi.array().items(Joi.string().email()),
     districtCoordinatorEmails: Joi.array().items(Joi.string().email()),
@@ -14,7 +14,7 @@ const assignCoordinatorsValidation = {
 
 const getAllCoordinators = {
   query: Joi.object().keys({
-    surveyId: Joi.string(),
+    masterProjectId: Joi.string(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
@@ -29,12 +29,12 @@ const getAssignment = {
 
 const getAssignmentBySurveyId = {
   params: Joi.object().keys({
-    surveyId: Joi.string(),
+    masterProjectId: Joi.string(),
   }),
 };
 
 const getUsersBySurveyIdValidation = {
-  surveyId: Joi.string(),
+  masterProjectId: Joi.string(),
 };
 
 const updateAssignment = {
@@ -60,11 +60,18 @@ const deleteAssignment = {
 };
 
 const bulkUploadValidationSchema = {
-  surveyId: Joi.string().required(),
+  masterProjectId: Joi.string().required(),
   surveyAdmin: Joi.string(),
   emailType: Joi.string()
     .valid('blockCoordinatorEmails', 'districtCoordinatorEmails', 'divisionCoordinatorEmails', 'smeEmails')
     .required(),
+};
+
+const getProjectsList = {
+  body: Joi.object({
+    email: Joi.string().required(),
+    role: Joi.string().valid('block', 'district', 'division', 'sme').required(),
+  }),
 };
 
 module.exports = {
@@ -76,4 +83,5 @@ module.exports = {
   bulkUploadValidationSchema,
   getAssignmentBySurveyId,
   getUsersBySurveyIdValidation,
+  getProjectsList,
 };

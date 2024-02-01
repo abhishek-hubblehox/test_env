@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
 const coordinatorAssignmentSchema = new mongoose.Schema({
-  surveyId: {
+  masterProjectId: {
     type: String,
     required: true,
     trim: true,

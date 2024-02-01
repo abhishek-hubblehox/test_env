@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
 
 const uploads = multer({ storage });
 router
-  .route('/:surveyId/users')
+  .route('/:masterProjectId/users')
   .get(validate(coordinatorsValidation.getUsersBySurveyIdValidation), coordinatorAssignmentController.getUsersBySurveyId);
 
 router
@@ -35,7 +35,7 @@ router
   .get(validate(coordinatorsValidation.getAssignment), coordinatorAssignmentController.getAssigment)
   .delete(validate(coordinatorsValidation.deleteAssignment), coordinatorAssignmentController.deleteAssigment);
 router
-  .route('/filter/:surveyId')
+  .route('/filter/:masterProjectId')
   .get(validate(coordinatorsValidation.getAssignmentBySurveyId), coordinatorAssignmentController.getAssigmentBySurveyId);
 router
   .route('/assign/bulk-upload')
@@ -44,6 +44,11 @@ router
     validate(coordinatorsValidation.bulkUploadValidationSchema),
     coordinatorAssignmentController.bulkUploadFile
   );
+
+router
+  .route('/getprojects')
+  .post(validate(coordinatorsValidation.getProjectsList), coordinatorAssignmentController.getAssignedProjectsForuser);
+
 module.exports = router;
 
 // /**
@@ -182,15 +187,15 @@ module.exports = router;
 
 /**
  * @swagger
- * /assign-coordinators/filter/{surveyId}:
+ * /assign-coordinators/filter/{masterProjectId}:
  *   get:
  *     summary: Update coordinator assignment by surveyId
  *     tags: [CoordinatorAssignment]
  *     parameters:
  *       - in: path
- *         name: surveyId
+ *         name: masterProjectId
  *         required: true
- *         description: surveyId of the coordinator assignment
+ *         description: masterProjectId of the coordinator assignment
  *     responses:
  *       200:
  *         description: Successfully updated coordinator assignment
@@ -235,7 +240,7 @@ module.exports = router;
  *               file:
  *                 type: string
  *                 format: binary
- *               surveyId:
+ *               masterProjectId:
  *                 type: string
  *               surveyAdmin:
  *                 type: string
@@ -244,12 +249,12 @@ module.exports = router;
  *                 enum: ['blockCoordinatorEmails', 'districtCoordinatorEmails', 'divisionCoordinatorEmails', 'smeEmails']
  *             required:
  *               - file
- *               - surveyId
+ *               - masterProjectId
  *               - surveyAdmin
  *               - emailType
  *             example:
  *               file: (binary data)
- *               surveyId: VEN879
+ *               masterProjectId: VEAN8796
  *               surveyAdmin: 65aa570cfe881bb4c26edbb7
  *               emailType: blockCoordinatorEmails
  *     responses:
@@ -276,15 +281,15 @@ module.exports = router;
 
 /**
  * @swagger
- * /assign-coordinators/{surveyId}/users:
+ * /assign-coordinators/{masterProjectId}/users:
  *   get:
  *     summary: Get users based on email IDs in CoordinatorAssignment arrays
  *     tags: [CoordinatorAssignment]
  *     parameters:
  *       - in: path
- *         name: surveyId
+ *         name: masterProjectId
  *         required: true
- *         description: Survey ID
+ *         description: masterProject ID
  *         schema:
  *           type: string
  *     responses:
@@ -296,4 +301,77 @@ module.exports = router;
  *               users: [{ blockCoordinatorEmails: [...], districtCoordinatorEmails: [...], divisionCoordinatorEmails: [...], smeEmails: [...] }]
  *       404:
  *         description: CoordinatorAssignment not found for the given surveyId
+ */
+
+// /**
+//  * @swagger
+//  * /assign-coordinators/getprojects/{email}/{role}:
+//  *   get:
+//  *     summary: Get users based on email IDs in CoordinatorAssignment arrays
+//  *     tags: [CoordinatorAssignment]
+//  *     parameters:
+//  *       - in: path
+//  *         name: email
+//  *         required: true
+//  *         description: email of the user
+//  *         schema:
+//  *           type: string
+//  *       - in: path
+//  *         name: role
+//  *         required: true
+//  *         description: role of the user
+//  *         schema:
+//  *           type: string
+//  *     responses:
+//  *       "200":
+//  *         description: OK
+//  *         content:
+//  *           application/json:
+//  *             schema:
+//  *               type: object
+//  *               properties:
+//  *                 projects:
+//  *                   type: array
+//  *                   items:
+//  *                     $ref: '#/components/schemas/MasterProject'
+//  *       "401":
+//  *         $ref: '#/components/responses/Unauthorized'
+//  *       "403":
+//  *         $ref: '#/components/responses/Forbidden'
+//  */
+/**
+ * @swagger
+ * /assign-coordinators/getprojects:
+ *   post:
+ *     summary: Get users based on email IDs in CoordinatorAssignment arrays
+ *     tags: [CoordinatorAssignment]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: Email of the user
+ *               role:
+ *                 type: string
+ *                 description: Role of the user
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 projects:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/MasterProject'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
  */
