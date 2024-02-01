@@ -2,28 +2,28 @@ const Joi = require('joi');
 const { objectId } = require('./custom.validation');
 
 const createNewMasterSurvey = {
-    body: Joi.object().keys({
-      masterProjectName: Joi.string().required(),
-      masterProjectPurpose: Joi.string().required(),
-      masterProjectStartDate: Joi.date().required(),
-      masterProjectEndDate: Joi.date().required(),
-      masterProjectOwnerName: Joi.string().required(),
-      masterProjectOwnerEmailId: Joi.string().email().required(),
-      masterProjectOwnerMoNumber: Joi.number().required(),
-      masterProjectConductBy: Joi.string().allow(''),
-      masterProjectRequireAudit: Joi.boolean().default(false),
-      masterProjectAuditBy: Joi.string().allow(''),
-      masterProjectRequireApproval: Joi.boolean().default(false),
-      masterProjectApprovedBy: Joi.string().allow(''),
-      auditStartDate: Joi.date().default(null),
-      auditEndDate: Joi.date().default(null),
-      approvelStartDate: Joi.date().default(null),
-      approvelEndDate: Joi.date().default(null),
-      finalSubmit: Joi.boolean().default(false),
-      projectDetailsSubmit: Joi.boolean().default(false),
-      projectStatus: Joi.string().valid('Not-Started', 'Started', 'In-progress', 'Completed').default('Not-Started'),
-    }),
-  };
+  body: Joi.object().keys({
+    masterProjectName: Joi.string().required(),
+    masterProjectPurpose: Joi.string().required(),
+    masterProjectStartDate: Joi.date().required(),
+    masterProjectEndDate: Joi.date().required(),
+    masterProjectOwnerName: Joi.string().required(),
+    masterProjectOwnerEmailId: Joi.string().email().required(),
+    masterProjectOwnerMoNumber: Joi.number().required(),
+    masterProjectConductBy: Joi.string().allow(''),
+    masterProjectRequireAudit: Joi.boolean().default(false),
+    masterProjectAuditBy: Joi.string().allow(''),
+    masterProjectRequireApproval: Joi.boolean().default(false),
+    masterProjectApprovedBy: Joi.string().allow(''),
+    auditStartDate: Joi.date().default(null),
+    auditEndDate: Joi.date().default(null),
+    approvelStartDate: Joi.date().default(null),
+    approvelEndDate: Joi.date().default(null),
+    finalSubmit: Joi.boolean().default(false),
+    projectDetailsSubmit: Joi.boolean().default(false),
+    projectStatus: Joi.string().valid('Not-Started', 'Started', 'In-progress', 'Completed').default('Not-Started'),
+  }),
+};
 
 const getNewSurveys = {
   query: Joi.object().keys({
@@ -46,19 +46,18 @@ const updateNewSurvey = {
   }),
   body: Joi.object()
     .keys({
-        masterProjectId: Joi.string(),
-        masterProjectConductBy: Joi.string().allow(''),
-        masterProjectRequireAudit: Joi.boolean().default(false),
-        masterProjectAuditBy: Joi.string().allow(''),
-        masterProjectRequireApproval: Joi.boolean().default(false),
-        masterProjectApprovedBy: Joi.string().allow(''),
-        auditStartDate: Joi.date().default(null),
-        auditEndDate: Joi.date().default(null),
-        approvelStartDate: Joi.date().default(null),
-        approvelEndDate: Joi.date().default(null),
-        finalSubmit: Joi.boolean().default(false),
-        projectDetailsSubmit: Joi.boolean().default(false),
-        projectStatus: Joi.string().valid('Not-Started', 'Started', 'In-progress', 'Completed').default('Not-Started'),
+      masterProjectConductBy: Joi.string().allow(''),
+      masterProjectRequireAudit: Joi.boolean().default(false),
+      masterProjectAuditBy: Joi.string().allow(''),
+      masterProjectRequireApproval: Joi.boolean().default(false),
+      masterProjectApprovedBy: Joi.string().allow(''),
+      auditStartDate: Joi.date().default(null),
+      auditEndDate: Joi.date().default(null),
+      approvelStartDate: Joi.date().default(null),
+      approvelEndDate: Joi.date().default(null),
+      finalSubmit: Joi.boolean().default(false),
+      projectDetailsSubmit: Joi.boolean().default(false),
+      projectStatus: Joi.string().valid('Not-Started', 'Started', 'In-progress', 'Completed').default('Not-Started'),
     })
     .min(1),
 };
@@ -77,7 +76,7 @@ const getSurveysByEmail = {
 };
 
 module.exports = {
-    createNewMasterSurvey,
+  createNewMasterSurvey,
   getNewSurveys,
   getNewSurvey,
   updateNewSurvey,

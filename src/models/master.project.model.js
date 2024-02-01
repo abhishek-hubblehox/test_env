@@ -85,21 +85,6 @@ const newMasterSurveySchema = new mongoose.Schema({
   },
 });
 
-function generateRandomString(length, characters) {
-  let result = '';
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * characters.length));
-  }
-  return result;
-}
-
-newMasterSurveySchema.pre('save', function (next) {
-  const randomLetters = generateRandomString(4, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'); // generate 4 random letters
-  const randomDigits = generateRandomString(4, '0123456789'); // generate 4 random digits
-  this.masterProjectId = `${randomLetters}${randomDigits}`;
-  next();
-});
-
 // add plugin that converts mongoose to json
 newMasterSurveySchema.plugin(toJSON);
 newMasterSurveySchema.plugin(paginate);

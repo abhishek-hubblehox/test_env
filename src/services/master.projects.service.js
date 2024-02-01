@@ -9,11 +9,25 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<{ masterProject: MasterProject, subSurveys: NewSurvey[] }>}
  */
 const createMasterSurveyProject = async (masterProjectData, subSurveyData) => {
-  const masterProject = await MasterProject.create(masterProjectData);
+  function generateRandomString(length, characters) {
+    let result = '';
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+  }
+  const randomLetters = generateRandomString(4, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'); // generate 4 random letters
+  const randomDigits = generateRandomString(4, '0123456789'); // generate 4 random digits
+  const masterProjectId = `${randomLetters}${randomDigits}`;
+  const reqBody = {
+    ...masterProjectData,
+    masterProjectId,
+  };
+  const masterProject = await MasterProject.create(reqBody);
   const subSurveys = subSurveyData.map((subSurvey) => {
     const newSubSurvey = new NewSurvey({
       ...subSurvey,
-      masterProjectId: masterProject.masterProjectId,
+      masterProjectId,
       masterProjectOwnerEmailId: masterProject.masterProjectOwnerEmailId,
     });
     return newSubSurvey.save();
@@ -118,8 +132,6 @@ const updateMasterProjectById = async (projectId, updateBody) => {
 
   return masterProject;
 };
-
-
 
 /**
  * Delete MasterProject by id
