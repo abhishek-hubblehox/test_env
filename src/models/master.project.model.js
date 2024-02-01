@@ -74,6 +74,10 @@ const newMasterSurveySchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  projectDetailsSubmit: {
+    type: Boolean,
+    default: false,
+  },
   projectStatus: {
     type: String,
     enum: ['Not-Started', 'Started', 'In-progress', 'Completed'],
