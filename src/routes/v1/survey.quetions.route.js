@@ -17,8 +17,6 @@ router
   .patch(validate(surveyQuetionsValidation.updateSurveyQuetion), surveyQuetionsController.updateSurveyQuetions)
   .delete(validate(surveyQuetionsValidation.deleteSurveyQuetion), surveyQuetionsController.deleteSurveyQuetions);
 
-
-
 module.exports = router;
 // auth(['superadmin']),
 /**

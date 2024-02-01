@@ -332,7 +332,6 @@ const getAssignedProjects = async (email, role) => {
   return projects;
 };
 
-
 module.exports = {
   bulkUpload,
   getAllCoordinatorAssignments,

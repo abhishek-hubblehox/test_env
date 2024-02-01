@@ -3,17 +3,15 @@ const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const { masterProjectController } = require('../../controllers');
 const { masterProjectValidation } = require('../../validations');
+
 const router = express.Router();
 
-router
-  .route('/')
-  .post(masterProjectController.createMasterSurveyProject)
-  .get(masterProjectController.queryMasterProject);
+router.route('/').post(masterProjectController.createMasterSurveyProject).get(masterProjectController.queryMasterProject);
 
 router
   .route('/:projectId')
   .get(masterProjectController.getMasterProject)
-  .patch(validate(masterProjectValidation.updateNewSurvey),masterProjectController.updateMasterProject)
+  .patch(validate(masterProjectValidation.updateNewSurvey), masterProjectController.updateMasterProject)
   .delete(masterProjectController.deleteMasterProject);
 
 router.route('/filterby/:masterProjectOwnerEmailId').get(masterProjectController.getProjectsByEmail);
@@ -218,8 +216,6 @@ module.exports = router;
  *                 type: string
  *               masterProjectAuditBy:
  *                 type: string
- *               masterProjectId:
- *                 type: string
  *             example:
  *               approvelStartDate: 2024-01-30
  *               approvelEndDate: 2024-01-30
@@ -233,8 +229,7 @@ module.exports = router;
  *               masterProjectAuditBy: SME
  *               masterProjectRequireApproval: true, false
  *               masterProjectApprovedBy: District co-ordinator
- *               masterProjectId: DSMF3707
- * 
+ *
  *     responses:
  *       "200":
  *         description: OK
