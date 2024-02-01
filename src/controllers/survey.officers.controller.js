@@ -13,8 +13,8 @@ const bulkUploadFile = catchAsync(async (req, res) => {
     if (req.file.mimetype !== 'text/csv') {
       return res.status(httpStatus.BAD_REQUEST).json({ message: 'Uploaded file must be in CSV format.' });
     }
-    const { surveyId, surveyAdmin, emailType } = req.body;
-    const result = await coordinatorAssignmentServices.bulkUpload(req.file, surveyId, surveyAdmin, emailType);
+    const { masterProjectId, surveyAdmin, emailType } = req.body;
+    const result = await coordinatorAssignmentServices.bulkUpload(req.file, masterProjectId, surveyAdmin, emailType);
 
     return res.status(httpStatus.CREATED).json(result);
   }
@@ -28,7 +28,7 @@ const assignCoordinators = catchAsync(async (req, res) => {
 });
 
 const getAllCoordinatorAssignments = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['surveyId']);
+  const filter = pick(req.query, ['masterProjectId']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const assignments = await coordinatorAssignmentServices.getAllCoordinatorAssignments(filter, options);
   res.status(httpStatus.OK).send(assignments);
@@ -43,7 +43,7 @@ const getAssigment = catchAsync(async (req, res) => {
 });
 
 const getAssigmentBySurveyId = catchAsync(async (req, res) => {
-  const assignment = await coordinatorAssignmentServices.getAssignBySurveyId(req.params.surveyId);
+  const assignment = await coordinatorAssignmentServices.getAssignBySurveyId(req.params.masterProjectId);
   if (!assignment) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Assignment found');
   }
@@ -51,7 +51,7 @@ const getAssigmentBySurveyId = catchAsync(async (req, res) => {
 });
 
 const updateAssigment = catchAsync(async (req, res) => {
-  const assignment = await coordinatorAssignmentServices.updateAssignmentIdById(req.params.surveyId, req.body);
+  const assignment = await coordinatorAssignmentServices.updateAssignmentIdById(req.params.assignmentId, req.body);
   res.send(assignment);
 });
 
@@ -61,10 +61,17 @@ const deleteAssigment = catchAsync(async (req, res) => {
 });
 
 const getUsersBySurveyId = catchAsync(async (req, res) => {
-  const { surveyId } = req.params;
-  const users = await coordinatorAssignmentServices.getUsersBySurveyId(surveyId);
+  const { masterProjectId } = req.params;
+  const users = await coordinatorAssignmentServices.getUsersBySurveyId(masterProjectId);
   res.status(httpStatus.OK).json({ users });
 });
+
+const getAssignedProjectsForuser = catchAsync(async (req, res) => {
+  const { email, role } = req.body;
+  const projects = await coordinatorAssignmentServices.getAssignedProjects(email, role);
+  res.status(httpStatus.OK).json({ projects });
+});
+
 module.exports = {
   bulkUploadFile,
   assignCoordinators,
@@ -74,4 +81,5 @@ module.exports = {
   deleteAssigment,
   getAssigmentBySurveyId,
   getUsersBySurveyId,
+  getAssignedProjectsForuser,
 };
