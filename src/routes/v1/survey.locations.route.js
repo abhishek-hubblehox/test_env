@@ -32,8 +32,10 @@ router
 router
   .route('/:masterProjectId')
   .get(validate(surveyLocationValidation.getSchoolDataBySurveyId), surveyLocationsController.getSchoolDataBySurveyId);
+router.route('/getschoolslist').post(surveyLocationsController.getSchoolDataByMasterProjectIdAndCodeController);
 
 module.exports = router;
+
 /**
  * @swagger
  * tags:
@@ -446,4 +448,46 @@ module.exports = router;
  *           application/json:
  *             example:
  *               message: Internal Server Error
+ */
+
+/**
+ * @swagger
+ * /surveylocation/getschoolslist:
+ *   post:
+ *     summary: Get school data by masterProjectId, role, and code
+ *     tags: [SurveyLocation]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               masterProjectId:
+ *                 type: string
+ *                 description: Master Project Id
+ *               role:
+ *                 type: string
+ *                 description: Role of the user
+ *               code:
+ *                 type: string
+ *                 description: code for block , district and name for division
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 schools:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/School'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *       "404":
+ *         description: Not Found
  */

@@ -40,8 +40,15 @@ const getSchoolDataBySurveyId = catchAsync(async (req, res) => {
   }
 });
 
+const getSchoolDataByMasterProjectIdAndCodeController = catchAsync(async (req, res) => {
+  const { masterProjectId, role, code } = req.body;
+  const schools = await surveyLocationService.getSchoolDataByMasterProjectIdAndCode(masterProjectId, role, code);
+  res.status(httpStatus.OK).json(schools);
+});
+
 module.exports = {
   bulkUploadFile,
   getAllSurveyLocatins,
   getSchoolDataBySurveyId,
+  getSchoolDataByMasterProjectIdAndCodeController,
 };
