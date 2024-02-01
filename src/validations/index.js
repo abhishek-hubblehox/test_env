@@ -8,3 +8,4 @@ module.exports.blockValidation = require('./blocks.validation');
 module.exports.surveyLocationValidation = require('./survey.locations.validation');
 module.exports.coordinatorsValidation = require('./survey.offcers.validation');
 module.exports.surveyQuetionsValidation = require('./survey.quetion.validation');
+module.exports.masterProjectValidation = require('./master.project.validation');

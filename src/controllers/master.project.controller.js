@@ -18,7 +18,7 @@ const queryMasterProject = catchAsync(async (req, res) => {
 });
 
 const getMasterProject = catchAsync(async (req, res) => {
-  const MasterProject = await masterProjectService.getMasterProjectById(req.params.masterProjectId);
+  const MasterProject = await masterProjectService.getMasterProjectById(req.params.projectId);
   if (!MasterProject) {
     throw new ApiError(httpStatus.NOT_FOUND, 'MasterProjectnot found');
   }
@@ -26,12 +26,12 @@ const getMasterProject = catchAsync(async (req, res) => {
 });
 
 const updateMasterProject = catchAsync(async (req, res) => {
-  const MasterProject = await masterProjectService.updateMasterProjectById(req.params.masterProjectId, req.body);
+  const MasterProject = await masterProjectService.updateMasterProjectById(req.params.projectId, req.body);
   res.send(MasterProject);
 });
 
 const deleteMasterProject = catchAsync(async (req, res) => {
-  await masterProjectService.deleteMasterProjectById(req.params.masterProjectId);
+  await masterProjectService.deleteMasterProjectById(req.params.projectId);
   res.status(httpStatus.NO_CONTENT).send();
 });
 

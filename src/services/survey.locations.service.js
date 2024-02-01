@@ -74,42 +74,6 @@ const getSchoolDataBySurveyId = async (masterProjectId) => {
   return schools;
 };
 
-// /**
-//  * Get school data by masterProjectId, role, and code
-//  * @param {String} masterProjectId
-//  * @param {String} role - Role of the coordinator (block, district, division, etc.)
-//  * @param {String} code - Code associated with the role (block_cd_1, district_cd, Division name, etc.)
-//  * @returns {Promise<School[]>}
-//  */
-// const getSchoolDataByMasterProjectIdAndCode = async (masterProjectId, role, code) => {
-//   console.log(masterProjectId, role, code);
-//   const surveyLocation = await SurveyLocation.findOne({ masterProjectId });
-//   if (!surveyLocation) {
-//     throw new Error('Survey location not found');
-//   }
-
-//   let filteredSchools = [];
-//   const udiseSchCodes = surveyLocation.surveyLocations.map((location) => location.udise_sch_code);
-//   const schools = await School.find({ udise_sch_code: { $in: udiseSchCodes } });
-//   switch (role) {
-//     case 'block':
-//       filteredSchools = schools.filter((school) => school.block_cd_1 === code);
-//       break;
-//     case 'district':
-//       filteredSchools = schools.filter((school) => school.district_cd === code);
-//       break;
-//     case 'division':
-//       filteredSchools = schools.filter((school) => school.Division === code);
-//       break;
-//     // Add more cases as needed for other roles
-//     default:
-//       // Handle default case
-//       break;
-//   }
-
-//   return filteredSchools;
-// };
-
 /**
  * Get school data by masterProjectId, role, and code
  * @param {String} masterProjectId
