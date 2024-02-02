@@ -135,14 +135,33 @@ const bulkUpload = async (file, masterProjectId, surveyAdmin, emailType) => {
     return { duplicates: { totalDuplicates: dups.length, data: dups } };
   }
 
-  const existingAssignment = await CoordinatorAssignment.findOne({ masterProjectId });
+
+  const existingAssignment = await CoordinatorAssignment.findOne({ masterProjectId }).exec();
 
   if (existingAssignment) {
-    existingAssignment[emailType] = existingAssignment[emailType].concat(records.map((user) => user.email));
+    const newEmails = records.map((user) => user.email);
+    
+    // Check for duplicates in existing assignment
+    const duplicatesInAssignment = newEmails.filter((email) =>
+      existingAssignment[emailType].includes(email)
+    );
+
+    if (duplicatesInAssignment.length > 0) {
+      return {
+        duplicates: {
+          totalDuplicates: duplicatesInAssignment.length,
+          data: duplicatesInAssignment,
+        },
+      };
+    }
+
+    // Update existing assignment with new emails
+    existingAssignment[emailType] = existingAssignment[emailType].concat(newEmails);
     const result = await existingAssignment.save();
     return { result, duplicates: { totalDuplicates: 0, data: [] } };
   }
 
+  // No existing assignment, create a new one
   const newAssignment = new CoordinatorAssignment({
     masterProjectId,
     surveyAdmin,
@@ -152,6 +171,41 @@ const bulkUpload = async (file, masterProjectId, surveyAdmin, emailType) => {
   const result = await newAssignment.save();
   return { result, duplicates: { totalDuplicates: 0, data: [] } };
 };
+
+
+
+
+//   const existingAssignment = await CoordinatorAssignment.findOne({ masterProjectId });
+
+//   if (existingAssignment) {
+//     existingAssignment[emailType] = existingAssignment[emailType].concat(records.map((user) => user.email));
+//     const result = await existingAssignment.save();
+//     return { result, duplicates: { totalDuplicates: 0, data: [] } };
+//   }
+
+//   const newAssignment = new CoordinatorAssignment({
+//     masterProjectId,
+//     surveyAdmin,
+//     [emailType]: records.map((user) => user.email),
+//   });
+
+//   const result = await newAssignment.save();
+//   return { result, duplicates: { totalDuplicates: 0, data: [] } };
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // const bulkUpload = async (file, surveyId, surveyAdmin, emailType) => {
 //   console.log(file);
