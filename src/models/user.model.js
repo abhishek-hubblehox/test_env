@@ -46,6 +46,7 @@ const userSchema = mongoose.Schema(
     },
     roleAssingedTo: {
       type: String,
+      default: '',
     },
     mobNumber: {
       type: Number,

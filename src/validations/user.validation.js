@@ -45,6 +45,7 @@ const updateUser = {
       mobNumber: Joi.number(),
       password: Joi.string().custom(password),
       name: Joi.string(),
+      roleAssingedTo: Joi.string(),
       role: Joi.string().required().valid('user', 'surveyadmin', 'district', 'division', 'block', 'SME'),
     })
     .min(1),
