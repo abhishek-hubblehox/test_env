@@ -8,14 +8,8 @@ const createNewSurvey = {
     surveyPurpose: Joi.string().required(),
     surveyStartDate: Joi.date().required(),
     surveyEndDate: Joi.date().required(),
-    surveyOwnerName: Joi.string().required(),
-    surveyOwnerEmailId: Joi.string().required(),
-    surveyOwnerMoNumber: Joi.number().required(),
-    surveyConductBy: Joi.string().allow(''),
-    surveyRequireAudit: Joi.string(),
-    surveyAuditBy: Joi.string().allow(''),
-    surveyRequireApproval: Joi.string(),
-    surveyApprovedBy: Joi.string().allow(''),
+    masterProjectOwnerEmailId: Joi.string().required(),
+    masterProjectId: Joi.string().required(),
   }),
 };
 
@@ -41,27 +35,12 @@ const updateNewSurvey = {
   }),
   body: Joi.object()
     .keys({
+      surveyFormId: Joi.string(),
       surveyName: Joi.string(),
       surveyId: Joi.string(),
       surveyPurpose: Joi.string(),
-      surveyStartDate: Joi.string(),
-      surveyEndDate: Joi.string(),
-      surveyOwnerName: Joi.string(),
-      surveyOwnerEmailId: Joi.string(),
-      surveyOwnerMoNumber: Joi.number(),
-      surveyConductBy: Joi.string().required(),
-      surveyRequireAudit: Joi.boolean(),
-      surveyAuditBy: Joi.when('surveyRequireAudit', {
-        is: true,
-        then: Joi.string().required(),
-        otherwise: Joi.string(),
-      }),
-      surveyRequireApproval: Joi.boolean(),
-      surveyApprovedBy: Joi.when('surveyRequireApproval', {
-        is: true,
-        then: Joi.string().required(),
-        otherwise: Joi.string(),
-      }),
+      surveyStartDate: Joi.date(),
+      surveyEndDate: Joi.date(),
     })
     .min(1),
 };

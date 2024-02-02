@@ -33,6 +33,7 @@ const newSurveySchema = new mongoose.Schema({
   },
   surveyFormId: {
     type: String,
+    default:'',
   },
 });
 
