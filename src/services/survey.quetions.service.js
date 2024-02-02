@@ -31,7 +31,7 @@ const querySurveyQuetions = async (filter, options) => {
  * @returns {Promise<SurveyQuetions>}
  */
 const getSurveyQuetionsBySurveyId = async (surveyId) => {
-  return SurveyQuetions.findOne({ surveyId });
+  return SurveyQuetions.findById({ surveyId });
 };
 
 /**
