@@ -59,7 +59,7 @@ module.exports = router;
  *                       type: string
  *                     title:
  *                       type: string
- *               surveyId:
+ *               createdBy:
  *                 type: string
  *             example:
  *               title: "fake name"
@@ -67,7 +67,7 @@ module.exports = router;
  *                 - type: "text"
  *                   name: "name"
  *                   title: "What is your name?"
- *               surveyId: "password1"
+ *               createdBy: "password1"
  *     responses:
  *       "201":
  *         description: Created
@@ -204,7 +204,7 @@ module.exports = router;
  *                       type: string
  *                     title:
  *                       type: string
- *               surveyId:
+ *               createdBy:
  *                 type: string
  *             example:
  *               title: "fake name"
@@ -212,7 +212,7 @@ module.exports = router;
  *                 - type: "text"
  *                   name: "name"
  *                   title: "What is your name?"
- *               surveyId: "password1"
+ *               createdBy: "password1"
  *     responses:
  *       "200":
  *         description: OK
