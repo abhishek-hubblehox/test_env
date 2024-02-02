@@ -27,11 +27,11 @@ const querySurveyQuetions = async (filter, options) => {
 
 /**
  * Get survey quetions by id
- * @param {ObjectId} surveyId
+ * @param {ObjectId} id
  * @returns {Promise<SurveyQuetions>}
  */
-const getSurveyQuetionsBySurveyId = async (surveyId) => {
-  return SurveyQuetions.findById({ surveyId });
+const getSurveyQuetionsBySurveyId = async (id) => {
+  return SurveyQuetions.findById(id);
 };
 
 /**

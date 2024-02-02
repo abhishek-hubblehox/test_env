@@ -99,16 +99,13 @@ const bulkUpload = async (file, masterProjectId, surveyAdmin, emailType) => {
     return { duplicates: { totalDuplicates: dups.length, data: dups } };
   }
 
-
   const existingAssignment = await CoordinatorAssignment.findOne({ masterProjectId }).exec();
 
   if (existingAssignment) {
     const newEmails = records.map((user) => user.email);
-    
+
     // Check for duplicates in existing assignment
-    const duplicatesInAssignment = newEmails.filter((email) =>
-      existingAssignment[emailType].includes(email)
-    );
+    const duplicatesInAssignment = newEmails.filter((email) => existingAssignment[emailType].includes(email));
 
     if (duplicatesInAssignment.length > 0) {
       return {
