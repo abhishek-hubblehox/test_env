@@ -1,0 +1,73 @@
+const httpStatus = require('http-status');
+const { SurveyAnswers } = require('../models');
+const ApiError = require('../utils/ApiError');
+
+/**
+ * Create a survey answer
+ * @param {Object} reqBody
+ * @returns {Promise<SurveyAnswers>}
+ */
+const createSurveyAnswers = async (reqBody) => {
+  return SurveyAnswers.create(reqBody);
+};
+
+/**
+ * Query for survey answer
+ * @param {Object} filter - Mongo filter
+ * @param {Object} options - Query options
+ * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
+ * @param {number} [options.limit] - Maximum number of results per page (default = 10)
+ * @param {number} [options.page] - Current page (default = 1)
+ * @returns {Promise<QueryResult>}
+ */
+const querySurveyAnswers = async (filter, options) => {
+  const results = await SurveyAnswers.paginate(filter, options);
+  return results;
+};
+
+/**
+ * Get survey answer by id
+ * @param {ObjectId} id
+ * @returns {Promise<SurveyAnswers>}
+ */
+const getSurveyAnswersBySurveyId = async (id) => {
+  return SurveyAnswers.findById(id);
+};
+
+/**
+ * Update Survey answer by surveyId
+ * @param {ObjectId} answerId
+ * @param {Object} updateBody
+ * @returns {Promise<SurveyAnswers>}
+ */
+const updateSurveyAnswersBysurveyId = async (answerId, updateBody) => {
+  const quetion = await getSurveyAnswersBySurveyId(answerId);
+  if (!quetion) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Survey questions not found');
+  }
+  Object.assign(quetion, updateBody);
+  await quetion.save();
+  return quetion;
+};
+
+/**
+ * Delete Survey answer by id
+ * @param {ObjectId} answerId
+ * @returns {Promise<SurveyAnswers>}
+ */
+const deleteSurveyAnswersBysurveyId = async (answerId) => {
+  const quetion = await getSurveyAnswersBySurveyId(answerId);
+  if (!quetion) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Survey answers not found');
+  }
+  await quetion.remove();
+  return quetion;
+};
+
+module.exports = {
+  createSurveyAnswers,
+  querySurveyAnswers,
+  getSurveyAnswersBySurveyId,
+  updateSurveyAnswersBysurveyId,
+  deleteSurveyAnswersBysurveyId,
+};

@@ -15,6 +15,18 @@ const surveyAnswerSchema = new mongoose.Schema({
   surveyId: {
     type: String,
   },
+  masterProjectId: {
+    type: String,
+  },
+  surveyFormId: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: 'surveyQuetions',
+    required: true,
+    trim: true,
+  },
+  surveyConductEmail: {
+    type: String,
+  },
 });
 
 // add plugin that converts mongoose to json
