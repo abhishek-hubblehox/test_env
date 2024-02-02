@@ -13,7 +13,7 @@ const createSurveyQuetions = {
         })
       )
       .required(),
-    createdBy: Joi.string().required(),
+    createdById: Joi.string().required(),
   }),
 };
 
@@ -32,6 +32,11 @@ const getSurveyQuetionById = {
   }),
 };
 
+const getSurveyQuetionByCreatedById = {
+  params: Joi.object().keys({
+    createdById: Joi.string(),
+  }),
+};
 const updateSurveyQuetion = {
   params: Joi.object().keys({
     surveyId: Joi.string(),
@@ -47,7 +52,7 @@ const updateSurveyQuetion = {
           choices: Joi.array().items(Joi.string()), // Add this line if 'choices' is optional
         })
       ),
-      createdBy: Joi.string(),
+      createdById: Joi.string(),
     })
     .min(1),
 };
@@ -64,4 +69,5 @@ module.exports = {
   getSurveyQuetionById,
   updateSurveyQuetion,
   deleteSurveyQuetion,
+  getSurveyQuetionByCreatedById,
 };
