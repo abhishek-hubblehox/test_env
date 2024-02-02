@@ -6,7 +6,7 @@ const surveyQuetionsSchema = new mongoose.Schema({
     type: String,
   },
   questions: [{ type: mongoose.Schema.Types.Mixed }],
-  surveyId: {
+  createdBy: {
     type: String,
   },
 });

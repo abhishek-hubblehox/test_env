@@ -47,6 +47,23 @@ const { CoordinatorAssignment, User, MasterProject } = require('../models');
 //       return { result };
 //     });
 // };
+const userBulkFilter = (options) => {
+  return {
+    filter: options.filter || (options.email ? { email: options.email, role: options.role } : {}),
+    getFilter() {
+      return this.filter;
+    },
+  };
+};
+
+const getUserFilterEmailAndRole = async (filter) => {
+  const userFilter = userBulkFilter(filter).getFilter();
+  if (userFilter) {
+    const record = await User.findOne(userFilter).exec();
+    return record;
+  }
+  return null;
+};
 
 const bulkUpload = async (file, masterProjectId, surveyAdmin, emailType) => {
   const validEmailTypes = ['blockCoordinatorEmails', 'districtCoordinatorEmails', 'divisionCoordinatorEmails', 'smeEmails'];
@@ -79,6 +96,7 @@ const bulkUpload = async (file, masterProjectId, surveyAdmin, emailType) => {
 
   // Read CSV file and extract email and other user data
   await new Promise((resolve, reject) => {
+    /* eslint-disable-next-line security/detect-non-literal-fs-filename */
     fs.createReadStream(file.path)
       .pipe(csv())
       .on('data', (row) => {
@@ -133,24 +151,6 @@ const bulkUpload = async (file, masterProjectId, surveyAdmin, emailType) => {
 
   const result = await newAssignment.save();
   return { result, duplicates: { totalDuplicates: 0, data: [] } };
-};
-
-const userBulkFilter = (options) => {
-  return {
-    filter: options.filter || (options.email ? { email: options.email, role: options.role } : {}),
-    getFilter() {
-      return this.filter;
-    },
-  };
-};
-
-const getUserFilterEmailAndRole = async (filter) => {
-  const userFilter = userBulkFilter(filter).getFilter();
-  if (userFilter) {
-    const record = await User.findOne(userFilter).exec();
-    return record;
-  }
-  return null;
 };
 
 // const bulkUpload = async (file, surveyId, surveyAdmin, emailType) => {
@@ -301,13 +301,13 @@ const getUsersBySurveyId = async (masterProjectId) => {
   const emailArrays = ['blockCoordinatorEmails', 'districtCoordinatorEmails', 'divisionCoordinatorEmails', 'smeEmails'];
 
   const users = [];
-
+/* eslint-disable */
   for (const emailArray of emailArrays) {
     const emailIds = coordinatorAssignment[emailArray];
     const usersWithEmails = await User.find({ email: { $in: emailIds } });
     users.push({ [emailArray]: usersWithEmails });
   }
-
+  /* eslint-enable */
   return users;
 };
 

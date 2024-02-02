@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const { join } = require('path');
-const auth = require('../../middlewares/auth');
+// const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const { userValidation } = require('../../validations');
 const { userController } = require('../../controllers');

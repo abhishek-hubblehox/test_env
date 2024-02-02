@@ -11,6 +11,7 @@ const ApiError = require('../utils/ApiError');
 const createMasterSurveyProject = async (masterProjectData, subSurveyData) => {
   function generateRandomString(length, characters) {
     let result = '';
+    // eslint-disable-next-line no-plusplus
     for (let i = 0; i < length; i++) {
       result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
@@ -162,7 +163,7 @@ module.exports = {
   queryMasterSurvey,
   getMasterProjectById,
   updateMasterProjectById,
-  updateMasterProjectById,
+  // updateMasterProjectById,
   deleteMasterProjectById,
   getMasterProjectByEmail,
 };
