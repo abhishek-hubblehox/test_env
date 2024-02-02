@@ -10,43 +10,7 @@ const { CoordinatorAssignment, User, MasterProject } = require('../models');
 //  * @param {Object} assignmentData
 //  * @returns {Promise<CoordinatorAssignment>}
 //  */
-// const assignCoordinators = async (assignmentData) => {
-//   const coordinatorAssignment = new CoordinatorAssignment(assignmentData);
-//   const result = await coordinatorAssignment.save();
-//   return result;
-// };
 
-// const bulkUpload = async (file, surveyId, surveyAdmin, emailType) => {
-//   const validEmailTypes = ['blockCoordinatorEmails', 'districtCoordinatorEmails', 'divisionCoordinatorEmails', 'smeEmails'];
-//   if (!validEmailTypes.includes(emailType)) {
-//     throw new Error('Invalid emailType');
-//   }
-//   const emails = [];
-//   fs.createReadStream(file.path)
-//     .pipe(csv())
-//     .on('data', (row) => {
-//       const { email } = row;
-//       if (email) {
-//         emails.push(email);
-//       }
-//     })
-//     .on('end', async () => {
-//       const existingAssignment = await CoordinatorAssignment.findOne({ surveyId });
-
-//       if (existingAssignment) {
-//         existingAssignment[emailType] = existingAssignment[emailType].concat(emails);
-//         const result = await existingAssignment.save();
-//         return { result };
-//       }
-//       const newAssignment = new CoordinatorAssignment({
-//         surveyId,
-//         surveyAdmin,
-//         [emailType]: emails,
-//       });
-//       const result = await newAssignment.save();
-//       return { result };
-//     });
-// };
 const userBulkFilter = (options) => {
   return {
     filter: options.filter || (options.email ? { email: options.email, role: options.role } : {}),
@@ -172,9 +136,6 @@ const bulkUpload = async (file, masterProjectId, surveyAdmin, emailType) => {
   return { result, duplicates: { totalDuplicates: 0, data: [] } };
 };
 
-
-
-
 //   const existingAssignment = await CoordinatorAssignment.findOne({ masterProjectId });
 
 //   if (existingAssignment) {
@@ -191,91 +152,6 @@ const bulkUpload = async (file, masterProjectId, surveyAdmin, emailType) => {
 
 //   const result = await newAssignment.save();
 //   return { result, duplicates: { totalDuplicates: 0, data: [] } };
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const bulkUpload = async (file, surveyId, surveyAdmin, emailType) => {
-//   console.log(file);
-//   const validEmailTypes = ['blockCoordinatorEmails', 'districtCoordinatorEmails', 'divisionCoordinatorEmails', 'smeEmails'];
-//   let role;
-//   if (validEmailTypes.includes(emailType)) {
-//     if(emailType = 'blockCoordinatorEmails'){
-//       return role = 'block'
-//     }
-//     else if(emailType = 'districtCoordinatorEmails'){
-//       return role = 'district'
-//     }
-//     else if(emailType = 'divisionCoordinatorEmails'){
-//       return role = 'division'
-//     }
-//     else if(emailType = 'smeEmails'){
-//       return role = 'SME'
-//     }
-//     throw new Error('Invalid emailType');
-//   }
-// console.log(role);
-//   const emails = [];
-//   const invalidEmails = [];
-
-//   // Read and parse the CSV file
-//   await new Promise((resolve, reject) => {
-//     fs.createReadStream(file.path)
-//       .pipe(csv())
-//       .on('data', async (row) => {
-//         console.log(row);
-//         const email = row.email;
-//         if (email) {
-//           console.log(email);
-//           const { isEmailTaken, isValidRole, userRole } = await userService.checkEmailAndRole(email, role);
-//           if (isEmailTaken && isValidRole) {
-//             emails.push(email);
-//           } else {
-//             invalidEmails.push({ email, isValidRole, userRole });
-//           }
-//         }
-//       })
-//       .on('end', () => {
-//         resolve();
-//       })
-//       .on('error', (error) => {
-//         reject(error);
-//       });
-//   });
-
-//   if (invalidEmails.length > 0) {
-//     // Handle invalid emails
-//     return { invalidEmails, validEmails: [], message: 'Invalid emails or incorrect roles' };
-//   }
-
-//   const existingAssignment = await CoordinatorAssignment.findOne({ surveyId });
-
-//   if (existingAssignment) {
-//     existingAssignment[emailType] = existingAssignment[emailType].concat(emails);
-//     const result = await existingAssignment.save();
-//     return { validEmails: emails, invalidEmails: [], result, message: 'Successfully updated Coordinator Assignment' };
-//   }
-
-//   const newAssignment = new CoordinatorAssignment({
-//     surveyId,
-//     surveyAdmin,
-//     [emailType]: emails,
-//   });
-
-//   const result = await newAssignment.save();
-//   return { validEmails: emails, invalidEmails: [], result, message: 'Successfully added Coordinator Assignment' };
 // };
 
 /**
