@@ -33,6 +33,14 @@ const querySurveyQuetions = async (filter, options) => {
 const getSurveyQuetionsBySurveyId = async (id) => {
   return SurveyQuetions.findById(id);
 };
+/**
+ * Get survey quetions by createdById
+ * @param {ObjectId} createdById
+ * @returns {Promise<SurveyQuetions>}
+ */
+const getSurveyQuetionsBycreatedById = async (createdById) => {
+  return SurveyQuetions.find({ createdById });
+};
 
 /**
  * Update Survey Quetions by surveyId
@@ -70,4 +78,5 @@ module.exports = {
   getSurveyQuetionsBySurveyId,
   updateSurveyQuetionsBysurveyId,
   deleteSurveyQuetionsBysurveyId,
+  getSurveyQuetionsBycreatedById,
 };

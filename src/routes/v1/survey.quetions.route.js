@@ -17,6 +17,10 @@ router
   .patch(validate(surveyQuetionsValidation.updateSurveyQuetion), surveyQuetionsController.updateSurveyQuetions)
   .delete(validate(surveyQuetionsValidation.deleteSurveyQuetion), surveyQuetionsController.deleteSurveyQuetions);
 
+router
+  .route('/get-created-by/:createdById')
+  .get(validate(surveyQuetionsValidation.getSurveyQuetionByCreatedById), surveyQuetionsController.getSurveyQuetionsBycreatedById);
+
 module.exports = router;
 // auth(['superadmin']),
 /**
@@ -59,7 +63,7 @@ module.exports = router;
  *                       type: string
  *                     title:
  *                       type: string
- *               createdBy:
+ *               createdById:
  *                 type: string
  *             example:
  *               title: "fake name"
@@ -67,7 +71,7 @@ module.exports = router;
  *                 - type: "text"
  *                   name: "name"
  *                   title: "What is your name?"
- *               createdBy: "password1"
+ *               createdById: "password1"
  *     responses:
  *       "201":
  *         description: Created
@@ -204,7 +208,7 @@ module.exports = router;
  *                       type: string
  *                     title:
  *                       type: string
- *               createdBy:
+ *               createdById:
  *                 type: string
  *             example:
  *               title: "fake name"
@@ -212,7 +216,7 @@ module.exports = router;
  *                 - type: "text"
  *                   name: "name"
  *                   title: "What is your name?"
- *               createdBy: "password1"
+ *               createdById: "password1"
  *     responses:
  *       "200":
  *         description: OK
@@ -243,6 +247,38 @@ module.exports = router;
  *     responses:
  *       "200":
  *         description: No content
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
+ */
+
+
+/**
+ * @swagger
+ * /survey-questions/get-created-by/{createdById}:
+ *   get:
+ *     summary: Get a suervey quetions
+ *     description: Logged in Surevy Quetions can fetch only their own user information. Only admins can fetch other Surevy Quetions.
+ *     tags: [Survey Quetions]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: createdById
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: surveyId
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/SurveyQuetions'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":

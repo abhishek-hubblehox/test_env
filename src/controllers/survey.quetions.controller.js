@@ -23,6 +23,13 @@ const getSurveyQuetion = catchAsync(async (req, res) => {
   }
   res.send(quetion);
 });
+const getSurveyQuetionsBycreatedById = catchAsync(async (req, res) => {
+  const quetion = await surveyQuetionsService.getSurveyQuetionsBycreatedById(req.params.createdById);
+  if (!quetion) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Survey questions not found');
+  }
+  res.send(quetion);
+});
 
 const updateSurveyQuetions = catchAsync(async (req, res) => {
   const quetion = await surveyQuetionsService.updateSurveyQuetionsBysurveyId(req.params.surveyId, req.body);
@@ -40,4 +47,5 @@ module.exports = {
   getSurveyQuetion,
   updateSurveyQuetions,
   deleteSurveyQuetions,
+  getSurveyQuetionsBycreatedById,
 };
