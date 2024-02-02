@@ -39,7 +39,7 @@ const getSurveyQuetionsBySurveyId = async (id) => {
  * @returns {Promise<SurveyQuetions>}
  */
 const getSurveyQuetionsBycreatedById = async (createdById) => {
-  return SurveyQuetions.findOne({ createdById });
+  return SurveyQuetions.find({ createdById });
 };
 
 /**
