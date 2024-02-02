@@ -49,9 +49,8 @@ module.exports = router;
  *               - surveyPurpose
  *               - surveyStartDate
  *               - surveyEndDate
- *               - surveyOwnerName
- *               - surveyOwnerEmailId
- *               - surveyOwnerMoNumber
+ *               - masterProjectOwnerEmailId
+ *               - masterProjectId
  *             properties:
  *               surveyName:
  *                 type: string
@@ -63,20 +62,17 @@ module.exports = router;
  *               surveyEndDate:
  *                 type: string
  *                 format: date
- *               surveyOwnerName:
+ *               masterProjectOwnerEmailId:
  *                 type: string
- *               surveyOwnerEmailId:
+ *               masterProjectId:
  *                 type: string
- *               surveyOwnerMoNumber:
- *                 type: number
  *             example:
  *               surveyName: Vending Machine Installation
  *               surveyPurpose: multiple installation of vending machine in schools
  *               surveyStartDate: 2024-01-01
  *               surveyEndDate: 2024-01-31
- *               surveyOwnerName: John Doe
- *               surveyOwnerEmailId: john@example.com
- *               surveyOwnerMoNumber: 1234567890
+ *               masterProjectOwnerEmailId: john@example.com
+ *               masterProjectId: ABCD1234
  *     responses:
  *       "201":
  *         description: Created
@@ -208,21 +204,7 @@ module.exports = router;
  *               surveyEndDate:
  *                 type: string
  *                 format: date
- *               surveyOwnerName:
- *                 type: string
- *               surveyOwnerEmailId:
- *                 type: string
- *               surveyOwnerMoNumber:
- *                 type: number
- *               surveyConductBy:
- *                 type: string
- *               surveyRequireAudit:
- *                 type: boolean
- *               surveyAuditBy:
- *                 type: string
- *               surveyRequireApproval:
- *                 type: boolean
- *               surveyApprovedBy:
+ *               surveyFormId:
  *                 type: string
  *             example:
  *               surveyName: Vending Machine Installation
@@ -230,14 +212,7 @@ module.exports = router;
  *               surveyPurpose: multiple installation of vending machine in schools
  *               surveyStartDate: 2024-01-01
  *               surveyEndDate: 2024-01-31
- *               surveyOwnerName: John Doe
- *               surveyOwnerEmailId: john@example.com
- *               surveyOwnerMoNumber: 1234567890
- *               surveyConductBy: Block co-ordinator, District co-ordinator
- *               surveyRequireAudit: false,true
- *               surveyAuditBy: SME
- *               surveyRequireApproval: false ,true
- *               surveyApprovedBy: District co-ordinator
+ *               surveyFormId: 65b8e8428bc57009fe403698
  *     responses:
  *       "200":
  *         description: OK
