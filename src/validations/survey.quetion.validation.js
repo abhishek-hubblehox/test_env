@@ -13,7 +13,7 @@ const createSurveyQuetions = {
         })
       )
       .required(),
-    surveyId: Joi.string().required(),
+    createdBy: Joi.string().required(),
   }),
 };
 
@@ -47,7 +47,7 @@ const updateSurveyQuetion = {
           choices: Joi.array().items(Joi.string()), // Add this line if 'choices' is optional
         })
       ),
-      surveyId: Joi.string(),
+      createdBy: Joi.string(),
     })
     .min(1),
 };

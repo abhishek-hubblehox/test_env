@@ -19,6 +19,7 @@ const paginate = (schema) => {
    * @param {number} [options.page] - Current page (default = 1)
    * @returns {Promise<QueryResult>}
    */
+  /* eslint-disable no-param-reassign */
   schema.statics.paginate = async function (filter, options) {
     let sort = '';
     if (options.sortBy) {
@@ -31,7 +32,7 @@ const paginate = (schema) => {
     } else {
       sort = 'createdAt';
     }
-
+    /* eslint-enable no-param-reassign */
     // Check if the limit is provided and greater than 0, otherwise set it to 0 to retrieve all data
     const limit = options.limit && parseInt(options.limit, 10) > 0 ? parseInt(options.limit, 10) : 0;
     const page = options.page && parseInt(options.page, 10) > 0 ? parseInt(options.page, 10) : 1;
@@ -51,14 +52,9 @@ const paginate = (schema) => {
 
     // Reverse the documents before applying pagination
     docsPromise = docsPromise.sort({ _id: -1 });
-
     if (options.populate) {
       options.populate.split(',').forEach((populateOption) => {
-        docsPromise = docsPromise.populate(
-          populateOption
-            .split('.')
-            .reduce((a, b) => ({ path: b, populate: a }))
-        );
+        docsPromise = docsPromise.populate(populateOption.split('.').reduce((a, b) => ({ path: b, populate: a })));
       });
     }
 

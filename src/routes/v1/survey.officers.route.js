@@ -115,22 +115,64 @@ module.exports = router;
  * @swagger
  * /assign-coordinators:
  *   get:
- *     summary: Get all coordinator assignments
+ *     summary: Get all CoordinatorAssignment
+ *     description: Only admins can retrieve all CoordinatorAssignment.
  *     tags: [CoordinatorAssignment]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: surveyId
+ *         schema:
+ *           type: string
+ *         description: surveyId
+ *       - in: query
+ *         name: sortBy
+ *         schema:
+ *           type: string
+ *         description: sort by query in the form of field:desc/asc (ex. name:asc)
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *         default: 10
+ *         description: Maximum number of SurveyLocation
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           default: 1
+ *         description: Page number
  *     responses:
- *       200:
- *         description: Successfully retrieved coordinator assignments
+ *       "200":
+ *         description: OK
  *         content:
  *           application/json:
- *             example:
- *               message: Coordinator assignments retrieved successfully
- *               data: [{}]
- *       500:
- *         description: Internal Server Error
- *         content:
- *           application/json:
- *             example:
- *               message: Internal Server Error
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 results:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/SurveyLocation'
+ *                 page:
+ *                   type: integer
+ *                   example: 1
+ *                 limit:
+ *                   type: integer
+ *                   example: 10
+ *                 totalPages:
+ *                   type: integer
+ *                   example: 1
+ *                 totalResults:
+ *                   type: integer
+ *                   example: 1
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
  */
 
 /**
