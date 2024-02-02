@@ -18,6 +18,9 @@ const surveyAnswerSchema = new mongoose.Schema({
   masterProjectId: {
     type: String,
   },
+  udise_sch_code: {
+    type: Number,
+  },
   surveyFormId: {
     type: mongoose.SchemaTypes.ObjectId,
     ref: 'surveyQuetions',

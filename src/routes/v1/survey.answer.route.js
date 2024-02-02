@@ -46,6 +46,7 @@ module.exports = router;
  *               - masterProjectId
  *               - surveyFormId
  *               - surveyConductEmail
+ *               - udise_sch_code
  *             properties:
  *               surveyQuetions:
  *                 type: array
@@ -64,6 +65,8 @@ module.exports = router;
  *                 type: string
  *               surveyConductEmail:
  *                 type: string
+ *               udise_sch_code:
+ *                 type: number
  *             example:
  *               surveyQuetions:
  *                 - quetion: "What is your name?"
@@ -72,6 +75,7 @@ module.exports = router;
  *               masterProjectId: "projectId1"
  *               surveyFormId: "65b8e8428bc57009fe403698"
  *               surveyConductEmail: "john@example.com"
+ *               udise_sch_code : 27040108712
  *     responses:
  *       "201":
  *         description: Created
