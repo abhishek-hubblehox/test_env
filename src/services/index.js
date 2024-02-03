@@ -12,3 +12,4 @@ module.exports.surveyLocationService = require('./survey.locations.service');
 module.exports.coordinatorAssignmentServices = require('./survey.officers.service');
 module.exports.surveyQuetionsService = require('./survey.quetions.service');
 module.exports.surveyAnswerService = require('./survey.answer.service');
+module.exports.OfficersService = require('./officers.service');

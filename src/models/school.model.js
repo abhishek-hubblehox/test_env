@@ -16,7 +16,10 @@ const schoolSchema = new mongoose.Schema({
   Village_Name: String,
   cluster_cd: Number,
   Cluster_Name: String,
-  udise_sch_code: Number,
+  udise_sch_code: {
+    type: String,
+    uniqe: true,
+  },
   school_name: String,
   address: String,
   pincode: Number,

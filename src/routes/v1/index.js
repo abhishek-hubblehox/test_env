@@ -11,6 +11,7 @@ const coordinatorAssignmentRoute = require('./survey.officers.route');
 const masterProjectRoute = require('./master.project.route');
 const surveyQuetionsRoute = require('./survey.quetions.route');
 const surveyAnswersRoute = require('./survey.answer.route');
+const officerRoute = require('./officer.route');
 
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
@@ -65,6 +66,10 @@ const defaultRoutes = [
   {
     path: '/survey-answers',
     route: surveyAnswersRoute,
+  },
+  {
+    path: '/officer',
+    route: officerRoute,
   },
 ];
 

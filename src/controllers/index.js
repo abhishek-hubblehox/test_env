@@ -10,3 +10,4 @@ module.exports.surveyLocationsController = require('./survey.locations.controlle
 module.exports.coordinatorAssignmentController = require('./survey.officers.controller');
 module.exports.surveyQuetionsController = require('./survey.quetions.controller');
 module.exports.surveyAnswerController = require('./survey.answer.controller');
+module.exports.officerController = require('./officer.controller');
