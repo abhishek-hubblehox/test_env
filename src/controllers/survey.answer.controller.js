@@ -34,10 +34,17 @@ const deleteSurveyAnswers = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const filterSurveyAnswersController = catchAsync(async (req, res) => {
+  const {surveyId, masterProjectId, surveyFormId,surveyConductEmail,udise_sch_code } = req.params;
+  const surveyAnswers = await surveyAnswerService.filterSurveyAnswers(surveyId, masterProjectId, surveyFormId,surveyConductEmail,udise_sch_code);
+  res.status(httpStatus.OK).json({ surveyAnswers });
+});
+
 module.exports = {
   createSurveyAnswers,
   getSurveyAnswers,
   getSurveyAnswer,
   updateSurveyAnswers,
   deleteSurveyAnswers,
+  filterSurveyAnswersController,
 };
