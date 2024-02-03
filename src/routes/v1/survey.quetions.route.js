@@ -19,7 +19,10 @@ router
 
 router
   .route('/get-created-by/:createdById')
-  .get(validate(surveyQuetionsValidation.getSurveyQuetionByCreatedById), surveyQuetionsController.getSurveyQuetionsBycreatedById);
+  .get(
+    validate(surveyQuetionsValidation.getSurveyQuetionByCreatedById),
+    surveyQuetionsController.getSurveyQuetionsBycreatedById
+  );
 
 module.exports = router;
 // auth(['superadmin']),
@@ -254,7 +257,6 @@ module.exports = router;
  *       "404":
  *         $ref: '#/components/responses/NotFound'
  */
-
 
 /**
  * @swagger

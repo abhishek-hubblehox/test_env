@@ -10,3 +10,7 @@ module.exports.SurveyLocation = require('./survey.locations.model');
 module.exports.CoordinatorAssignment = require('./survey.officers.model');
 module.exports.SurveyQuetions = require('./survey.quetions.model');
 module.exports.SurveyAnswers = require('./survey.answer.model');
+module.exports.BlockOfficer = require('./blockOfficer.model');
+module.exports.DistrictOfficer = require('./distictOfficer.model');
+module.exports.DivisionOfficer = require('./divisionofficer.model');
+module.exports.SMEOfficer = require('./smeofficer.model');

@@ -1,4 +1,3 @@
-const { School } = require('../models');
 const csv = require('csvtojson');
 
 // const bulkUpload = async (schoolArray, csvFilePath = null) => {
@@ -60,10 +59,10 @@ const csv = require('csvtojson');
 //   }
 // };
 
-
 // const csv = require('csvtojson');
 
 const fs = require('fs');
+const { School } = require('../models');
 // const csv = require('csv-parser');
 
 const bulkUpload = async (schoolArray, csvFilePath = null) => {
@@ -105,8 +104,6 @@ const bulkUpload = async (schoolArray, csvFilePath = null) => {
     throw new Error(`Bulk upload failed: ${error.message}`);
   }
 };
-
-
 
 /**
  * Query for school

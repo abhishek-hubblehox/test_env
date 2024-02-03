@@ -258,6 +258,34 @@ const getAssignedProjects = async (email, role) => {
 
   return projects;
 };
+const getAssignedProjectsRole = async (role, email) => {
+  let OfficerModel;
+
+  switch (role) {
+    case 'block':
+      OfficerModel = require('../models/blockOfficer.model');
+      break;
+    case 'district':
+      OfficerModel = require('../models/distictOfficer.model');
+      break;
+    case 'division':
+      OfficerModel = require('../models/divisionofficer.model');
+      break;
+    case 'SME':
+      OfficerModel = require('../models/smeofficer.model');
+      break;
+    default:
+      throw new Error('Invalid role');
+  }
+
+  // Fetch data from Officer collection
+  const coordinatorAssignments = await OfficerModel.find({ email }).exec();
+
+  const masterProjectIds = coordinatorAssignments.map(({ masterProjectId }) => masterProjectId);
+  const projects = await MasterProject.find({ masterProjectId: { $in: masterProjectIds } });
+
+  return projects;
+};
 
 module.exports = {
   bulkUpload,
