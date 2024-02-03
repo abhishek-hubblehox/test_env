@@ -17,7 +17,7 @@ const schoolSchema = new mongoose.Schema({
   cluster_cd: Number,
   Cluster_Name: String,
   udise_sch_code: {
-    type: String,
+    type: Number,
     uniqe: true,
   },
   school_name: String,

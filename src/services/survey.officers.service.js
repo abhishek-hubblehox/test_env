@@ -244,23 +244,22 @@ const getUsersBySurveyId = async (masterProjectId) => {
  * @param {string} role - Role of the coordinator (block, district, division, SME, etc.)
  * @returns {Promise<Array>} - Array of assigned projects
  */
+// const getAssignedProjects = async (email, role) => {
+//   const coordinatorAssignments = await CoordinatorAssignment.find({
+//     [`${role}CoordinatorEmails`]: email,
+//   });
+
+//   if (!coordinatorAssignments.length) {
+//     return []; // No assigned projects
+//   }
+
+//   const masterProjectIds = coordinatorAssignments.map(({ masterProjectId }) => masterProjectId);
+//   const projects = await MasterProject.find({ masterProjectId: { $in: masterProjectIds } });
+
+//   return projects;
+// };
 const getAssignedProjects = async (email, role) => {
-  const coordinatorAssignments = await CoordinatorAssignment.find({
-    [`${role}CoordinatorEmails`]: email,
-  });
-
-  if (!coordinatorAssignments.length) {
-    return []; // No assigned projects
-  }
-
-  const masterProjectIds = coordinatorAssignments.map(({ masterProjectId }) => masterProjectId);
-  const projects = await MasterProject.find({ masterProjectId: { $in: masterProjectIds } });
-
-  return projects;
-};
-const getAssignedProjectsRole = async (role, email) => {
   let OfficerModel;
-
   switch (role) {
     case 'block':
       OfficerModel = require('../models/blockOfficer.model');
