@@ -39,7 +39,7 @@ const filterSurveyAnswersController = catchAsync(async (req, res) => {
   const surveyAnswers = await surveyAnswerService.filterSurveyAnswers(surveyId, masterProjectId, surveyFormId, surveyConductEmail, udise_sch_code);
 
   if (!surveyAnswers || surveyAnswers.length === 0) {
-    return res.status(httpStatus.NOT_FOUND).json({ message: 'Data not found' });
+    return res.status(httpStatus.OK).json({ message: 'Data not found' });
   }
 
   res.status(httpStatus.OK).json(surveyAnswers);
