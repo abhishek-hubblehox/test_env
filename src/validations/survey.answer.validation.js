@@ -58,10 +58,21 @@ const deleteSurveyAnswer = {
   }),
 };
 
+const filterSurveyAnswer = {
+  params: Joi.object().keys({
+    surveyId: Joi.string().required(),
+    masterProjectId: Joi.string().required(),
+    surveyFormId: Joi.string().required(),
+    surveyConductEmail: Joi.string().required(),
+    udise_sch_code: Joi.number().required(),
+  }),
+};
+
 module.exports = {
   createSurveyAnswers,
   getSurveyAnswers,
   getSurveyAnswerById,
   updateSurveyAnswer,
   deleteSurveyAnswer,
+  filterSurveyAnswer,
 };
