@@ -25,6 +25,27 @@ const uploadsFolder = join(staticFolder, 'uploads');
 // });
 
 // controller
+// const bulkUploadFile = catchAsync(async (req, res) => {
+//   try {
+//     if (req.file) {
+//       if (req.file.mimetype !== 'text/csv') {
+//         throw new ApiError(httpStatus.BAD_REQUEST, 'Uploaded file must be in CSV format.');
+//       }
+//       const csvFilePath = join(uploadsFolder, req.file.filename);
+//       const csvJsonArray = await csv().fromFile(csvFilePath);
+//       await schoolService.bulkUpload(null, csvJsonArray);
+//       res.status(httpStatus.CREATED).send({ message: 'Data uploaded successfully.' });
+//       res.end();
+//     } else {
+//       throw new ApiError(httpStatus.NOT_FOUND, 'Missing file');
+//     }
+//   } catch (error) {
+//     res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ error: error.message });
+//     res.end();
+//   }
+// });
+
+// controller.js
 const bulkUploadFile = catchAsync(async (req, res) => {
   try {
     if (req.file) {
@@ -32,16 +53,13 @@ const bulkUploadFile = catchAsync(async (req, res) => {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Uploaded file must be in CSV format.');
       }
       const csvFilePath = join(uploadsFolder, req.file.filename);
-      const csvJsonArray = await csv().fromFile(csvFilePath);
-      await schoolService.bulkUpload(csvJsonArray);
+      await schoolService.bulkUpload(null, csvFilePath);
       res.status(httpStatus.CREATED).send({ message: 'Data uploaded successfully.' });
-      res.end();
     } else {
       throw new ApiError(httpStatus.NOT_FOUND, 'Missing file');
     }
   } catch (error) {
     res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ error: error.message });
-    res.end();
   }
 });
 
