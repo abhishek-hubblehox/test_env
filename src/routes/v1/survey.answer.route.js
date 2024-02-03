@@ -19,7 +19,7 @@ router
 router
   .route('/filters/:surveyId/:masterProjectId/:surveyFormId/:surveyConductEmail/:udise_sch_code')
   .get(validate(surveyAnswersValidation.filterSurveyAnswer), surveyAnswerController.filterSurveyAnswersController);
- 
+
 module.exports = router;
 /**
  * @swagger
@@ -196,7 +196,7 @@ module.exports = router;
 //  *         $ref: '#/components/responses/Unauthorized'
 //  *       "403":
 //  *         $ref: '#/components/responses/Forbidden'
-//  * 
+//  *
 //  */
 
 /**

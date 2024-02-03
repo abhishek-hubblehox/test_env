@@ -13,7 +13,7 @@ const createSurveyAnswers = {
     surveyId: Joi.string().required(),
     masterProjectId: Joi.string().required(),
     surveyFormId: Joi.string().required(),
-    udise_sch_code : Joi.number().required(),
+    udise_sch_code: Joi.number().required(),
     surveyConductEmail: Joi.string().required(),
   }),
 };
