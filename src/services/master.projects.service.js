@@ -24,10 +24,16 @@ const createMasterSurveyProject = async (masterProjectData, subSurveyData) => {
     ...masterProjectData,
     masterProjectId,
   };
+
   const masterProject = await MasterProject.create(reqBody);
   const subSurveys = subSurveyData.map((subSurvey) => {
+    const surveyName = subSurvey.surveyName.replace(/\s+/g, '').toUpperCase();
+    const randomNumbers = Math.floor(100 + Math.random() * 900); // generate random 3-digit number
+    const surveyId = `${surveyName.slice(0, 3)}${randomNumbers}`;
+  
     const newSubSurvey = new NewSurvey({
       ...subSurvey,
+      surveyId,
       masterProjectId,
       masterProjectOwnerEmailId: masterProject.masterProjectOwnerEmailId,
     });
