@@ -356,6 +356,10 @@ module.exports = router;
  *               $ref: '#/components/schemas/SurveyAnswers'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
- *       "403":
- *         $ref: '#/components/responses/Forbidden'
+ *       "201":
+ *         description: Data not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Data not found
  */
