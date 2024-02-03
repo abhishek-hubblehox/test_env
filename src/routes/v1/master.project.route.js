@@ -216,7 +216,30 @@ module.exports = router;
  *                 type: string
  *               masterProjectAuditBy:
  *                 type: string
+ *               masterProjectName:
+ *                 type: string
+ *               masterProjectPurpose:
+ *                 type: string
+ *               masterProjectStartDate:
+ *                 type: string
+ *                 format: date
+ *               masterProjectEndDate:
+ *                 type: string
+ *                 format: date
+ *               masterProjectOwnerName:
+ *                 type: string
+ *               masterProjectOwnerEmailId:
+ *                 type: string
+ *               masterProjectOwnerMoNumber:
+ *                 type: number
  *             example:
+ *               masterProjectName : Your Project Name
+ *               masterProjectPurpose : Your Project Purpose
+ *               masterProjectStartDate : 2024-01-30
+ *               masterProjectEndDate : 2024-01-30
+ *               masterProjectOwnerName : owner Name
+ *               masterProjectOwnerEmailId : owner@example.com
+ *               masterProjectOwnerMoNumber : 1234567890
  *               approvelStartDate: 2024-01-30
  *               approvelEndDate: 2024-01-30
  *               auditStartDate: 2024-01-30
