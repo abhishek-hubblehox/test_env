@@ -64,10 +64,27 @@ const deleteSurveyAnswersBysurveyId = async (answerId) => {
   return quetion;
 };
 
+/**
+ * Create a survey answer
+ * @param {Object} surveyId
+ * @param {Object} masterProjectId
+ * @param {Object} surveyFormId
+ * @param {Object} surveyConductEmail
+ * @param {Object} udise_sch_code
+ * @returns {Promise<SurveyAnswers>}
+ */
+
+const filterSurveyAnswers = async (surveyId, masterProjectId, surveyFormId, surveyConductEmail, udise_sch_code) => {
+  const filter = { surveyId, masterProjectId, surveyFormId, surveyConductEmail, udise_sch_code };
+  const surveyAnswers = await SurveyAnswers.find(filter);
+  return surveyAnswers;
+};
+
 module.exports = {
   createSurveyAnswers,
   querySurveyAnswers,
   getSurveyAnswersBySurveyId,
   updateSurveyAnswersBysurveyId,
   deleteSurveyAnswersBysurveyId,
+  filterSurveyAnswers,
 };
