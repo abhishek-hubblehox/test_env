@@ -12,10 +12,17 @@ const smeOfficerSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  email: {
+  sme_EmailId: {
     type: String,
     required: true,
   },
+  block_code: {
+    type: Number,
+  },
+  // email: {
+  //   type: String,
+  //   required: true,
+  // },
 });
 
 // add plugin that converts mongoose to json

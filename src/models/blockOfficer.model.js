@@ -12,9 +12,12 @@ const blockOfficerSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  email: {
+  block_Coordinator_EmailId: {
     type: String,
     required: true,
+  },
+  block_code: {
+    type: Number,
   },
 });
 

@@ -18,13 +18,13 @@ const smeOfficerBulkUpload = async (csvFilePath, surveyAdmin, masterProjectId) =
     smeOfficers.map(async (smeOfficer) => {
       try {
         const smeOfficerFound = await SMEOfficer.findOne({
-          email: smeOfficer.email,
+          sme_EmailId: smeOfficer.sme_EmailId,
           masterProjectId,
         });
 
         // Check if the email exists in the User model
         const userFound = await User.findOne({
-          email: smeOfficer.email,
+          email: smeOfficer.sme_EmailId,
           role: 'SME',
         });
 
@@ -47,16 +47,20 @@ const smeOfficerBulkUpload = async (csvFilePath, surveyAdmin, masterProjectId) =
     data: results.filter((result) => result.duplicate),
   };
 
-  const nonDuplicates = {
-    totalNonDuplicates: results.filter((result) => !result.duplicate).length,
-    data: results.filter((result) => !result.duplicate),
-  };
+  // Fetch non-duplicate SME Officer data from the User collection
+  const nonDuplicates = await Promise.all(
+    results
+      .filter((result) => !result.duplicate)
+      .map(async (result) => {
+        const user = await User.findOne({ email: result.data.sme_EmailId, role: 'SME' });
+        return { smeOfficer: result.data, user };
+      })
+  );
 
   const errors = results.filter((result) => result.error);
   if (errors.length > 0) {
     throw new Error(`Some SME Officers failed to process: ${JSON.stringify(errors)}`);
   }
-
   return { duplicates, nonDuplicates };
 };
 
@@ -77,13 +81,13 @@ const blockOfficerBulkUpload = async (csvFilePath, surveyAdmin, masterProjectId)
     smeOfficers.map(async (smeOfficer) => {
       try {
         const smeOfficerFound = await BlockOfficer.findOne({
-          email: smeOfficer.email,
+          block_Coordinator_EmailId: smeOfficer.block_Coordinator_EmailId,
           masterProjectId,
         });
 
         // Check if the email exists in the User model
         const userFound = await User.findOne({
-          email: smeOfficer.email,
+          email: smeOfficer.block_Coordinator_EmailId,
           role: 'block',
         });
 
@@ -105,10 +109,14 @@ const blockOfficerBulkUpload = async (csvFilePath, surveyAdmin, masterProjectId)
     data: results.filter((result) => result.duplicate),
   };
 
-  const nonDuplicates = {
-    totalNonDuplicates: results.filter((result) => !result.duplicate).length,
-    data: results.filter((result) => !result.duplicate),
-  };
+  const nonDuplicates = await Promise.all(
+    results
+      .filter((result) => !result.duplicate)
+      .map(async (result) => {
+        const user = await User.findOne({ email: result.data.block_Coordinator_EmailId, role: 'block' });
+        return { blockOfficer: result.data, user };
+      })
+  );
 
   const errors = results.filter((result) => result.error);
   if (errors.length > 0) {
@@ -135,13 +143,13 @@ const districtOfficerBulkUpload = async (csvFilePath, surveyAdmin, masterProject
     smeOfficers.map(async (smeOfficer) => {
       try {
         const smeOfficerFound = await DistrictOfficer.findOne({
-          email: smeOfficer.email,
+          district_Coordinator_EmailId: smeOfficer.district_Coordinator_EmailId,
           masterProjectId,
         });
 
         // Check if the email exists in the User model
         const userFound = await User.findOne({
-          email: smeOfficer.email,
+          email: smeOfficer.district_Coordinator_EmailId,
           role: 'district',
         });
 
@@ -163,10 +171,14 @@ const districtOfficerBulkUpload = async (csvFilePath, surveyAdmin, masterProject
     data: results.filter((result) => result.duplicate),
   };
 
-  const nonDuplicates = {
-    totalNonDuplicates: results.filter((result) => !result.duplicate).length,
-    data: results.filter((result) => !result.duplicate),
-  };
+  const nonDuplicates = await Promise.all(
+    results
+      .filter((result) => !result.duplicate)
+      .map(async (result) => {
+        const user = await User.findOne({ email: result.data.district_Coordinator_EmailId, role: 'district' });
+        return { districtOfficer: result.data, user };
+      })
+  );
 
   const errors = results.filter((result) => result.error);
   if (errors.length > 0) {
@@ -193,13 +205,13 @@ const divisinOfficerBulkUpload = async (csvFilePath, surveyAdmin, masterProjectI
     smeOfficers.map(async (smeOfficer) => {
       try {
         const smeOfficerFound = await DivisionOfficer.findOne({
-          email: smeOfficer.email,
+          division_Coordinator_EmailId: smeOfficer.division_Coordinator_EmailId,
           masterProjectId,
         });
 
         // Check if the email exists in the User model
         const userFound = await User.findOne({
-          email: smeOfficer.email,
+          email: smeOfficer.division_Coordinator_EmailId,
           role: 'division',
         });
 
@@ -221,10 +233,14 @@ const divisinOfficerBulkUpload = async (csvFilePath, surveyAdmin, masterProjectI
     data: results.filter((result) => result.duplicate),
   };
 
-  const nonDuplicates = {
-    totalNonDuplicates: results.filter((result) => !result.duplicate).length,
-    data: results.filter((result) => !result.duplicate),
-  };
+  const nonDuplicates = await Promise.all(
+    results
+      .filter((result) => !result.duplicate)
+      .map(async (result) => {
+        const user = await User.findOne({ email: result.data.division_Coordinator_EmailId, role: 'division' });
+        return { divisionOfficer: result.data, user };
+      })
+  );
 
   const errors = results.filter((result) => result.error);
   if (errors.length > 0) {

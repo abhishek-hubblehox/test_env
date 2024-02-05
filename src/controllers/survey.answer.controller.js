@@ -49,7 +49,6 @@ const filterSurveyAnswersController = catchAsync(async (req, res) => {
   }
   res.status(httpStatus.OK).json(surveyAnswers);
 });
-/* eslint-enable camelcase */
 module.exports = {
   createSurveyAnswers,
   getSurveyAnswers,
