@@ -174,6 +174,13 @@ const deleteUserById = async (userId) => {
   await user.remove();
   return user;
 };
+const getUsersByEmails = async (emails) => {
+  if (!Array.isArray(emails)) {
+    return { message: 'Invalid input. "emails" must be an array.' };
+  }
+  const users = await User.find({ email: { $in: emails } });
+  return users;
+};
 
 module.exports = {
   createUser,
@@ -185,4 +192,5 @@ module.exports = {
   bulkUploadUsers,
   checkEmailAndRole,
   checkUserByEmailAndRole,
+  getUsersByEmails,
 };

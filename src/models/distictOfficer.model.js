@@ -12,9 +12,12 @@ const districtOfficerSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  email: {
+  district_Coordinator_EmailId: {
     type: String,
     required: true,
+  },
+  district_code: {
+    type: Number,
   },
 });
 

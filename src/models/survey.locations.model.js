@@ -88,7 +88,7 @@ const surveyLocationSchema = new mongoose.Schema({
   },
   masterProjectConductBy: {
     type: String,
-    required: true,
+    // required: true,
   },
   masterProjectRequireAudit: {
     type: Boolean,
