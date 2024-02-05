@@ -28,7 +28,7 @@ const bulkUpload = async (schoolArray, csvFilePath = null) => {
     }
 
     console.log('Data insertion completed.');
-    mongoose.disconnect(); // Disconnect after processing
+    // mongoose.disconnect(); // Disconnect after processing
 
     // const promises = modifiedSchoolArray.map(async (school) => {
     //   try {
