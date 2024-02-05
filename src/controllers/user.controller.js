@@ -6,11 +6,6 @@ const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { userService } = require('../services');
 
-// const staticFolder = join(__dirname, '../../');
-// const uploadsFolder = join(staticFolder, 'uploads/');
-
-// const uploadsFolder = join(__dirname, '../../uploads');
-
 const bulkUploadFile = catchAsync(async (req, res) => {
   if (req.file) {
     const csvFilePath = join(req.file.path);

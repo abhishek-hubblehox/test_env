@@ -1,20 +1,6 @@
 const Joi = require('joi');
 
 const bulkUploadValidationSchema = {
-  // surveyName: Joi.string().required(),
-  // surveyId: Joi.string(),
-  // surveyPurpose: Joi.string().required(),
-  // surveyStartDate: Joi.date().required(),
-  // surveyEndDate: Joi.date().required(),
-  // surveyOwnerName: Joi.string().required(),
-  // surveyOwnerEmailId: Joi.string().required(),
-  // surveyOwnerMoNumber: Joi.number().required(),
-  // surveyConductBy: Joi.string(),
-  // surveyRequireAudit: Joi.string(),
-  // surveyAuditBy: Joi.string(),
-  // surveyRequireApproval: Joi.string(),
-  // surveyApprovedBy: Joi.string(),
-
   masterProjectName: Joi.string().required(),
   masterProjectId: Joi.string(),
   masterProjectPurpose: Joi.string().required(),
