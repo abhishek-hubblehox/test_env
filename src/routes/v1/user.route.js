@@ -1,7 +1,6 @@
 const express = require('express');
 const multer = require('multer');
 const { join } = require('path');
-// const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const { userValidation } = require('../../validations');
 const { userController } = require('../../controllers');
@@ -34,7 +33,7 @@ router
 
 router.route('/checkuser').post(validate(userValidation.checkUser), userController.checkUser);
 module.exports = router;
-// auth(['superadmin']),
+
 /**
  * @swagger
  * tags:

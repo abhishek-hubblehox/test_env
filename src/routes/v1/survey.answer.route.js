@@ -1,5 +1,4 @@
 const express = require('express');
-// const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const { surveyAnswersValidation } = require('../../validations');
 const { surveyAnswerController } = require('../../controllers');
@@ -19,7 +18,7 @@ router
 router
   .route('/filters/:surveyId/:masterProjectId/:surveyFormId/:surveyConductEmail/:udise_sch_code')
   .get(validate(surveyAnswersValidation.filterSurveyAnswer), surveyAnswerController.filterSurveyAnswersController);
- 
+
 module.exports = router;
 /**
  * @swagger
@@ -146,58 +145,6 @@ module.exports = router;
  *       "403":
  *         $ref: '#/components/responses/Forbidden'
  */
-
-// /**
-//  * @swagger
-//  * /survey-answers/filters:
-//  *   get:
-//  *     summary: get a Survey Answers by surveyId, masterProjectId, surveyFormId, surveyConductEmail, udise_sch_code
-//  *     description: Get Survey Answers by surveyId, masterProjectId, surveyFormId, surveyConduct
-//  *     tags: [Survey Answers]
-//  *     security:
-//  *       - bearerAuth: []
-//  *     requestBody:
-//  *       required: true
-//  *       content:
-//  *         application/json:
-//  *           schema:
-//  *             type: object
-//  *             required:
-//  *               - surveyId
-//  *               - masterProjectId
-//  *               - surveyFormId
-//  *               - surveyConductEmail
-//  *               - udise_sch_code
-//  *             properties:
-//  *               surveyId:
-//  *                 type: string
-//  *               masterProjectId:
-//  *                 type: string
-//  *               surveyFormId:
-//  *                 type: string
-//  *               surveyConductEmail:
-//  *                 type: string
-//  *               udise_sch_code:
-//  *                 type: number
-//  *             example:
-//  *               surveyId: "password1"
-//  *               masterProjectId: "projectId1"
-//  *               surveyFormId: "65b8e8428bc57009fe403698"
-//  *               surveyConductEmail: "john@example.com"
-//  *               udise_sch_code : 27040108712
-//  *     responses:
-//  *       "201":
-//  *         description: Get
-//  *         content:
-//  *           application/json:
-//  *             schema:
-//  *                $ref: '#/components/schemas/SurveyAnswers'
-//  *       "401":
-//  *         $ref: '#/components/responses/Unauthorized'
-//  *       "403":
-//  *         $ref: '#/components/responses/Forbidden'
-//  * 
-//  */
 
 /**
  * @swagger

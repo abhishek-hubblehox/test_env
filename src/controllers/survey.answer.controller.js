@@ -33,19 +33,23 @@ const deleteSurveyAnswers = catchAsync(async (req, res) => {
   await surveyAnswerService.deleteSurveyAnswersBysurveyId(req.params.answerId);
   res.status(httpStatus.NO_CONTENT).send();
 });
-
+/* eslint-disable camelcase */
 const filterSurveyAnswersController = catchAsync(async (req, res) => {
   const { surveyId, masterProjectId, surveyFormId, surveyConductEmail, udise_sch_code } = req.params;
-  const surveyAnswers = await surveyAnswerService.filterSurveyAnswers(surveyId, masterProjectId, surveyFormId, surveyConductEmail, udise_sch_code);
+  const surveyAnswers = await surveyAnswerService.filterSurveyAnswers(
+    surveyId,
+    masterProjectId,
+    surveyFormId,
+    surveyConductEmail,
+    udise_sch_code
+  );
 
   if (!surveyAnswers || surveyAnswers.length === 0) {
     return res.status(httpStatus.OK).json({ message: 'Data not found' });
   }
-
   res.status(httpStatus.OK).json(surveyAnswers);
 });
-
-
+/* eslint-enable camelcase */
 module.exports = {
   createSurveyAnswers,
   getSurveyAnswers,

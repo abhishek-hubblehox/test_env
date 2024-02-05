@@ -1,5 +1,4 @@
 const express = require('express');
-// const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const { surveyQuetionsValidation } = require('../../validations');
 const { surveyQuetionsController } = require('../../controllers');
@@ -25,7 +24,7 @@ router
   );
 
 module.exports = router;
-// auth(['superadmin']),
+
 /**
  * @swagger
  * tags:

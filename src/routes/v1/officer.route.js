@@ -2,9 +2,7 @@ const express = require('express');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const multer = require('multer');
 const path = require('path');
-// const validate = require('../../middlewares/validate');
 const { officerController } = require('../../controllers');
-// const { schoolValidation } = require('../../validations');
 
 const router = express.Router();
 const uploadDir = path.join(__dirname, '../../uploads');
@@ -20,7 +18,6 @@ const storage = multer.diskStorage({
 
 const uploads = multer({ storage });
 router.route('/bulkupload-sme').post(uploads.single('file'), officerController.smeOfficerBulkUpload);
-// router.route('/').get(validate(schoolValidation.getAllSchools), SchoolController.getAllSchools);
 router.route('/bulkupload-block').post(uploads.single('file'), officerController.blockOfficerBulkUpload);
 router.route('/bulkupload-district').post(uploads.single('file'), officerController.districtOfficerBulkUpload);
 router.route('/bulkupload-division').post(uploads.single('file'), officerController.divisinOfficerBulkUpload);
