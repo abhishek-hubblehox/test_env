@@ -70,7 +70,7 @@ const bulkUploadValidationSchema = {
 const getProjectsList = {
   body: Joi.object({
     email: Joi.string().required(),
-    role: Joi.string().valid('block', 'district', 'division', 'sme').required(),
+    role: Joi.string().valid('block', 'district', 'division', 'SME').required(),
   }),
 };
 
