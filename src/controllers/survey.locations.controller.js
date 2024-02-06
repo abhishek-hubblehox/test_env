@@ -41,8 +41,8 @@ const getSchoolDataBySurveyId = catchAsync(async (req, res) => {
 });
 
 const getSchoolDataByMasterProjectIdAndCodeController = catchAsync(async (req, res) => {
-  const { masterProjectId, role, code } = req.body;
-  const schools = await surveyLocationService.getSchoolDataByMasterProjectIdAndCode(masterProjectId, role, code);
+  const { masterProjectId, role, code, surveyId } = req.body;
+  const schools = await surveyLocationService.getSchoolDataByMasterProjectIdAndCode(masterProjectId, role, code, surveyId);
   res.status(httpStatus.OK).json(schools);
 });
 

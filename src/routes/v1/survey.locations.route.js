@@ -350,6 +350,9 @@ module.exports = router;
  *               code:
  *                 type: string
  *                 description: code for block , district and name for division
+ *               surveyId:
+ *                 type: string
+ *                 description: code for block , district and name for division
  *     responses:
  *       "200":
  *         description: OK
