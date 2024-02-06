@@ -116,7 +116,7 @@ const getSchoolDataBySurveyId = async (masterProjectId) => {
 //   }
 //   return filteredSchools;
 // };
-const getSchoolDataByMasterProjectIdAndCode = async (masterProjectId, role, code) => {
+const getSchoolDataByMasterProjectIdAndCode = async (masterProjectId, role, code, surveyId) => {
   const surveyLocation = await SurveyLocation.findOne({ masterProjectId });
   if (!surveyLocation) {
     throw new Error('Survey location not found');
@@ -153,8 +153,9 @@ const getSchoolDataByMasterProjectIdAndCode = async (masterProjectId, role, code
     const surveyStatus = await SurveyAnswers.findOne({
       udise_sch_code: school.udise_sch_code,
       masterProjectId,
-      surveyId: school.surveyId, // Assuming surveyId is available in the School model
+      surveyId: surveyId, // Assuming surveyId is available in the School model
     }).select('status').exec();
+
     return { ...school.toObject(), status: surveyStatus ? surveyStatus.status : 'Pending' };
   }));
 
