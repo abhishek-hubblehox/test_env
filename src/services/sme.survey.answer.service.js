@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const { SMESurveyAnswers, SurveyLocation } = require('../models');
+const { SMESurveyAnswers } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -8,14 +8,14 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<SMESurveyAnswers>}
  */
 const createSurveyAnswers = async (reqBody) => {
-  await SurveyLocation.findOneAndUpdate(
-    {
-      masterProjectId: reqBody.masterProjectId,
-      'surveyLocations.udise_sch_code': reqBody.udise_sch_code,
-    },
-    { $set: { 'surveyLocations.$.status': 'Audited' } },
-    { new: true }
-  );
+  // await SurveyLocation.findOneAndUpdate(
+  //   {
+  //     masterProjectId: reqBody.masterProjectId,
+  //     'surveyLocations.udise_sch_code': reqBody.udise_sch_code,
+  //   },
+  //   { $set: { 'surveyLocations.$.status': 'Audited' } },
+  //   { new: true }
+  // );
 
   return SMESurveyAnswers.create(reqBody);
 };

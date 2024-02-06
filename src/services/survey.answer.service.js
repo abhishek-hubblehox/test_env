@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const { SurveyAnswers, SurveyLocation } = require('../models');
+const { SurveyAnswers } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -10,15 +10,14 @@ const ApiError = require('../utils/ApiError');
 // Update surveyLocations document
 
 const createSurveyAnswers = async (reqBody) => {
-  await SurveyLocation.findOneAndUpdate(
-    {
-      masterProjectId: reqBody.masterProjectId,
-      'surveyLocations.udise_sch_code': reqBody.udise_sch_code,
-    },
-    { $set: { 'surveyLocations.$.status': 'Surveyed' } },
-    { new: true }
-  );
-
+  // await SurveyLocation.findOneAndUpdate(
+  //   {
+  //     masterProjectId: reqBody.masterProjectId,
+  //     'surveyLocations.udise_sch_code': reqBody.udise_sch_code,
+  //   },
+  //   { $set: { 'surveyLocations.$.status': 'Surveyed' } },
+  //   { new: true }
+  // );
   return SurveyAnswers.create(reqBody);
 };
 
@@ -90,7 +89,17 @@ const filterSurveyAnswers = async (surveyId, masterProjectId, surveyFormId, surv
   const surveyAnswers = await SurveyAnswers.find(filter);
   return surveyAnswers;
 };
-/* eslint-enable camelcase */
+
+// /**
+//  * Get survey answer by id
+//  * @param {ObjectId} id
+//  * @returns {Promise<SurveyAnswers>}
+//  */
+// const getSurveyStatus = async (surveyId, masterProjectId, udise_sch_code) => {
+//   return SurveyAnswers.find({ surveyId, masterProjectId, udise_sch_code });
+// };
+// /* eslint-enable camelcase */
+
 module.exports = {
   createSurveyAnswers,
   querySurveyAnswers,

@@ -28,6 +28,10 @@ const surveyAnswerSchema = new mongoose.Schema({
   surveyConductEmail: {
     type: String,
   },
+  status: {
+    type: String,
+    default: 'Surveyed',
+  },
 });
 
 // add plugin that converts mongoose to json
