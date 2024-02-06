@@ -40,7 +40,6 @@ const filterSurveyAnswersController = catchAsync(async (req, res) => {
     surveyId,
     masterProjectId,
     surveyFormId,
-    surveyConductEmail,
     udise_sch_code
   );
 
