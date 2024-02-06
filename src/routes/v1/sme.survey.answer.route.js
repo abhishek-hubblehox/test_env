@@ -15,22 +15,26 @@ router
   .get(validate(SMESurveyAnswersValidation.getSurveyAnswerById), smeSurveyAnswerController.getSurveyAnswer)
   .patch(validate(SMESurveyAnswersValidation.updateSurveyAnswer), smeSurveyAnswerController.updateSurveyAnswers)
   .delete(validate(SMESurveyAnswersValidation.deleteSurveyAnswer), smeSurveyAnswerController.deleteSurveyAnswers);
+router
+  .route('/filters/:surveyId/:masterProjectId/:surveyFormId/:udise_sch_code')
+  .get(validate(SMESurveyAnswersValidation.filterSurveyAnswer), smeSurveyAnswerController.filterSurveyAnswersController);
 
 module.exports = router;
+
 /**
  * @swagger
  * tags:
- *   name: Survey Answers
- *   description: Survey Answers management and retrieval
+ *   name: SME Answers
+ *   description: SME Survey Answers management and retrieval
  */
 
 /**
  * @swagger
- * /survey-answers:
+ * /sme-answers:
  *   post:
  *     summary: Create a Survey Answers
  *     description: Only admins can create other Survey Questions.
- *     tags: [Survey Answers]
+ *     tags: [SME Answers]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -90,7 +94,7 @@ module.exports = router;
  *   get:
  *     summary: Get all Survey Answers
  *     description: Only admins can retrieve all Survey Answers.
- *     tags: [Survey Answers]
+ *     tags: [SME Answers]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -145,11 +149,11 @@ module.exports = router;
 
 /**
  * @swagger
- * /survey-answers/{answerId}:
+ * /sme-answers/{answerId}:
  *   get:
  *     summary: Get a Survey Answers
  *     description: Logged-in Survey Answers can fetch only their own user information. Only admins can fetch other Survey Questions.
- *     tags: [Survey Answers]
+ *     tags: [SME Answers]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -176,7 +180,7 @@ module.exports = router;
  *   patch:
  *     summary: Update a Survey Answers
  *     description: Logged-in Survey Answers can only update their information. Only admins can update other Survey Questions.
- *     tags: [Survey Answers]
+ *     tags: [SME Answers]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -235,7 +239,7 @@ module.exports = router;
  *   delete:
  *     summary: Delete a Survey Answers
  *     description: Logged-in Survey Answers can delete only themselves. Only admins can delete other Survey Questions.
- *     tags: [Survey Answers]
+ *     tags: [SME Answers]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -254,4 +258,51 @@ module.exports = router;
  *         $ref: '#/components/responses/Forbidden'
  *       "404":
  *         $ref: '#/components/responses/NotFound'
+ */
+
+/**
+ * @swagger
+ * /sme-answers/filters/{surveyId}/{masterProjectId}/{surveyFormId}/{udise_sch_code}:
+ *   get:
+ *     summary: Get Survey Answers by surveyId, masterProjectId, surveyFormId, udise_sch_code
+ *     description: Get Survey Answers by surveyId, masterProjectId, surveyFormId, surveyConduct
+ *     tags: [SME Answers]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: surveyId
+ *         schema:
+ *           type: string
+ *         required: true
+ *       - in: path
+ *         name: masterProjectId
+ *         schema:
+ *           type: string
+ *         required: true
+ *       - in: path
+ *         name: surveyFormId
+ *         schema:
+ *           type: string
+ *         required: true
+ *       - in: path
+ *         name: udise_sch_code
+ *         schema:
+ *           type: number
+ *         required: true
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/SurveyAnswers'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "201":
+ *         description: Data not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Data not found
  */
