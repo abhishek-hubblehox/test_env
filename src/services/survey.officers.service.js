@@ -220,27 +220,62 @@ const getUsersBySurveyId = async (masterProjectId) => {
  * @returns {Promise<Array>} - Array of assigned projects
  */
 
+// const getAssignedProjects = async (email, role) => {
+//   let OfficerModel;
+//   switch (role) {
+//     case 'block':
+//       OfficerModel = require('../models/blockOfficer.model');
+//       break;
+//     case 'district':
+//       OfficerModel = require('../models/distictOfficer.model');
+//       break;
+//     case 'division':
+//       OfficerModel = require('../models/divisionofficer.model');
+//       break;
+//     case 'SME':
+//       OfficerModel = require('../models/smeofficer.model');
+//       break;
+//     default:
+//       throw new Error('Invalid role');
+//   }
+
+//   // Fetch data from Officer collection
+//   const coordinatorAssignments = await OfficerModel.find({ email }).exec();
+
+//   const masterProjectIds = coordinatorAssignments.map(({ masterProjectId }) => masterProjectId);
+//   const projects = await MasterProject.find({ masterProjectId: { $in: masterProjectIds } });
+
+//   return projects;
+// };
 const getAssignedProjects = async (email, role) => {
   let OfficerModel;
+  let coordinatorField;
+
   switch (role) {
     case 'block':
       OfficerModel = require('../models/blockOfficer.model');
+      coordinatorField = 'block_Coordinator_EmailId';
       break;
     case 'district':
       OfficerModel = require('../models/distictOfficer.model');
+      coordinatorField = 'district_Coordinator_EmailId';
       break;
     case 'division':
       OfficerModel = require('../models/divisionofficer.model');
+      coordinatorField = 'division_Coordinator_EmailId';
       break;
     case 'SME':
       OfficerModel = require('../models/smeofficer.model');
+      coordinatorField = 'sme_EmailId';
       break;
     default:
       throw new Error('Invalid role');
   }
 
   // Fetch data from Officer collection
-  const coordinatorAssignments = await OfficerModel.find({ email }).exec();
+  const coordinatorAssignments = await OfficerModel.find({ [coordinatorField]: email })
+    .select('masterProjectId')
+    .exec();
 
   const masterProjectIds = coordinatorAssignments.map(({ masterProjectId }) => masterProjectId);
   const projects = await MasterProject.find({ masterProjectId: { $in: masterProjectIds } });
