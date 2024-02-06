@@ -101,7 +101,7 @@ const getBlockCoordinatorsDetails = catchAsync(async (req, res) =>{
 })
 const getSmeCoordinatorsDetails = catchAsync(async (req, res) =>{
 const { masterProjectId } = req.params;
-const coordinatorsDetails = await OfficersService.getSmeCoordinatorsDetails(masterProjectId);
+const coordinatorsDetails = await OfficersService.getSMECoordinatorsDetails(masterProjectId);
 res.json( coordinatorsDetails );
 })
 

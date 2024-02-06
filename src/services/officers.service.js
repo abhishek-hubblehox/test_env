@@ -304,7 +304,7 @@ const getBlockCoordinatorsDetails = async (masterProjectId) => {
  */
 
 const getSMECoordinatorsDetails = async (masterProjectId) => {
-  const divisionOfficers = await smeOfficer.find({ masterProjectId }).select('sme_EmailId').lean();
+  const divisionOfficers = await SMEOfficer.find({ masterProjectId }).select('sme_EmailId').lean();
 
   const coordinatorEmails = divisionOfficers.map((officer) => officer.sme_EmailId);
 
