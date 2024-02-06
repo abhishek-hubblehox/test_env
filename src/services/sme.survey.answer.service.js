@@ -1,14 +1,23 @@
 const httpStatus = require('http-status');
-const { SurveyAnswers } = require('../models');
+const { SMESurveyAnswers, SurveyLocation } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
  * Create a survey answer
  * @param {Object} reqBody
- * @returns {Promise<SurveyAnswers>}
+ * @returns {Promise<SMESurveyAnswers>}
  */
 const createSurveyAnswers = async (reqBody) => {
-  return SurveyAnswers.create(reqBody);
+  await SurveyLocation.findOneAndUpdate(
+    {
+      masterProjectId: reqBody.masterProjectId,
+      'surveyLocations.udise_sch_code': reqBody.udise_sch_code,
+    },
+    { $set: { 'surveyLocations.$.status': 'Audited' } },
+    { new: true }
+  );
+
+  return SMESurveyAnswers.create(reqBody);
 };
 
 /**
@@ -21,24 +30,24 @@ const createSurveyAnswers = async (reqBody) => {
  * @returns {Promise<QueryResult>}
  */
 const querySurveyAnswers = async (filter, options) => {
-  const results = await SurveyAnswers.paginate(filter, options);
+  const results = await SMESurveyAnswers.paginate(filter, options);
   return results;
 };
 
 /**
  * Get survey answer by id
  * @param {ObjectId} id
- * @returns {Promise<SurveyAnswers>}
+ * @returns {Promise<SMESurveyAnswers>}
  */
 const getSurveyAnswersBySurveyId = async (id) => {
-  return SurveyAnswers.findById(id);
+  return SMESurveyAnswers.findById(id);
 };
 
 /**
  * Update Survey answer by surveyId
  * @param {ObjectId} answerId
  * @param {Object} updateBody
- * @returns {Promise<SurveyAnswers>}
+ * @returns {Promise<SMESurveyAnswers>}
  */
 const updateSurveyAnswersBysurveyId = async (answerId, updateBody) => {
   const quetion = await getSurveyAnswersBySurveyId(answerId);
@@ -53,7 +62,7 @@ const updateSurveyAnswersBysurveyId = async (answerId, updateBody) => {
 /**
  * Delete Survey answer by id
  * @param {ObjectId} answerId
- * @returns {Promise<SurveyAnswers>}
+ * @returns {Promise<SMESurveyAnswers>}
  */
 const deleteSurveyAnswersBysurveyId = async (answerId) => {
   const quetion = await getSurveyAnswersBySurveyId(answerId);
@@ -71,13 +80,13 @@ const deleteSurveyAnswersBysurveyId = async (answerId) => {
  * @param {Object} surveyFormId
  * @param {Object} surveyConductEmail
  * @param {Object} udise_sch_code
- * @returns {Promise<SurveyAnswers>}
+ * @returns {Promise<SMESurveyAnswers>}
  */
 
 /* eslint-disable camelcase */
 const filterSurveyAnswers = async (surveyId, masterProjectId, surveyFormId, surveyConductEmail, udise_sch_code) => {
   const filter = { surveyId, masterProjectId, surveyFormId, surveyConductEmail, udise_sch_code };
-  const surveyAnswers = await SurveyAnswers.find(filter);
+  const surveyAnswers = await SMESurveyAnswers.find(filter);
   return surveyAnswers;
 };
 /* eslint-enable camelcase */

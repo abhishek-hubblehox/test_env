@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const { SurveyAnswers } = require('../models');
+const { SurveyAnswers, SurveyLocation } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -7,7 +7,18 @@ const ApiError = require('../utils/ApiError');
  * @param {Object} reqBody
  * @returns {Promise<SurveyAnswers>}
  */
+// Update surveyLocations document
+
 const createSurveyAnswers = async (reqBody) => {
+  await SurveyLocation.findOneAndUpdate(
+    {
+      masterProjectId: reqBody.masterProjectId,
+      'surveyLocations.udise_sch_code': reqBody.udise_sch_code,
+    },
+    { $set: { 'surveyLocations.$.status': 'Surveyed' } },
+    { new: true }
+  );
+
   return SurveyAnswers.create(reqBody);
 };
 
