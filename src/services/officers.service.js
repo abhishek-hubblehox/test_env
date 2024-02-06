@@ -1,5 +1,6 @@
 const csv = require('csvtojson');
 const { BlockOfficer, DistrictOfficer, DivisionOfficer, User, SMEOfficer } = require('../models');
+const smeOfficer = require('../models/smeofficer.model');
 
 /**
  * Create a Master Survey Project with Sub Surveys
@@ -249,9 +250,76 @@ const divisinOfficerBulkUpload = async (csvFilePath, surveyAdmin, masterProjectI
 
   return { duplicates, nonDuplicates };
 };
+
+/**
+ * get  a Userlist based on emails assigned to  Project
+ * @param {Object} masterProjectId - Data for Master Project
+ * @returns {Promise<User>}
+ */
+
+const getDivisionCoordinatorsDetails = async (masterProjectId) => {
+  const divisionOfficers = await DivisionOfficer.find({ masterProjectId }).select('division_Coordinator_EmailId').lean();
+
+  const coordinatorEmails = divisionOfficers.map((officer) => officer.division_Coordinator_EmailId);
+
+  const coordinatorsDetails = await User.find({ email: { $in: coordinatorEmails } }).lean();
+
+  return coordinatorsDetails;
+};
+/**
+ * get  a Userlist based on emails assigned to  Project
+ * @param {Object} masterProjectId - Data for Master Project
+ * @returns {Promise<User>}
+ */
+
+const getDistrictCoordinatorsDetails = async (masterProjectId) => {
+  const divisionOfficers = await DistrictOfficer.find({ masterProjectId }).select('district_Coordinator_EmailId').lean();
+
+  const coordinatorEmails = divisionOfficers.map((officer) => officer.district_Coordinator_EmailId);
+
+  const coordinatorsDetails = await User.find({ email: { $in: coordinatorEmails } }).lean();
+
+  return coordinatorsDetails;
+};
+/**
+ * get  a Userlist based on emails assigned to  Project
+ * @param {Object} masterProjectId - Data for Master Project
+ * @returns {Promise<User>}
+ */
+
+const getBlockCoordinatorsDetails = async (masterProjectId) => {
+  const divisionOfficers = await BlockOfficer.find({ masterProjectId }).select('block_Coordinator_EmailId').lean();
+
+  const coordinatorEmails = divisionOfficers.map((officer) => officer.block_Coordinator_EmailId);
+
+  const coordinatorsDetails = await User.find({ email: { $in: coordinatorEmails } }).lean();
+
+  return coordinatorsDetails;
+};
+
+/**
+ * get  a Userlist based on emails assigned to  Project
+ * @param {Object} masterProjectId - Data for Master Project
+ * @returns {Promise<User>}
+ */
+
+const getSMECoordinatorsDetails = async (masterProjectId) => {
+  const divisionOfficers = await smeOfficer.find({ masterProjectId }).select('sme_EmailId').lean();
+
+  const coordinatorEmails = divisionOfficers.map((officer) => officer.sme_EmailId);
+
+  const coordinatorsDetails = await User.find({ email: { $in: coordinatorEmails } }).lean();
+
+  return coordinatorsDetails;
+};
+
 module.exports = {
   smeOfficerBulkUpload,
   blockOfficerBulkUpload,
   districtOfficerBulkUpload,
   divisinOfficerBulkUpload,
+  getDivisionCoordinatorsDetails,
+  getDistrictCoordinatorsDetails,
+  getBlockCoordinatorsDetails,
+  getSMECoordinatorsDetails,
 };

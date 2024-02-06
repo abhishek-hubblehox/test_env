@@ -21,6 +21,11 @@ router.route('/bulkupload-sme').post(uploads.single('file'), officerController.s
 router.route('/bulkupload-block').post(uploads.single('file'), officerController.blockOfficerBulkUpload);
 router.route('/bulkupload-district').post(uploads.single('file'), officerController.districtOfficerBulkUpload);
 router.route('/bulkupload-division').post(uploads.single('file'), officerController.divisinOfficerBulkUpload);
+router.route('/filterby/division/:masterProjectId').get(officerController.getDivisionCoordinatorsDetails);
+router.route('/filterby/district/:masterProjectId').get(officerController.getDistrictCoordinatorsDetails);
+router.route('/filterby/block/:masterProjectId').get(officerController.getBlockCoordinatorsDetails);
+router.route('/filterby/sme/:masterProjectId').get(officerController.getSmeCoordinatorsDetails);
+
 module.exports = router;
 /**
  * @swagger
@@ -134,4 +139,127 @@ module.exports = router;
  *         description: Successfully added CSV file
  *       404:
  *         description: Missing file
+ */
+
+/**
+ * @swagger
+ * /officer/filterby/division/{masterProjectId}:
+ *   get:
+ *     summary: get list of Officers assigned to a project
+ *     tags: [Officer]
+  *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: masterProjectId
+ *         schema:
+ *           type: string
+ *         required: true
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "201":
+ *         description: Data not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Data not found
+ */
+
+/**
+ * @swagger
+ * /officer/filterby/district/{masterProjectId}:
+ *   get:
+ *     summary: get list of Officers assigned to a project
+ *     tags: [Officer]
+  *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: masterProjectId
+ *         schema:
+ *           type: string
+ *         required: true
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "201":
+ *         description: Data not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Data not found
+ */
+
+/**
+ * @swagger
+ * /officer/filterby/block/{masterProjectId}:
+ *   get:
+ *     summary: get list of Officers assigned to a project
+ *     tags: [Officer]
+  *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: masterProjectId
+ *         schema:
+ *           type: string
+ *         required: true
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "201":
+ *         description: Data not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Data not found
+ */
+/**
+ * @swagger
+ * /officer/filterby/sme/{masterProjectId}:
+ *   get:
+ *     summary: get list of Officers assigned to a project
+ *     tags: [Officer]
+  *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: masterProjectId
+ *         schema:
+ *           type: string
+ *         required: true
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "201":
+ *         description: Data not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Data not found
  */
