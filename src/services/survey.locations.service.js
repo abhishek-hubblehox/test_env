@@ -1,4 +1,4 @@
-const { SurveyLocation, School, surveyAnswer } = require('../models');
+const { SurveyLocation, School, SurveyAnswers } = require('../models');
 
 const bulkUpload = async (locationsArray, surveyDetails) => {
   if (!locationsArray || !locationsArray.length) {
@@ -150,7 +150,7 @@ const getSchoolDataByMasterProjectIdAndCode = async (masterProjectId, role, code
 
   // Retrieve status from surveyAnswer collection for each school
   const schoolsWithStatus = await Promise.all(filteredSchools.map(async (school) => {
-    const surveyStatus = await surveyAnswer.findOne({
+    const surveyStatus = await SurveyAnswers.findOne({
       udise_sch_code: school.udise_sch_code,
       masterProjectId,
       surveyId: school.surveyId, // Assuming surveyId is available in the School model
