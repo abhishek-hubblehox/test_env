@@ -1,23 +1,20 @@
 const express = require('express');
 const validate = require('../../middlewares/validate');
-const { surveyAnswersValidation } = require('../../validations');
-const { surveyAnswerController } = require('../../controllers');
+const { SMESurveyAnswersValidation } = require('../../validations');
+const { smeSurveyAnswerController } = require('../../controllers');
 
 const router = express.Router();
 
 router
   .route('/')
-  .post(validate(surveyAnswersValidation.createSurveyAnswers), surveyAnswerController.createSurveyAnswers)
-  .get(validate(surveyAnswersValidation.getSurveyAnswers), surveyAnswerController.getSurveyAnswers);
+  .post(validate(SMESurveyAnswersValidation.createSurveyAnswers), smeSurveyAnswerController.createSurveyAnswers)
+  .get(validate(SMESurveyAnswersValidation.getSurveyAnswers), smeSurveyAnswerController.getSurveyAnswers);
 
 router
   .route('/:answerId')
-  .get(validate(surveyAnswersValidation.getSurveyAnswerById), surveyAnswerController.getSurveyAnswer)
-  .patch(validate(surveyAnswersValidation.updateSurveyAnswer), surveyAnswerController.updateSurveyAnswers)
-  .delete(validate(surveyAnswersValidation.deleteSurveyAnswer), surveyAnswerController.deleteSurveyAnswers);
-router
-  .route('/filters/:surveyId/:masterProjectId/:surveyFormId/:surveyConductEmail/:udise_sch_code')
-  .get(validate(surveyAnswersValidation.filterSurveyAnswer), surveyAnswerController.filterSurveyAnswersController);
+  .get(validate(SMESurveyAnswersValidation.getSurveyAnswerById), smeSurveyAnswerController.getSurveyAnswer)
+  .patch(validate(SMESurveyAnswersValidation.updateSurveyAnswer), smeSurveyAnswerController.updateSurveyAnswers)
+  .delete(validate(SMESurveyAnswersValidation.deleteSurveyAnswer), smeSurveyAnswerController.deleteSurveyAnswers);
 
 module.exports = router;
 /**
@@ -146,58 +143,6 @@ module.exports = router;
  *         $ref: '#/components/responses/Forbidden'
  */
 
-// /**
-//  * @swagger
-//  * /survey-answers/filters:
-//  *   get:
-//  *     summary: get a Survey Answers by surveyId, masterProjectId, surveyFormId, surveyConductEmail, udise_sch_code
-//  *     description: Get Survey Answers by surveyId, masterProjectId, surveyFormId, surveyConduct
-//  *     tags: [Survey Answers]
-//  *     security:
-//  *       - bearerAuth: []
-//  *     requestBody:
-//  *       required: true
-//  *       content:
-//  *         application/json:
-//  *           schema:
-//  *             type: object
-//  *             required:
-//  *               - surveyId
-//  *               - masterProjectId
-//  *               - surveyFormId
-//  *               - surveyConductEmail
-//  *               - udise_sch_code
-//  *             properties:
-//  *               surveyId:
-//  *                 type: string
-//  *               masterProjectId:
-//  *                 type: string
-//  *               surveyFormId:
-//  *                 type: string
-//  *               surveyConductEmail:
-//  *                 type: string
-//  *               udise_sch_code:
-//  *                 type: number
-//  *             example:
-//  *               surveyId: "password1"
-//  *               masterProjectId: "projectId1"
-//  *               surveyFormId: "65b8e8428bc57009fe403698"
-//  *               surveyConductEmail: "john@example.com"
-//  *               udise_sch_code : 27040108712
-//  *     responses:
-//  *       "201":
-//  *         description: Get
-//  *         content:
-//  *           application/json:
-//  *             schema:
-//  *                $ref: '#/components/schemas/SurveyAnswers'
-//  *       "401":
-//  *         $ref: '#/components/responses/Unauthorized'
-//  *       "403":
-//  *         $ref: '#/components/responses/Forbidden'
-//  *
-//  */
-
 /**
  * @swagger
  * /survey-answers/{answerId}:
@@ -309,56 +254,4 @@ module.exports = router;
  *         $ref: '#/components/responses/Forbidden'
  *       "404":
  *         $ref: '#/components/responses/NotFound'
- */
-
-/**
- * @swagger
- * /survey-answers/filters/{surveyId}/{masterProjectId}/{surveyFormId}/{surveyConductEmail}/{udise_sch_code}:
- *   get:
- *     summary: Get Survey Answers by surveyId, masterProjectId, surveyFormId, surveyConductEmail, udise_sch_code
- *     description: Get Survey Answers by surveyId, masterProjectId, surveyFormId, surveyConduct
- *     tags: [Survey Answers]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: surveyId
- *         schema:
- *           type: string
- *         required: true
- *       - in: path
- *         name: masterProjectId
- *         schema:
- *           type: string
- *         required: true
- *       - in: path
- *         name: surveyFormId
- *         schema:
- *           type: string
- *         required: true
- *       - in: path
- *         name: surveyConductEmail
- *         schema:
- *           type: string
- *         required: true
- *       - in: path
- *         name: udise_sch_code
- *         schema:
- *           type: number
- *         required: true
- *     responses:
- *       "200":
- *         description: OK
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/SurveyAnswers'
- *       "401":
- *         $ref: '#/components/responses/Unauthorized'
- *       "201":
- *         description: Data not found
- *         content:
- *           application/json:
- *             example:
- *               message: Data not found
  */

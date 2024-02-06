@@ -7,9 +7,7 @@ const smeSurveyAnswerSchema = new mongoose.Schema({
       quetion: {
         type: String,
       },
-      answer: {
-        type: String,
-      },
+      answer: Array,
     },
   ],
   surveyId: {

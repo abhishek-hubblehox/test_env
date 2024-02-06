@@ -6,7 +6,7 @@ const createSurveyAnswers = {
       .items(
         Joi.object({
           quetion: Joi.string().required(),
-          answer: Joi.string().required(),
+          answer: Joi.array().required(),
         })
       )
       .required(),
@@ -41,7 +41,7 @@ const updateSurveyAnswer = {
       surveyQuetions: Joi.array().items(
         Joi.object({
           quetion: Joi.string(),
-          answer: Joi.string(),
+          answer: Joi.array(),
         })
       ),
       surveyId: Joi.string(),
