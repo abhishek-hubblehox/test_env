@@ -51,66 +51,6 @@ router
 
 module.exports = router;
 
-// /**
-//  * @swagger
-//  * /assign-coordinators:
-//  *   post:
-//  *     summary: Assign coordinators for a survey
-//  *     tags: [CoordinatorAssignment]
-//  *     requestBody:
-//  *       required: true
-//  *       content:
-//  *         application/json:
-//  *           schema:
-//  *             type: object
-//  *             properties:
-//  *               surveyId:
-//  *                 type: string
-//  *               surveyAdmin:
-//  *                 type: string
-//  *               blockCoordinatorEmails:
-//  *                 type: array
-//  *                 items:
-//  *                   type: string
-//  *                   format: email
-//  *               districtCoordinatorEmails:
-//  *                 type: array
-//  *                 items:
-//  *                   type: string
-//  *                   format: email
-//  *               divisionCoordinatorEmails:
-//  *                 type: array
-//  *                 items:
-//  *                   type: string
-//  *                   format: email
-//  *               smeEmails:
-//  *                 type: array
-//  *                 items:
-//  *                   type: string
-//  *                   format: email
-//  *     responses:
-//  *       201:
-//  *         description: Coordinators assigned successfully
-//  *         content:
-//  *           application/json:
-//  *             example:
-//  *               message: Coordinators assigned successfully
-//  *               data: {}
-//  *       400:
-//  *         description: Validation error
-//  *         content:
-//  *           application/json:
-//  *             example:
-//  *               message: Validation error
-//  *               errors: [{ field1: 'Error 1' }, { field2: 'Error 2' }]
-//  *       500:
-//  *         description: Internal Server Error
-//  *         content:
-//  *           application/json:
-//  *             example:
-//  *               message: Internal Server Error
-//  */
-
 /**
  * @swagger
  * /assign-coordinators:
@@ -266,60 +206,60 @@ module.exports = router;
  *               message: Internal Server Error
  */
 
-/**
- * @swagger
- * /assign-coordinators/assign/bulk-upload:
- *   post:
- *     summary: Upload a CSV file for bulk coordinator assignment
- *     tags: [CoordinatorAssignment]
- *     requestBody:
- *       required: true
- *       content:
- *         multipart/form-data:
- *           schema:
- *             type: object
- *             properties:
- *               file:
- *                 type: string
- *                 format: binary
- *               masterProjectId:
- *                 type: string
- *               surveyAdmin:
- *                 type: string
- *               emailType:
- *                 type: string
- *                 enum: ['blockCoordinatorEmails', 'districtCoordinatorEmails', 'divisionCoordinatorEmails', 'smeEmails']
- *             required:
- *               - file
- *               - masterProjectId
- *               - surveyAdmin
- *               - emailType
- *             example:
- *               file: (binary data)
- *               masterProjectId: VEAN8796
- *               surveyAdmin: 65aa570cfe881bb4c26edbb7
- *               emailType: blockCoordinatorEmails
- *     responses:
- *       201:
- *         description: Successfully added CSV file
- *         content:
- *           application/json:
- *             example:
- *               message: Successfully added Coordinator Assignment
- *               result: { updated/created assignment object }
- *       400:
- *         description: Uploaded file must be in CSV format.
- *         content:
- *           application/json:
- *             example:
- *               message: Uploaded file must be in CSV format.
- *       404:
- *         description: Missing file
- *         content:
- *           application/json:
- *             example:
- *               message: Missing file
- */
+// /**
+//  * @swagger
+//  * /assign-coordinators/assign/bulk-upload:
+//  *   post:
+//  *     summary: Upload a CSV file for bulk coordinator assignment
+//  *     tags: [CoordinatorAssignment]
+//  *     requestBody:
+//  *       required: true
+//  *       content:
+//  *         multipart/form-data:
+//  *           schema:
+//  *             type: object
+//  *             properties:
+//  *               file:
+//  *                 type: string
+//  *                 format: binary
+//  *               masterProjectId:
+//  *                 type: string
+//  *               surveyAdmin:
+//  *                 type: string
+//  *               emailType:
+//  *                 type: string
+//  *                 enum: ['blockCoordinatorEmails', 'districtCoordinatorEmails', 'divisionCoordinatorEmails', 'smeEmails']
+//  *             required:
+//  *               - file
+//  *               - masterProjectId
+//  *               - surveyAdmin
+//  *               - emailType
+//  *             example:
+//  *               file: (binary data)
+//  *               masterProjectId: VEAN8796
+//  *               surveyAdmin: 65aa570cfe881bb4c26edbb7
+//  *               emailType: blockCoordinatorEmails
+//  *     responses:
+//  *       201:
+//  *         description: Successfully added CSV file
+//  *         content:
+//  *           application/json:
+//  *             example:
+//  *               message: Successfully added Coordinator Assignment
+//  *               result: { updated/created assignment object }
+//  *       400:
+//  *         description: Uploaded file must be in CSV format.
+//  *         content:
+//  *           application/json:
+//  *             example:
+//  *               message: Uploaded file must be in CSV format.
+//  *       404:
+//  *         description: Missing file
+//  *         content:
+//  *           application/json:
+//  *             example:
+//  *               message: Missing file
+//  */
 
 /**
  * @swagger
@@ -344,43 +284,6 @@ module.exports = router;
  *       404:
  *         description: CoordinatorAssignment not found for the given surveyId
  */
-
-// /**
-//  * @swagger
-//  * /assign-coordinators/getprojects/{email}/{role}:
-//  *   get:
-//  *     summary: Get users based on email IDs in CoordinatorAssignment arrays
-//  *     tags: [CoordinatorAssignment]
-//  *     parameters:
-//  *       - in: path
-//  *         name: email
-//  *         required: true
-//  *         description: email of the user
-//  *         schema:
-//  *           type: string
-//  *       - in: path
-//  *         name: role
-//  *         required: true
-//  *         description: role of the user
-//  *         schema:
-//  *           type: string
-//  *     responses:
-//  *       "200":
-//  *         description: OK
-//  *         content:
-//  *           application/json:
-//  *             schema:
-//  *               type: object
-//  *               properties:
-//  *                 projects:
-//  *                   type: array
-//  *                   items:
-//  *                     $ref: '#/components/schemas/MasterProject'
-//  *       "401":
-//  *         $ref: '#/components/responses/Unauthorized'
-//  *       "403":
-//  *         $ref: '#/components/responses/Forbidden'
-//  */
 
 /**
  * @swagger

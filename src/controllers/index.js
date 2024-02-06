@@ -11,3 +11,4 @@ module.exports.coordinatorAssignmentController = require('./survey.officers.cont
 module.exports.surveyQuetionsController = require('./survey.quetions.controller');
 module.exports.surveyAnswerController = require('./survey.answer.controller');
 module.exports.officerController = require('./officer.controller');
+module.exports.smeSurveyAnswerController = require('./sme.survey.answer.controller');

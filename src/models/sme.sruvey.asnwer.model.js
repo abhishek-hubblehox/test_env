@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
-const surveyAnswerSchema = new mongoose.Schema({
+const smeSurveyAnswerSchema = new mongoose.Schema({
   surveyQuetions: [
     {
       quetion: {
@@ -31,9 +31,10 @@ const surveyAnswerSchema = new mongoose.Schema({
 });
 
 // add plugin that converts mongoose to json
-surveyAnswerSchema.plugin(toJSON);
-surveyAnswerSchema.plugin(paginate);
+smeSurveyAnswerSchema.plugin(toJSON);
+smeSurveyAnswerSchema.plugin(paginate);
+/* eslint-disable camelcase */
+const SME_SurveyAnswer = mongoose.model('SME-SurveyAnswer', smeSurveyAnswerSchema);
 
-const surveyAnswer = mongoose.model('surveyAnswer', surveyAnswerSchema);
-
-module.exports = surveyAnswer;
+module.exports = SME_SurveyAnswer;
+/* eslint-enable camelcase */

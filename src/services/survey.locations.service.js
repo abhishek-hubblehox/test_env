@@ -71,7 +71,6 @@ const getSchoolDataBySurveyId = async (masterProjectId) => {
     throw new Error('Survey location not found');
   }
   const udiseSchCodes = surveyLocation.surveyLocations.map((location) => location.udise_sch_code);
-  console.log(udiseSchCodes);
   const query = { udise_sch_code: { $in: udiseSchCodes.map(Number) } };
   const schools = await School.find(query).lean();
 

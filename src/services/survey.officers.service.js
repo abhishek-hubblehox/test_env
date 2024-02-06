@@ -3,13 +3,6 @@ const httpStatus = require('http-status');
 const fs = require('fs');
 const ApiError = require('../utils/ApiError');
 const { CoordinatorAssignment, User, MasterProject } = require('../models');
-// const { userService } = require('../services');
-
-// /**
-//  * Create a CoordinatorAssignment in bulk
-//  * @param {Object} assignmentData
-//  * @returns {Promise<CoordinatorAssignment>}
-//  */
 
 const userBulkFilter = (options) => {
   return {
@@ -133,24 +126,6 @@ const bulkUpload = async (file, masterProjectId, surveyAdmin, emailType) => {
   return { result, duplicates: { totalDuplicates: 0, data: [] } };
 };
 
-//   const existingAssignment = await CoordinatorAssignment.findOne({ masterProjectId });
-
-//   if (existingAssignment) {
-//     existingAssignment[emailType] = existingAssignment[emailType].concat(records.map((user) => user.email));
-//     const result = await existingAssignment.save();
-//     return { result, duplicates: { totalDuplicates: 0, data: [] } };
-//   }
-
-//   const newAssignment = new CoordinatorAssignment({
-//     masterProjectId,
-//     surveyAdmin,
-//     [emailType]: records.map((user) => user.email),
-//   });
-
-//   const result = await newAssignment.save();
-//   return { result, duplicates: { totalDuplicates: 0, data: [] } };
-// };
-
 /**
  * Query for CoordinatorAssignment
  * @param {Object} filter - Mongo filter
@@ -244,20 +219,7 @@ const getUsersBySurveyId = async (masterProjectId) => {
  * @param {string} role - Role of the coordinator (block, district, division, SME, etc.)
  * @returns {Promise<Array>} - Array of assigned projects
  */
-// const getAssignedProjects = async (email, role) => {
-//   const coordinatorAssignments = await CoordinatorAssignment.find({
-//     [`${role}CoordinatorEmails`]: email,
-//   });
 
-//   if (!coordinatorAssignments.length) {
-//     return []; // No assigned projects
-//   }
-
-//   const masterProjectIds = coordinatorAssignments.map(({ masterProjectId }) => masterProjectId);
-//   const projects = await MasterProject.find({ masterProjectId: { $in: masterProjectIds } });
-
-//   return projects;
-// };
 const getAssignedProjects = async (email, role) => {
   let OfficerModel;
   switch (role) {
