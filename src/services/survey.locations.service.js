@@ -124,7 +124,9 @@ const getSchoolDataByMasterProjectIdAndCode = async (masterProjectId, role, code
 
   let filteredSchools = [];
   const udiseSchCodes = surveyLocation.surveyLocations.map((location) => location.udise_sch_code);
-  const schools = await School.find({ udise_sch_code: { $in: udiseSchCodes } });
+  const schools = await School.find({ udise_sch_code: { $in: udiseSchCodes } })
+    .select('udise_sch_code', 'Block_Name', 'school_name', 'address', 'pincode')
+    .exec();
 
   switch (role.toLowerCase()) {
     case 'block':
@@ -149,15 +151,19 @@ const getSchoolDataByMasterProjectIdAndCode = async (masterProjectId, role, code
   }
 
   // Retrieve status from surveyAnswer collection for each school
-  const schoolsWithStatus = await Promise.all(filteredSchools.map(async (school) => {
-    const surveyStatus = await SurveyAnswers.findOne({
-      udise_sch_code: school.udise_sch_code,
-      masterProjectId,
-      surveyId: surveyId, // Assuming surveyId is available in the School model
-    }).select('status').exec();
+  const schoolsWithStatus = await Promise.all(
+    filteredSchools.map(async (school) => {
+      const surveyStatus = await SurveyAnswers.findOne({
+        udise_sch_code: school.udise_sch_code,
+        masterProjectId,
+        surveyId, // Assuming surveyId is available in the School model
+      })
+        .select('status')
+        .exec();
 
-    return { ...school.toObject(), status: surveyStatus ? surveyStatus.status : 'Pending' };
-  }));
+      return { ...school.toObject(), status: surveyStatus ? surveyStatus.status : 'Pending' };
+    })
+  );
 
   return schoolsWithStatus;
 };
