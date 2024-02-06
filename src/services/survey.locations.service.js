@@ -1,4 +1,4 @@
-const { SurveyLocation, School } = require('../models');
+const { SurveyLocation, School, surveyAnswer } = require('../models');
 
 const bulkUpload = async (locationsArray, surveyDetails) => {
   if (!locationsArray || !locationsArray.length) {
