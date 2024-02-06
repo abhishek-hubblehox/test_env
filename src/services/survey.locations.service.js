@@ -124,9 +124,7 @@ const getSchoolDataByMasterProjectIdAndCode = async (masterProjectId, role, code
 
   let filteredSchools = [];
   const udiseSchCodes = surveyLocation.surveyLocations.map((location) => location.udise_sch_code);
-  const schools = await School.find({ udise_sch_code: { $in: udiseSchCodes } })
-    .select('udise_sch_code Block_Name school_name address pincode')
-    .exec();
+  const schools = await School.find({ udise_sch_code: { $in: udiseSchCodes } });
 
   switch (role.toLowerCase()) {
     case 'block':
