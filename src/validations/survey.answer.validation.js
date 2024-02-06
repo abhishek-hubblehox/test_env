@@ -63,7 +63,6 @@ const filterSurveyAnswer = {
     surveyId: Joi.string().required(),
     masterProjectId: Joi.string().required(),
     surveyFormId: Joi.string().required(),
-    surveyConductEmail: Joi.string().required(),
     udise_sch_code: Joi.number().required(),
   }),
 };
