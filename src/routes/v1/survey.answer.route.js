@@ -16,7 +16,7 @@ router
   .patch(validate(surveyAnswersValidation.updateSurveyAnswer), surveyAnswerController.updateSurveyAnswers)
   .delete(validate(surveyAnswersValidation.deleteSurveyAnswer), surveyAnswerController.deleteSurveyAnswers);
 router
-  .route('/filters/:surveyId/:masterProjectId/:surveyFormId/:surveyConductEmail/:udise_sch_code')
+  .route('/filters/:surveyId/:masterProjectId/:surveyFormId/:udise_sch_code')
   .get(validate(surveyAnswersValidation.filterSurveyAnswer), surveyAnswerController.filterSurveyAnswersController);
 
 module.exports = router;
@@ -314,9 +314,9 @@ module.exports = router;
 
 /**
  * @swagger
- * /survey-answers/filters/{surveyId}/{masterProjectId}/{surveyFormId}/{surveyConductEmail}/{udise_sch_code}:
+ * /survey-answers/filters/{surveyId}/{masterProjectId}/{surveyFormId}/{udise_sch_code}:
  *   get:
- *     summary: Get Survey Answers by surveyId, masterProjectId, surveyFormId, surveyConductEmail, udise_sch_code
+ *     summary: Get Survey Answers by surveyId, masterProjectId, surveyFormId, udise_sch_code
  *     description: Get Survey Answers by surveyId, masterProjectId, surveyFormId, surveyConduct
  *     tags: [Survey Answers]
  *     security:
@@ -334,11 +334,6 @@ module.exports = router;
  *         required: true
  *       - in: path
  *         name: surveyFormId
- *         schema:
- *           type: string
- *         required: true
- *       - in: path
- *         name: surveyConductEmail
  *         schema:
  *           type: string
  *         required: true
