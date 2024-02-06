@@ -7,7 +7,7 @@ const bulkUpload = async (schoolArray, csvFilePath = null) => {
     if (csvFilePath) {
       modifiedSchoolArray = csvFilePath;
     }
-    const batchSize = 1000; 
+    const batchSize = 1000;
     if (!modifiedSchoolArray || !modifiedSchoolArray.length) {
       throw new Error('Missing array');
     }

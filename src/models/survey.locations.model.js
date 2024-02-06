@@ -119,6 +119,10 @@ const surveyLocationSchema = new mongoose.Schema({
       udise_sch_code: {
         type: Number,
       },
+      status: {
+        type: String,
+        default: 'Pending',
+      },
     },
   ],
 });
