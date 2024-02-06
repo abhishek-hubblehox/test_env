@@ -54,6 +54,8 @@ module.exports = router;
  *             properties:
  *               title:
  *                 type: string
+ *               description:
+ *                 type: string
  *               questions:
  *                 type: array
  *                 items:
@@ -69,6 +71,7 @@ module.exports = router;
  *                 type: string
  *             example:
  *               title: "fake name"
+ *               description : "fake description"
  *               questions:
  *                 - type: "text"
  *                   name: "name"
