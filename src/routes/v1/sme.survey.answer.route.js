@@ -17,20 +17,21 @@ router
   .delete(validate(SMESurveyAnswersValidation.deleteSurveyAnswer), smeSurveyAnswerController.deleteSurveyAnswers);
 
 module.exports = router;
+
 /**
  * @swagger
  * tags:
- *   name: Survey Answers
- *   description: Survey Answers management and retrieval
+ *   name: SME Answers
+ *   description: SME Survey Answers management and retrieval
  */
 
 /**
  * @swagger
- * /survey-answers:
+ * /sme-answers:
  *   post:
  *     summary: Create a Survey Answers
  *     description: Only admins can create other Survey Questions.
- *     tags: [Survey Answers]
+ *     tags: [SME Answers]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -90,7 +91,7 @@ module.exports = router;
  *   get:
  *     summary: Get all Survey Answers
  *     description: Only admins can retrieve all Survey Answers.
- *     tags: [Survey Answers]
+ *     tags: [SME Answers]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -145,11 +146,11 @@ module.exports = router;
 
 /**
  * @swagger
- * /survey-answers/{answerId}:
+ * /sme-answers/{answerId}:
  *   get:
  *     summary: Get a Survey Answers
  *     description: Logged-in Survey Answers can fetch only their own user information. Only admins can fetch other Survey Questions.
- *     tags: [Survey Answers]
+ *     tags: [SME Answers]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -176,7 +177,7 @@ module.exports = router;
  *   patch:
  *     summary: Update a Survey Answers
  *     description: Logged-in Survey Answers can only update their information. Only admins can update other Survey Questions.
- *     tags: [Survey Answers]
+ *     tags: [SME Answers]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -235,7 +236,7 @@ module.exports = router;
  *   delete:
  *     summary: Delete a Survey Answers
  *     description: Logged-in Survey Answers can delete only themselves. Only admins can delete other Survey Questions.
- *     tags: [Survey Answers]
+ *     tags: [SME Answers]
  *     security:
  *       - bearerAuth: []
  *     parameters:

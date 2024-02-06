@@ -12,7 +12,7 @@ const masterProjectRoute = require('./master.project.route');
 const surveyQuetionsRoute = require('./survey.quetions.route');
 const surveyAnswersRoute = require('./survey.answer.route');
 const officerRoute = require('./officer.route');
-// const smeSurveyAnswerRoure = require('./sme.survey.answer.route');
+const smeAnswersRoute = require('./sme.survey.answer.route');
 
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
@@ -72,10 +72,10 @@ const defaultRoutes = [
     path: '/officer',
     route: officerRoute,
   },
-  // {
-  //   path: '/sme-survey-answers',
-  //   router: smeSurveyAnswerRoure,
-  // },
+  {
+    path: '/sme-answers',
+    route: smeAnswersRoute,
+  },
 ];
 
 const devRoutes = [
