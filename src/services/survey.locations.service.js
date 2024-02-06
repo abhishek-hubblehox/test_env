@@ -105,8 +105,9 @@ const getSchoolDataByMasterProjectIdAndCode = async (masterProjectId, role, code
       break;
     case 'division':
       filteredSchools = schools.filter((school) => school.Division.toLowerCase() === code.toLowerCase());
-      case 'SME':
-        filteredSchools = schools.filter((school) => school.block_cd_1 === data);
+      break;
+    case 'SME':
+      filteredSchools = schools.filter((school) => school.block_cd_1 === data);
       break;
     // Add more cases as needed for other roles
     default:
