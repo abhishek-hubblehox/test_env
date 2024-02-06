@@ -83,9 +83,35 @@ const divisinOfficerBulkUpload = catchAsync(async (req, res) => {
     res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ error: error.message });
   }
 });
+
+const getDivisionCoordinatorsDetails = catchAsync(async (req, res) =>{
+    const { masterProjectId } = req.params;
+    const coordinatorsDetails = await OfficersService.getDivisionCoordinatorsDetails(masterProjectId);
+    res.json( coordinatorsDetails );
+})
+const getDistrictCoordinatorsDetails = catchAsync(async (req, res) =>{
+  const { masterProjectId } = req.params;
+  const coordinatorsDetails = await OfficersService.getDistrictCoordinatorsDetails(masterProjectId);
+  res.json( coordinatorsDetails );
+})
+const getBlockCoordinatorsDetails = catchAsync(async (req, res) =>{
+  const { masterProjectId } = req.params;
+  const coordinatorsDetails = await OfficersService.getBlockCoordinatorsDetails(masterProjectId);
+  res.json( coordinatorsDetails );
+})
+const getSmeCoordinatorsDetails = catchAsync(async (req, res) =>{
+const { masterProjectId } = req.params;
+const coordinatorsDetails = await OfficersService.getSmeCoordinatorsDetails(masterProjectId);
+res.json( coordinatorsDetails );
+})
+
 module.exports = {
   smeOfficerBulkUpload,
   blockOfficerBulkUpload,
   districtOfficerBulkUpload,
   divisinOfficerBulkUpload,
+  getDivisionCoordinatorsDetails,
+  getDistrictCoordinatorsDetails,
+  getBlockCoordinatorsDetails,
+  getSmeCoordinatorsDetails,
 };
