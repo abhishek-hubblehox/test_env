@@ -20,6 +20,7 @@ router
   .get(validate(surveyAnswersValidation.filterSurveyAnswer), surveyAnswerController.filterSurveyAnswersController);
 
 module.exports = router;
+
 /**
  * @swagger
  * tags:

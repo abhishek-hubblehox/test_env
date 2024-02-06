@@ -15,6 +15,9 @@ router
   .get(validate(SMESurveyAnswersValidation.getSurveyAnswerById), smeSurveyAnswerController.getSurveyAnswer)
   .patch(validate(SMESurveyAnswersValidation.updateSurveyAnswer), smeSurveyAnswerController.updateSurveyAnswers)
   .delete(validate(SMESurveyAnswersValidation.deleteSurveyAnswer), smeSurveyAnswerController.deleteSurveyAnswers);
+router
+  .route('/filters/:surveyId/:masterProjectId/:surveyFormId/:udise_sch_code')
+  .get(validate(SMESurveyAnswersValidation.filterSurveyAnswer), smeSurveyAnswerController.filterSurveyAnswersController);
 
 module.exports = router;
 
@@ -255,4 +258,51 @@ module.exports = router;
  *         $ref: '#/components/responses/Forbidden'
  *       "404":
  *         $ref: '#/components/responses/NotFound'
+ */
+
+/**
+ * @swagger
+ * /sme-answers/filters/{surveyId}/{masterProjectId}/{surveyFormId}/{udise_sch_code}:
+ *   get:
+ *     summary: Get Survey Answers by surveyId, masterProjectId, surveyFormId, udise_sch_code
+ *     description: Get Survey Answers by surveyId, masterProjectId, surveyFormId, surveyConduct
+ *     tags: [SME Answers]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: surveyId
+ *         schema:
+ *           type: string
+ *         required: true
+ *       - in: path
+ *         name: masterProjectId
+ *         schema:
+ *           type: string
+ *         required: true
+ *       - in: path
+ *         name: surveyFormId
+ *         schema:
+ *           type: string
+ *         required: true
+ *       - in: path
+ *         name: udise_sch_code
+ *         schema:
+ *           type: number
+ *         required: true
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/SurveyAnswers'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "201":
+ *         description: Data not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Data not found
  */
