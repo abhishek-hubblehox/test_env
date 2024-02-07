@@ -11,3 +11,4 @@ module.exports.surveyQuetionsValidation = require('./survey.quetion.validation')
 module.exports.masterProjectValidation = require('./master.project.validation');
 module.exports.surveyAnswersValidation = require('./survey.answer.validation');
 module.exports.SMESurveyAnswersValidation = require('./sme.survey,answer.validation');
+module.exports.dashboardValidation = require('./dashboard.validation');

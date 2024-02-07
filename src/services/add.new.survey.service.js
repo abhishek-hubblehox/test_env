@@ -1,6 +1,48 @@
 const httpStatus = require('http-status');
-const { NewSurvey } = require('../models');
+const { NewSurvey, SurveyAnswers, SurveyLocation} = require('../models');
 const ApiError = require('../utils/ApiError');
+
+
+const updateActualDatesForSurvey = async (masterProjectId, surveyId, surveyFormId) => {
+
+  // Find the corresponding survey
+  const survey = await NewSurvey.findOne({masterProjectId, surveyId });
+
+  if (!survey) {
+    throw new Error('Survey not found');
+  }
+  const surveyLocation = await SurveyLocation.findOne({ masterProjectId });
+  const udiseCodes = surveyLocation.surveyLocations.map((location) => location.udise_sch_code);
+  // Get the list of udise_sch_code assigned to the survey project
+  // const udiseCodes = survey.surveyLocations.map(location => location.udise_sch_code);
+
+  // Find the first survey answer for any of the udise_sch_code
+  const firstSurveyAnswer = await SurveyAnswers.findOne({
+     masterProjectId,
+     surveyId,
+     surveyFormId,
+    udise_sch_code: { $in: udiseCodes },
+  }).sort({ createdAt: 1 });
+
+  // Find the last survey answer for any of the udise_sch_code
+  const lastSurveyAnswer = await SurveyAnswers.findOne({
+    udise_sch_code: { $in: udiseCodes },
+  }).sort({ createdAt: -1 });
+
+  // Update actualStartDate if there is a first survey answer
+  if (firstSurveyAnswer) {
+    survey.actualStartDate = firstSurveyAnswer.createdAt;
+  }
+
+  // Update actualEndDate if there is a last survey answer
+  if (lastSurveyAnswer) {
+    survey.actualEndDate = lastSurveyAnswer.createdAt;
+  }
+
+  // Save the changes to the database
+  await survey.save();
+
+};
 
 /**
  * Create a NewSurvey
@@ -81,6 +123,7 @@ const getSurveyByEmailAndProjectId = async (masterProjectOwnerEmailId, masterPro
   return NewSurvey.find({ masterProjectOwnerEmailId, masterProjectId });
 };
 
+
 module.exports = {
   createNewSurvey,
   queryNewSurvey,
@@ -88,4 +131,5 @@ module.exports = {
   updateNewSurveyById,
   deleteNewSurveyById,
   getSurveyByEmailAndProjectId,
+  updateActualDatesForSurvey,
 };
