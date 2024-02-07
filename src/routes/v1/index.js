@@ -13,6 +13,7 @@ const surveyQuetionsRoute = require('./survey.quetions.route');
 const surveyAnswersRoute = require('./survey.answer.route');
 const officerRoute = require('./officer.route');
 const smeAnswersRoute = require('./sme.survey.answer.route');
+const dashboardRoute = require('./dashboard.route');
 
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
@@ -75,6 +76,10 @@ const defaultRoutes = [
   {
     path: '/sme-answers',
     route: smeAnswersRoute,
+  },
+  {
+    path: '/dashboard',
+    route: dashboardRoute,
   },
 ];
 
