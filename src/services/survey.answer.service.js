@@ -18,7 +18,11 @@ const createSurveyAnswers = async (reqBody) => {
   //   { $set: { 'surveyLocations.$.status': 'Surveyed' } },
   //   { new: true }
   // );
-  return SurveyAnswers.create(reqBody);
+  const data = SurveyAnswers.create(reqBody);
+  const {masterProjectId, surveyId, surveyFormId}= reqBody;
+  await surveyUpdate.updateActualDatesForSurvey(masterProjectId, surveyId, surveyFormId)
+  return data;
+
 };
 
 /**

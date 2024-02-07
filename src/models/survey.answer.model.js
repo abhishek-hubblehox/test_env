@@ -32,6 +32,8 @@ const surveyAnswerSchema = new mongoose.Schema({
     type: String,
     default: 'Surveyed',
   },
+},{
+  timestamps: true,
 });
 
 // add plugin that converts mongoose to json

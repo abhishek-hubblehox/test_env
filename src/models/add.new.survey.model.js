@@ -37,9 +37,11 @@ const newSurveySchema = new mongoose.Schema({
   },
   actualStartDate: {
     type: Date,
+    default: null,
   },
   actualEndDate: {
     type: Date,
+    default: null,
   },
 });
 
