@@ -2,6 +2,7 @@ const express = require('express');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const multer = require('multer');
 const path = require('path');
+const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const { coordinatorAssignmentController } = require('../../controllers');
 const { coordinatorsValidation } = require('../../validations');
@@ -21,33 +22,64 @@ const storage = multer.diskStorage({
 const uploads = multer({ storage });
 router
   .route('/:masterProjectId/users')
-  .get(validate(coordinatorsValidation.getUsersBySurveyIdValidation), coordinatorAssignmentController.getUsersBySurveyId);
+  .get(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(coordinatorsValidation.getUsersBySurveyIdValidation),
+    coordinatorAssignmentController.getUsersBySurveyId
+  );
 
 router
   .route('/')
-  .post(validate(coordinatorsValidation.assignCoordinatorsValidation), coordinatorAssignmentController.assignCoordinators);
+  .post(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(coordinatorsValidation.assignCoordinatorsValidation),
+    coordinatorAssignmentController.assignCoordinators
+  );
 
 router
   .route('/')
-  .get(validate(coordinatorsValidation.getAllCoordinators), coordinatorAssignmentController.getAllCoordinatorAssignments);
+  .get(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(coordinatorsValidation.getAllCoordinators),
+    coordinatorAssignmentController.getAllCoordinatorAssignments
+  );
 router
   .route('/:assignmentId')
-  .get(validate(coordinatorsValidation.getAssignment), coordinatorAssignmentController.getAssigment)
-  .delete(validate(coordinatorsValidation.deleteAssignment), coordinatorAssignmentController.deleteAssigment);
+  .get(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(coordinatorsValidation.getAssignment),
+    coordinatorAssignmentController.getAssigment
+  )
+  .delete(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(coordinatorsValidation.deleteAssignment),
+    coordinatorAssignmentController.deleteAssigment
+  );
 router
   .route('/filter/:masterProjectId')
-  .get(validate(coordinatorsValidation.getAssignmentBySurveyId), coordinatorAssignmentController.getAssigmentBySurveyId);
+  .get(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(coordinatorsValidation.getAssignmentBySurveyId),
+    coordinatorAssignmentController.getAssigmentBySurveyId
+  );
 router
   .route('/assign/bulk-upload')
   .post(
     uploads.single('file'),
-    validate(coordinatorsValidation.bulkUploadValidationSchema),
+    validate(
+      auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+      coordinatorsValidation.bulkUploadValidationSchema
+    ),
     coordinatorAssignmentController.bulkUploadFile
   );
 
 router
   .route('/getprojects')
-  .post(validate(coordinatorsValidation.getProjectsList), coordinatorAssignmentController.getAssignedProjectsForuser);
+  .post(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(coordinatorsValidation.getProjectsList),
+    coordinatorAssignmentController.getAssignedProjectsForuser
+  );
 
 module.exports = router;
 

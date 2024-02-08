@@ -1,5 +1,6 @@
 const express = require('express');
 const validate = require('../../middlewares/validate');
+const auth = require('../../middlewares/auth');
 const { surveyQuetionsValidation } = require('../../validations');
 const { surveyQuetionsController } = require('../../controllers');
 
@@ -7,18 +8,39 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(validate(surveyQuetionsValidation.createSurveyQuetions), surveyQuetionsController.createSurveyQuetions)
-  .get(validate(surveyQuetionsValidation.getSurveyQuetions), surveyQuetionsController.getSurveyQuetions);
+  .post(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(surveyQuetionsValidation.createSurveyQuetions),
+    surveyQuetionsController.createSurveyQuetions
+  )
+  .get(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(surveyQuetionsValidation.getSurveyQuetions),
+    surveyQuetionsController.getSurveyQuetions
+  );
 
 router
   .route('/:surveyId')
-  .get(validate(surveyQuetionsValidation.getSurveyQuetionById), surveyQuetionsController.getSurveyQuetion)
-  .patch(validate(surveyQuetionsValidation.updateSurveyQuetion), surveyQuetionsController.updateSurveyQuetions)
-  .delete(validate(surveyQuetionsValidation.deleteSurveyQuetion), surveyQuetionsController.deleteSurveyQuetions);
+  .get(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(surveyQuetionsValidation.getSurveyQuetionById),
+    surveyQuetionsController.getSurveyQuetion
+  )
+  .patch(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(surveyQuetionsValidation.updateSurveyQuetion),
+    surveyQuetionsController.updateSurveyQuetions
+  )
+  .delete(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(surveyQuetionsValidation.deleteSurveyQuetion),
+    surveyQuetionsController.deleteSurveyQuetions
+  );
 
 router
   .route('/get-created-by/:createdById')
   .get(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
     validate(surveyQuetionsValidation.getSurveyQuetionByCreatedById),
     surveyQuetionsController.getSurveyQuetionsBycreatedById
   );

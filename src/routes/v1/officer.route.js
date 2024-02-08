@@ -3,6 +3,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const { officerController } = require('../../controllers');
+const auth = require('../../middlewares/auth');
 
 const router = express.Router();
 const uploadDir = path.join(__dirname, '../../uploads');
@@ -17,10 +18,34 @@ const storage = multer.diskStorage({
 });
 
 const uploads = multer({ storage });
-router.route('/bulkupload-sme').post(uploads.single('file'), officerController.smeOfficerBulkUpload);
-router.route('/bulkupload-block').post(uploads.single('file'), officerController.blockOfficerBulkUpload);
-router.route('/bulkupload-district').post(uploads.single('file'), officerController.districtOfficerBulkUpload);
-router.route('/bulkupload-division').post(uploads.single('file'), officerController.divisinOfficerBulkUpload);
+router
+  .route('/bulkupload-sme')
+  .post(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    uploads.single('file'),
+    officerController.smeOfficerBulkUpload
+  );
+router
+  .route('/bulkupload-block')
+  .post(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    uploads.single('file'),
+    officerController.blockOfficerBulkUpload
+  );
+router
+  .route('/bulkupload-district')
+  .post(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    uploads.single('file'),
+    officerController.districtOfficerBulkUpload
+  );
+router
+  .route('/bulkupload-division')
+  .post(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    uploads.single('file'),
+    officerController.divisinOfficerBulkUpload
+  );
 module.exports = router;
 /**
  * @swagger

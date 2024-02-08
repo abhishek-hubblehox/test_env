@@ -1,6 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
+const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const { surveyLocationsController } = require('../../controllers');
 const { surveyLocationValidation } = require('../../validations');
@@ -22,17 +23,31 @@ const uploads = multer({ storage });
 router
   .route('/bulk-upload')
   .post(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
     uploads.single('file'),
     validate(surveyLocationValidation.bulkUploadValidationSchema),
     surveyLocationsController.bulkUploadFile
   );
 router
   .route('/')
-  .get(validate(surveyLocationValidation.getAllSurveyLocatins), surveyLocationsController.getAllSurveyLocatins);
+  .get(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(surveyLocationValidation.getAllSurveyLocatins),
+    surveyLocationsController.getAllSurveyLocatins
+  );
 router
   .route('/:masterProjectId')
-  .get(validate(surveyLocationValidation.getSchoolDataBySurveyId), surveyLocationsController.getSchoolDataBySurveyId);
-router.route('/getschoolslist').post(surveyLocationsController.getSchoolDataByMasterProjectIdAndCodeController);
+  .get(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(surveyLocationValidation.getSchoolDataBySurveyId),
+    surveyLocationsController.getSchoolDataBySurveyId
+  );
+router
+  .route('/getschoolslist')
+  .post(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    surveyLocationsController.getSchoolDataByMasterProjectIdAndCodeController
+  );
 
 module.exports = router;
 

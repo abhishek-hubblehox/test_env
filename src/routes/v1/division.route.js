@@ -1,5 +1,6 @@
 const express = require('express');
 const validate = require('../../middlewares/validate');
+const auth = require('../../middlewares/auth');
 const { divisionController } = require('../../controllers');
 const { divisionValidation } = require('../../validations');
 
@@ -7,18 +8,42 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(validate(divisionValidation.createDivision), divisionController.createDivision)
-  .get(validate(divisionValidation.getDivisions), divisionController.queryDivision);
+  .post(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(divisionValidation.createDivision),
+    divisionController.createDivision
+  )
+  .get(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(divisionValidation.getDivisions),
+    divisionController.queryDivision
+  );
 
 router
   .route('/:divisionId')
-  .get(validate(divisionValidation.getDivision), divisionController.getDivision)
-  .patch(validate(divisionValidation.updateDivision), divisionController.updateDivision)
-  .delete(validate(divisionValidation.deleteDivision), divisionController.deleteDivision);
+  .get(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(divisionValidation.getDivision),
+    divisionController.getDivision
+  )
+  .patch(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(divisionValidation.updateDivision),
+    divisionController.updateDivision
+  )
+  .delete(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(divisionValidation.deleteDivision),
+    divisionController.deleteDivision
+  );
 
 router
   .route('/filterby/:divisionName')
-  .get(validate(divisionValidation.getDivisionByName), divisionController.getDivisionByName);
+  .get(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(divisionValidation.getDivisionByName),
+    divisionController.getDivisionByName
+  );
 
 module.exports = router;
 

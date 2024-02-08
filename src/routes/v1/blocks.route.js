@@ -2,6 +2,7 @@ const express = require('express');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const multer = require('multer');
 const path = require('path');
+const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const { blockController } = require('../../controllers');
 const { blockValidation } = require('../../validations');
@@ -21,17 +22,42 @@ const storage = multer.diskStorage({
 const uploads = multer({ storage });
 router
   .route('/bulkupload-block')
-  .post(uploads.single('file'), validate(blockValidation.blockShema), blockController.bulkUploadFile);
+  .post(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    uploads.single('file'),
+    validate(blockValidation.blockShema),
+    blockController.bulkUploadFile
+  );
 router
   .route('/')
-  .post(validate(blockValidation.blockShema), blockController.createBlock)
-  .get(validate(blockValidation.getAllblocks), blockController.getAllBlocks);
+  .post(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(blockValidation.blockShema),
+    blockController.createBlock
+  )
+  .get(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(blockValidation.getAllblocks),
+    blockController.getAllBlocks
+  );
 
 router
   .route('/:blockId')
-  .get(validate(blockValidation.getblock), blockController.getBlock)
-  .patch(validate(blockValidation.updateblock), blockController.updateBlock)
-  .delete(validate(blockValidation.deleteblock), blockController.deleteBlock);
+  .get(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(blockValidation.getblock),
+    blockController.getBlock
+  )
+  .patch(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(blockValidation.updateblock),
+    blockController.updateBlock
+  )
+  .delete(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(blockValidation.deleteblock),
+    blockController.deleteBlock
+  );
 
 router.route('/filterby/:District').get(validate(blockValidation.getblockByDistricts), blockController.getBlockByDistrict);
 
