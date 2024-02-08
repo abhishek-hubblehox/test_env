@@ -46,7 +46,6 @@ module.exports = router;
  * @swagger
  * tags:
  *   name: Auth
- *   name: Auth
  *   description: Authentication
  */
 
