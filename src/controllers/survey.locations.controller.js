@@ -36,7 +36,7 @@ const getSchoolDataBySurveyId = catchAsync(async (req, res) => {
   const result = await surveyLocationService.getSchoolDataBySurveyId(masterProjectId);
   res.status(httpStatus.OK).json(result);
   if (!result) {
-    res.status(httpStatus.NOT_FOUND).json({ message: 'Survey location not found' });
+    res.status(httpStatus.NOT_FOUND, 'Survey location not found');
   }
 });
 
