@@ -1,3 +1,5 @@
+const httpStatus = require('http-status');
+const ApiError = require('../utils/ApiError');
 const { SurveyLocation, School, SurveyAnswers } = require('../models');
 
 const bulkUpload = async (locationsArray, surveyDetails) => {
@@ -68,7 +70,7 @@ const getSchoolDataBySurveyId = async (masterProjectId) => {
   const surveyLocation = await SurveyLocation.findOne({ masterProjectId });
 
   if (!surveyLocation) {
-    throw new Error('Survey location not found');
+    throw new ApiError(httpStatus.NOT_FOUND, 'Survey location not found');
   }
   const udiseSchCodes = surveyLocation.surveyLocations.map((location) => location.udise_sch_code);
   const query = { udise_sch_code: { $in: udiseSchCodes.map(Number) } };
