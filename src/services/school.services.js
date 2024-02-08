@@ -18,6 +18,7 @@ const bulkUpload = async (schoolArray, csvFilePath = null) => {
       const batch = jsonArray.slice(i, i + batchSize);
 
       // Use bulk write for efficient insertion
+      // eslint-disable-next-line no-await-in-loop
       await School.bulkWrite(
         batch.map((doc) => ({
           insertOne: {
