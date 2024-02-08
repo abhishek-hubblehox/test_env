@@ -10,6 +10,8 @@ const createNewSurvey = {
     surveyEndDate: Joi.date().required(),
     masterProjectOwnerEmailId: Joi.string().required(),
     masterProjectId: Joi.string().required(),
+    actualStartDate: Joi.date(),
+    actualEndDate: Joi.date(),
   }),
 };
 

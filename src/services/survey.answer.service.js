@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
 const { SurveyAnswers } = require('../models');
 const ApiError = require('../utils/ApiError');
-
+const surveyUpdate = require('./add.new.survey.service');
 /**
  * Create a survey answer
  * @param {Object} reqBody
@@ -18,7 +18,10 @@ const createSurveyAnswers = async (reqBody) => {
   //   { $set: { 'surveyLocations.$.status': 'Surveyed' } },
   //   { new: true }
   // );
-  return SurveyAnswers.create(reqBody);
+  const data = SurveyAnswers.create(reqBody);
+  const { masterProjectId, surveyId, surveyFormId } = reqBody;
+  await surveyUpdate.updateActualDatesForSurvey(masterProjectId, surveyId, surveyFormId);
+  return data;
 };
 
 /**
@@ -79,13 +82,12 @@ const deleteSurveyAnswersBysurveyId = async (answerId) => {
  * @param {Object} surveyId
  * @param {Object} masterProjectId
  * @param {Object} surveyFormId
- * @param {Object} surveyConductEmail
  * @param {Object} udise_sch_code
  * @returns {Promise<SurveyAnswers>}
  */
 /* eslint-disable camelcase */
-const filterSurveyAnswers = async (surveyId, masterProjectId, surveyFormId, surveyConductEmail, udise_sch_code) => {
-  const filter = { surveyId, masterProjectId, surveyFormId, surveyConductEmail, udise_sch_code };
+const filterSurveyAnswers = async (surveyId, masterProjectId, surveyFormId, udise_sch_code) => {
+  const filter = { surveyId, masterProjectId, surveyFormId, udise_sch_code };
   const surveyAnswers = await SurveyAnswers.find(filter);
   return surveyAnswers;
 };

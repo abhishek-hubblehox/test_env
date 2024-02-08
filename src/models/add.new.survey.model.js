@@ -35,6 +35,14 @@ const newSurveySchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  actualStartDate: {
+    type: Date,
+    default: null,
+  },
+  actualEndDate: {
+    type: Date,
+    default: null,
+  },
 });
 
 // add plugin that converts mongoose to json

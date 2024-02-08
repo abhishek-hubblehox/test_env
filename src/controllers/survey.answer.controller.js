@@ -35,12 +35,11 @@ const deleteSurveyAnswers = catchAsync(async (req, res) => {
 });
 /* eslint-disable camelcase */
 const filterSurveyAnswersController = catchAsync(async (req, res) => {
-  const { surveyId, masterProjectId, surveyFormId, surveyConductEmail, udise_sch_code } = req.params;
+  const { surveyId, masterProjectId, surveyFormId, udise_sch_code } = req.params;
   const surveyAnswers = await surveyAnswerService.filterSurveyAnswers(
     surveyId,
     masterProjectId,
     surveyFormId,
-    surveyConductEmail,
     udise_sch_code
   );
 
