@@ -6,11 +6,20 @@ const { masterProjectValidation } = require('../../validations');
 
 const router = express.Router();
 
-router.route('/').post(masterProjectController.createMasterSurveyProject).get(masterProjectController.queryMasterProject);
+router
+  .route('/')
+  .post(
+    auth('superadmin', 'surveyadmin', 'district', 'division', 'block', 'SME'),
+    masterProjectController.createMasterSurveyProject
+  )
+  .get(
+    auth('superadmin', 'surveyadmin', 'district', 'division', 'block', 'SME'),
+    masterProjectController.queryMasterProject
+  );
 
 router
   .route('/:projectId')
-  .get(auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'), masterProjectController.getMasterProject)
+  .get(auth('superadmin', 'surveyadmin', 'district', 'division', 'block', 'SME'), masterProjectController.getMasterProject)
   .patch(
     auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
     validate(masterProjectValidation.updateNewSurvey),

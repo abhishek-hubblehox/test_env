@@ -28,6 +28,14 @@ router
     validate(surveyLocationValidation.bulkUploadValidationSchema),
     surveyLocationsController.bulkUploadFile
   );
+
+router
+  .route('/getschoolslist') // Define this route before routes with dynamic paths
+  .post(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    surveyLocationsController.getSchoolDataByMasterProjectIdAndCodeController
+  );
+
 router
   .route('/')
   .get(
@@ -35,21 +43,17 @@ router
     validate(surveyLocationValidation.getAllSurveyLocatins),
     surveyLocationsController.getAllSurveyLocatins
   );
+
 router
-  .route('/:masterProjectId')
+  .route('/get-by-id/:masterProjectId')
   .get(
-    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    auth('superadmin', 'surveyadmin', 'district', 'division', 'block', 'SME'),
     validate(surveyLocationValidation.getSchoolDataBySurveyId),
     surveyLocationsController.getSchoolDataBySurveyId
   );
-router
-  .route('/getschoolslist')
-  .post(
-    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
-    surveyLocationsController.getSchoolDataByMasterProjectIdAndCodeController
-  );
 
 module.exports = router;
+// .exports = router;
 
 /**
  * @swagger
@@ -263,85 +267,45 @@ module.exports = router;
  *         $ref: '#/components/responses/Forbidden'
  */
 
-/**
- * @swagger
- * /surveylocation/{masterProjectId}:
- *   get:
- *     summary: Get survey location data  by masterProjectId
- *     tags: [SurveyLocation]
- *     parameters:
- *       - in: path
- *         name: masterProjectId
- *         required: true
- *         description: ID of the master Project Id
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Successfully retrieved masterProject location
- *         content:
- *           application/json:
- *             example:
- *               masterProjectName: Sample Survey
- *               masterProjectId: SAMPLE123
- *               surveyLocations:
- *                 - udise_sch_code: 123456
- *                   school: { /* School Data Object * / }
- *                 - udise_sch_code: 789012
- *                   school: { /* School Data Object * / }
- *       404:
- *         description: Survey location not found
- *         content:
- *           application/json:
- *             example:
- *               message: Survey location not found
- *       500:
- *         description: Internal Server Error
- *         content:
- *           application/json:
- *             example:
- *               message: Internal Server Error
- */
-
-/**
- * @swagger
- * /surveylocation/{masterProjectId}:
- *   get:
- *     summary: Get survey location data  by masterProjectId
- *     tags: [SurveyLocation]
- *     parameters:
- *       - in: path
- *         name: masterProjectId
- *         required: true
- *         description: masterProjectId of the survey location
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Successfully retrieved survey location
- *         content:
- *           application/json:
- *             example:
- *               masterProjectName: Sample Survey
- *               masterProjectId: SAMPLE123
- *               surveyLocations:
- *                 - udise_sch_code: 123456
- *                   school: { /* School Data Object * / }
- *                 - udise_sch_code: 789012
- *                   school: { /* School Data Object * / }
- *       404:
- *         description: Survey location not found
- *         content:
- *           application/json:
- *             example:
- *               message: Survey location not found
- *       500:
- *         description: Internal Server Error
- *         content:
- *           application/json:
- *             example:
- *               message: Internal Server Error
- */
+// /**
+//  * @swagger
+//  * /surveylocation/{masterProjectId}:
+//  *   get:
+//  *     summary: Get survey location data  by masterProjectId
+//  *     tags: [SurveyLocation]
+//  *     parameters:
+//  *       - in: path
+//  *         name: masterProjectId
+//  *         required: true
+//  *         description: masterProjectId of the survey location
+//  *         schema:
+//  *           type: string
+//  *     responses:
+//  *       200:
+//  *         description: Successfully retrieved survey location
+//  *         content:
+//  *           application/json:
+//  *             example:
+//  *               masterProjectName: Sample Survey
+//  *               masterProjectId: SAMPLE123
+//  *               surveyLocations:
+//  *                 - udise_sch_code: 123456
+//  *                   school: { /* School Data Object * / }
+//  *                 - udise_sch_code: 789012
+//  *                   school: { /* School Data Object * / }
+//  *       404:
+//  *         description: Survey location not found
+//  *         content:
+//  *           application/json:
+//  *             example:
+//  *               message: Survey location not found
+//  *       500:
+//  *         description: Internal Server Error
+//  *         content:
+//  *           application/json:
+//  *             example:
+//  *               message: Internal Server Error
+//  */
 
 /**
  * @swagger
@@ -386,4 +350,44 @@ module.exports = router;
  *         $ref: '#/components/responses/Forbidden'
  *       "404":
  *         description: Not Found
+ */
+
+/**
+ * @swagger
+ * /surveylocation/get-by-id/{masterProjectId}:
+ *   get:
+ *     summary: Get survey location data  by masterProjectId
+ *     tags: [SurveyLocation]
+ *     parameters:
+ *       - in: path
+ *         name: masterProjectId
+ *         required: true
+ *         description: ID of the master Project Id
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved masterProject location
+ *         content:
+ *           application/json:
+ *             example:
+ *               masterProjectName: Sample Survey
+ *               masterProjectId: SAMPLE123
+ *               surveyLocations:
+ *                 - udise_sch_code: 123456
+ *                   school: { /* School Data Object * / }
+ *                 - udise_sch_code: 789012
+ *                   school: { /* School Data Object * / }
+ *       404:
+ *         description: Survey location not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Survey location not found
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Internal Server Error
  */

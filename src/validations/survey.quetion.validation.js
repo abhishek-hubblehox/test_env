@@ -10,7 +10,8 @@ const createSurveyQuetions = {
           type: Joi.string().required(),
           name: Joi.string().required(),
           title: Joi.string().required(),
-          choices: Joi.array().items(Joi.string()), // Add this line if 'choices' is optional
+          choices: Joi.array().items(Joi.string()),
+          isRequired: Joi.boolean(), // Add this line if 'choices' is optional
         })
       )
       .required(),
@@ -50,7 +51,8 @@ const updateSurveyQuetion = {
           type: Joi.string(),
           name: Joi.string(),
           title: Joi.string(),
-          choices: Joi.array().items(Joi.string()), // Add this line if 'choices' is optional
+          choices: Joi.array().items(Joi.string()),
+          isRequired: Joi.boolean(), // Add this line if 'choices' is optional
         })
       ),
       createdById: Joi.string(),
