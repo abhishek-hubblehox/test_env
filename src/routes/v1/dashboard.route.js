@@ -1,12 +1,14 @@
 const express = require('express');
+const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
+
 const router = express.Router();
 const { dashboardController } = require('../../controllers');
 const { dashboardValidation } = require('../../validations');
 
 router
   .route('/count/:masterProjectId/:surveyId/:surveyFormId')
-  .get(validate(dashboardValidation.getCounts), dashboardController.getLocationCounts);
+  .get(auth('surveyadmin'), validate(dashboardValidation.getCounts), dashboardController.getLocationCounts);
 
 module.exports = router;
 

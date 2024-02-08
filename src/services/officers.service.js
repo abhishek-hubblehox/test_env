@@ -1,6 +1,6 @@
 const csv = require('csvtojson');
 const { BlockOfficer, DistrictOfficer, DivisionOfficer, User, SMEOfficer } = require('../models');
-const smeOfficer = require('../models/smeofficer.model');
+// const smeOfficer = require('../models/smeofficer.model');
 
 /**
  * Create a Master Survey Project with Sub Surveys

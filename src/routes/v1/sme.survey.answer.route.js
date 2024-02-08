@@ -1,5 +1,6 @@
 const express = require('express');
 const validate = require('../../middlewares/validate');
+const auth = require('../../middlewares/auth');
 const { SMESurveyAnswersValidation } = require('../../validations');
 const { smeSurveyAnswerController } = require('../../controllers');
 
@@ -7,17 +8,41 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(validate(SMESurveyAnswersValidation.createSurveyAnswers), smeSurveyAnswerController.createSurveyAnswers)
-  .get(validate(SMESurveyAnswersValidation.getSurveyAnswers), smeSurveyAnswerController.getSurveyAnswers);
+  .post(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(SMESurveyAnswersValidation.createSurveyAnswers),
+    smeSurveyAnswerController.createSurveyAnswers
+  )
+  .get(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(SMESurveyAnswersValidation.getSurveyAnswers),
+    smeSurveyAnswerController.getSurveyAnswers
+  );
 
 router
   .route('/:answerId')
-  .get(validate(SMESurveyAnswersValidation.getSurveyAnswerById), smeSurveyAnswerController.getSurveyAnswer)
-  .patch(validate(SMESurveyAnswersValidation.updateSurveyAnswer), smeSurveyAnswerController.updateSurveyAnswers)
-  .delete(validate(SMESurveyAnswersValidation.deleteSurveyAnswer), smeSurveyAnswerController.deleteSurveyAnswers);
+  .get(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(SMESurveyAnswersValidation.getSurveyAnswerById),
+    smeSurveyAnswerController.getSurveyAnswer
+  )
+  .patch(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(SMESurveyAnswersValidation.updateSurveyAnswer),
+    smeSurveyAnswerController.updateSurveyAnswers
+  )
+  .delete(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(SMESurveyAnswersValidation.deleteSurveyAnswer),
+    smeSurveyAnswerController.deleteSurveyAnswers
+  );
 router
   .route('/filters/:surveyId/:masterProjectId/:surveyFormId/:udise_sch_code')
-  .get(validate(SMESurveyAnswersValidation.filterSurveyAnswer), smeSurveyAnswerController.filterSurveyAnswersController);
+  .get(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(SMESurveyAnswersValidation.filterSurveyAnswer),
+    smeSurveyAnswerController.filterSurveyAnswersController
+  );
 
 module.exports = router;
 

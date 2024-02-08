@@ -1,11 +1,10 @@
 const httpStatus = require('http-status');
-const { NewSurvey, SurveyAnswers, SurveyLocation} = require('../models');
+const { NewSurvey, SurveyAnswers, SurveyLocation } = require('../models');
 const ApiError = require('../utils/ApiError');
-
 
 const updateActualDatesForSurvey = async (masterProjectId, surveyId, surveyFormId) => {
   // Find the corresponding survey
-  const survey = await NewSurvey.findOne({masterProjectId, surveyId });
+  const survey = await NewSurvey.findOne({ masterProjectId, surveyId });
   if (!survey) {
     throw new Error('Survey not found');
   }
@@ -14,9 +13,9 @@ const updateActualDatesForSurvey = async (masterProjectId, surveyId, surveyFormI
 
   // Find the first survey answer for any of the udise_sch_code
   const firstSurveyAnswer = await SurveyAnswers.findOne({
-     masterProjectId,
-     surveyId,
-     surveyFormId,
+    masterProjectId,
+    surveyId,
+    surveyFormId,
     udise_sch_code: { $in: udiseCodes },
   }).sort({ createdAt: 1 });
   // Find the last survey answer for any of the udise_sch_code
@@ -24,7 +23,7 @@ const updateActualDatesForSurvey = async (masterProjectId, surveyId, surveyFormI
     masterProjectId,
     surveyId,
     surveyFormId,
-   udise_sch_code: { $in: udiseCodes },
+    udise_sch_code: { $in: udiseCodes },
   }).sort({ createdAt: -1 });
   // Update actualStartDate if there is a first survey answer
   if (firstSurveyAnswer) {
@@ -38,7 +37,6 @@ const updateActualDatesForSurvey = async (masterProjectId, surveyId, surveyFormI
 
   // Save the changes to the database
   await survey.save();
-
 };
 
 /**
@@ -119,7 +117,6 @@ const deleteNewSurveyById = async (newSurveyId) => {
 const getSurveyByEmailAndProjectId = async (masterProjectOwnerEmailId, masterProjectId) => {
   return NewSurvey.find({ masterProjectOwnerEmailId, masterProjectId });
 };
-
 
 module.exports = {
   createNewSurvey,

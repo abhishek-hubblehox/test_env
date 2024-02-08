@@ -1,5 +1,6 @@
 const express = require('express');
 const validate = require('../../middlewares/validate');
+const auth = require('../../middlewares/auth');
 const { masterProjectController } = require('../../controllers');
 const { masterProjectValidation } = require('../../validations');
 
@@ -9,11 +10,23 @@ router.route('/').post(masterProjectController.createMasterSurveyProject).get(ma
 
 router
   .route('/:projectId')
-  .get(masterProjectController.getMasterProject)
-  .patch(validate(masterProjectValidation.updateNewSurvey), masterProjectController.updateMasterProject)
-  .delete(masterProjectController.deleteMasterProject);
+  .get(auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'), masterProjectController.getMasterProject)
+  .patch(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(masterProjectValidation.updateNewSurvey),
+    masterProjectController.updateMasterProject
+  )
+  .delete(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    masterProjectController.deleteMasterProject
+  );
 
-router.route('/filterby/:masterProjectOwnerEmailId').get(masterProjectController.getProjectsByEmail);
+router
+  .route('/filterby/:masterProjectOwnerEmailId')
+  .get(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    masterProjectController.getProjectsByEmail
+  );
 
 module.exports = router;
 

@@ -3,6 +3,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const validate = require('../../middlewares/validate');
+const auth = require('../../middlewares/auth');
 const { SchoolController } = require('../../controllers');
 const { schoolValidation } = require('../../validations');
 
@@ -21,8 +22,19 @@ const storage = multer.diskStorage({
 const uploads = multer({ storage });
 router
   .route('/bulkupload-school')
-  .post(uploads.single('file'), validate(schoolValidation.schoolValidationSchema), SchoolController.bulkUploadFile);
-router.route('/').get(validate(schoolValidation.getAllSchools), SchoolController.getAllSchools);
+  .post(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    uploads.single('file'),
+    validate(schoolValidation.schoolValidationSchema),
+    SchoolController.bulkUploadFile
+  );
+router
+  .route('/')
+  .get(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(schoolValidation.getAllSchools),
+    SchoolController.getAllSchools
+  );
 
 module.exports = router;
 /**

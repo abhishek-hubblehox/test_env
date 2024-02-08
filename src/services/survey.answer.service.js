@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
 const { SurveyAnswers } = require('../models');
 const ApiError = require('../utils/ApiError');
-const surveyUpdate = require('../services/add.new.survey.service')
+const surveyUpdate = require('./add.new.survey.service');
 /**
  * Create a survey answer
  * @param {Object} reqBody
@@ -19,10 +19,9 @@ const createSurveyAnswers = async (reqBody) => {
   //   { new: true }
   // );
   const data = SurveyAnswers.create(reqBody);
-  const {masterProjectId, surveyId, surveyFormId}= reqBody;
-  await surveyUpdate.updateActualDatesForSurvey(masterProjectId, surveyId, surveyFormId)
+  const { masterProjectId, surveyId, surveyFormId } = reqBody;
+  await surveyUpdate.updateActualDatesForSurvey(masterProjectId, surveyId, surveyFormId);
   return data;
-
 };
 
 /**

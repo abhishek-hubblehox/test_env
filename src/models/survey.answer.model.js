@@ -1,40 +1,43 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
-const surveyAnswerSchema = new mongoose.Schema({
-  surveyQuetions: [
-    {
-      quetion: {
-        type: String,
+const surveyAnswerSchema = new mongoose.Schema(
+  {
+    surveyQuetions: [
+      {
+        quetion: {
+          type: String,
+        },
+        answer: Array,
       },
-      answer: Array,
+    ],
+    surveyId: {
+      type: String,
     },
-  ],
-  surveyId: {
-    type: String,
+    masterProjectId: {
+      type: String,
+    },
+    udise_sch_code: {
+      type: Number,
+    },
+    surveyFormId: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'surveyQuetions',
+      required: true,
+      trim: true,
+    },
+    surveyConductEmail: {
+      type: String,
+    },
+    status: {
+      type: String,
+      default: 'Surveyed',
+    },
   },
-  masterProjectId: {
-    type: String,
-  },
-  udise_sch_code: {
-    type: Number,
-  },
-  surveyFormId: {
-    type: mongoose.SchemaTypes.ObjectId,
-    ref: 'surveyQuetions',
-    required: true,
-    trim: true,
-  },
-  surveyConductEmail: {
-    type: String,
-  },
-  status: {
-    type: String,
-    default: 'Surveyed',
-  },
-},{
-  timestamps: true,
-});
+  {
+    timestamps: true,
+  }
+);
 
 // add plugin that converts mongoose to json
 surveyAnswerSchema.plugin(toJSON);

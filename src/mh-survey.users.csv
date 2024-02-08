@@ -1,3 +1,0 @@
-role,isEmailVerified,name,email,password,mobNumber,roleAssingedTo
-superadmin,true,super admin,superadmin@gmail.com,password1,9823525745,1234
-admin,true,Admin,admin@gmail.com,password1,9823525745,1235

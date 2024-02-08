@@ -2,6 +2,7 @@ const express = require('express');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const multer = require('multer');
 const path = require('path');
+const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const { districtController } = require('../../controllers');
 const { districtValidation } = require('../../validations');
@@ -21,17 +22,42 @@ const storage = multer.diskStorage({
 const uploads = multer({ storage });
 router
   .route('/bulkupload-district')
-  .post(uploads.single('file'), validate(districtValidation.districtShema), districtController.bulkUploadFile);
+  .post(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    uploads.single('file'),
+    validate(districtValidation.districtShema),
+    districtController.bulkUploadFile
+  );
 router
   .route('/')
-  .post(validate(districtValidation.districtShema), districtController.createDistrict)
-  .get(validate(districtValidation.getAllDistricts), districtController.getAllDistricts);
+  .post(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(districtValidation.districtShema),
+    districtController.createDistrict
+  )
+  .get(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(districtValidation.getAllDistricts),
+    districtController.getAllDistricts
+  );
 
 router
   .route('/:districtId')
-  .get(validate(districtValidation.getDistrict), districtController.getDistrict)
-  .patch(validate(districtValidation.updateDistrict), districtController.updateDistrict)
-  .delete(validate(districtValidation.deleteDistrict), districtController.deleteDistrict);
+  .get(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(districtValidation.getDistrict),
+    districtController.getDistrict
+  )
+  .patch(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(districtValidation.updateDistrict),
+    districtController.updateDistrict
+  )
+  .delete(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(districtValidation.deleteDistrict),
+    districtController.deleteDistrict
+  );
 
 router
   .route('/filterby/:Division')

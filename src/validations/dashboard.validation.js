@@ -9,5 +9,5 @@ const getCounts = {
 };
 
 module.exports = {
-    getCounts,
+  getCounts,
 };

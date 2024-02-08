@@ -1,5 +1,6 @@
 const express = require('express');
 const validate = require('../../middlewares/validate');
+const auth = require('../../middlewares/auth');
 const { surveyAnswersValidation } = require('../../validations');
 const { surveyAnswerController } = require('../../controllers');
 
@@ -7,17 +8,41 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(validate(surveyAnswersValidation.createSurveyAnswers), surveyAnswerController.createSurveyAnswers)
-  .get(validate(surveyAnswersValidation.getSurveyAnswers), surveyAnswerController.getSurveyAnswers);
+  .post(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(surveyAnswersValidation.createSurveyAnswers),
+    surveyAnswerController.createSurveyAnswers
+  )
+  .get(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(surveyAnswersValidation.getSurveyAnswers),
+    surveyAnswerController.getSurveyAnswers
+  );
 
 router
   .route('/:answerId')
-  .get(validate(surveyAnswersValidation.getSurveyAnswerById), surveyAnswerController.getSurveyAnswer)
-  .patch(validate(surveyAnswersValidation.updateSurveyAnswer), surveyAnswerController.updateSurveyAnswers)
-  .delete(validate(surveyAnswersValidation.deleteSurveyAnswer), surveyAnswerController.deleteSurveyAnswers);
+  .get(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(surveyAnswersValidation.getSurveyAnswerById),
+    surveyAnswerController.getSurveyAnswer
+  )
+  .patch(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(surveyAnswersValidation.updateSurveyAnswer),
+    surveyAnswerController.updateSurveyAnswers
+  )
+  .delete(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(surveyAnswersValidation.deleteSurveyAnswer),
+    surveyAnswerController.deleteSurveyAnswers
+  );
 router
   .route('/filters/:surveyId/:masterProjectId/:surveyFormId/:udise_sch_code')
-  .get(validate(surveyAnswersValidation.filterSurveyAnswer), surveyAnswerController.filterSurveyAnswersController);
+  .get(
+    auth('surveyadmin', 'district', 'division', 'block', 'SME', 'superadmin'),
+    validate(surveyAnswersValidation.filterSurveyAnswer),
+    surveyAnswerController.filterSurveyAnswersController
+  );
 
 module.exports = router;
 
