@@ -36,7 +36,16 @@ pipeline {
                 echo "You are a test user"
             }
         }
-        
+
+        stage('Check Branch') {
+            steps {
+                script {
+                    def triggeredBranch = env.BRANCH_NAME
+                    echo "This build was triggered by branch: ${triggeredBranch}"
+                }
+            }
+          
+        }
         stage("main") {
             when {
                 expression {
