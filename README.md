@@ -1,6 +1,6 @@
 # RESTful API Node Server MH-Survey
 
-## Manual Installations
+## Manual Installation
 
 If you would still prefer to do the installation manually, follow these steps:
 
