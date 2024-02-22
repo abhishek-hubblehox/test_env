@@ -10,15 +10,51 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
+                    echo "checkout"
+                }
+            }
+        }
+        stage("dev") {
+            when {
+                expression {
+                    return env.BRANCH_NAME == "dev"
+                }
+            }
+            steps {
+                script {
+                    echo "you are dev user"
+                }
+            }
+        }
+        stage("test") {
+            when {
+                expression {
+                    return env.BRANCH_NAME == 'test'
+                }
+            steps {
+                script{
+                    echo "you are test user"
+                }
+            }
+            }
+        }
+        stage("main"){
+            when {
+                expression {
+                    return env.BRANCH_NAME == 'main'
+                }
+            steps {
+                script{
                     sshScript = """
                     cd ${REMOTE_DIR}
                     git remote -v
                     git pull
-                    pm2 restart "Backend"
+                    pm2 start "npm run dev" --name "Backend"
                     """
                     // Execute the script block via SSH on the remote server
                     sh "ssh -i ${SSH_PRIVATE_KEY} ${SSH_USER}@${INSTANCE_NAME} -o StrictHostKeyChecking=no '${sshScript}'"
                 }
+            }
             }
         }
     }
