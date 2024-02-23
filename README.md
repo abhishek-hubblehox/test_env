@@ -1,6 +1,6 @@
 # RESTful API Node Server MH-Survey
 
-## Manual Installations Abhishek test1
+## Manual Installations Abhishek test2
 
 If you would still prefer to do the installation manually, follow these steps:
 
