@@ -9,9 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                script {
-                    echo "checkout"
-                }
+                echo "Checkout"
             }
         }
         stage("dev") {
@@ -21,14 +19,13 @@ pipeline {
                 }
             }
             steps {
-                script{
+                script {
                     sshScript = """
                     cd ${REMOTE_DIR}
                     git remote -v
                     git pull
                     pm2 restart "Backend"
                     """
-                    // Execute the script block via SSH on the remote server
                     sh "ssh -i ${SSH_PRIVATE_KEY} ${SSH_USER}@${INSTANCE_NAME} -o StrictHostKeyChecking=no '${sshScript}'"
                 }
             }
@@ -38,37 +35,35 @@ pipeline {
                 expression {
                     return env.BRANCH_NAME == 'test'
                 }
+            }
             steps {
-                script{
+                script {
                     sshScript = """
                     cd ${REMOTE_DIR}
                     git remote -v
                     git pull
                     pm2 restart "Backend"
                     """
-                    // Execute the script block via SSH on the remote server
                     sh "ssh -i ${SSH_PRIVATE_KEY} ${SSH_USER}@${INSTANCE_NAME} -o StrictHostKeyChecking=no '${sshScript}'"
                 }
             }
-            }
         }
-        stage("main"){
+        stage("main") {
             when {
                 expression {
                     return env.BRANCH_NAME == 'main'
                 }
+            }
             steps {
-                script{
+                script {
                     sshScript = """
                     cd ${REMOTE_DIR}
                     git remote -v
                     git pull
                     pm2 restart "Backend"
                     """
-                    // Execute the script block via SSH on the remote server
                     sh "ssh -i ${SSH_PRIVATE_KEY} ${SSH_USER}@${INSTANCE_NAME} -o StrictHostKeyChecking=no '${sshScript}'"
                 }
-            }
             }
         }
     }
