@@ -4,7 +4,7 @@ pipeline {
         INSTANCE_NAME = '34.87.35.49'
         SSH_PRIVATE_KEY = credentials('pipeline-test')
         SSH_USER = 'pipeline-test'
-        REMOTE_DIR = '/home/ubuntu/MH-Survey'
+        REMOTE_DIR = '/home/ubuntu/test_env'
     }
     stages {
         stage('Checkout') {
